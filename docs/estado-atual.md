@@ -2,7 +2,7 @@
 
 ## Disponível no incremento inicial
 
-- Monorepo npm, Angular, seis aplicações NestJS (cinco obrigatórias e uma opcional).
+- Frontend Angular e backend NestJS em pastas e instalações independentes. O backend contém seis aplicações NestJS (cinco obrigatórias e uma opcional) e um workspace interno para seus componentes.
 - Framework com Template Method, registry, interfaces de política de entrega, validação e duas aplicações derivadas.
 - Catálogo e estoque de leitura com fixtures; pedidos de demonstração e totais de exemplo.
 - Recomendação em serviço próprio: procura produtos da mesma categoria de compras anteriores e exclui os já comprados; usa catálogo como fallback.

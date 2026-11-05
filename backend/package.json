@@ -1,0 +1,30 @@
+{
+  "name": "@gerar/backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Microsserviços NestJS e framework de e-commerce do Gerar Commerce",
+  "type": "module",
+  "engines": {
+    "node": ">=24.15 <25"
+  },
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "build:libs": "npm run build -w @gerar/contracts && npm run build -w @gerar/framework && npm run build -w @gerar/platform",
+    "build:services": "node scripts/build-services.mjs",
+    "build": "npm run build:libs && npm run build:services",
+    "predev": "npm run build",
+    "dev": "node scripts/dev.mjs",
+    "start": "node scripts/dev.mjs",
+    "test": "npm run build:libs && tsx --test packages/framework/test/*.test.ts",
+    "smoke": "node scripts/smoke.mjs",
+    "derive": "npm run build:libs && tsx scripts/derive.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3"
+  }
+}

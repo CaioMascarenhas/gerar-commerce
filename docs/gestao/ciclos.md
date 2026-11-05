@@ -31,6 +31,8 @@ Meta: tornar o reuso e os limites dos serviços executáveis e inspecionáveis.
 
 Selecionados: **PB-001 a PB-007 e PB-020**. Os sete primeiros correspondem ao incremento inicial; PB-020 depende da execução real do motor Docker. O fechamento do ciclo depende da captura dos serviços e portas. [Snapshot do incremento de 04/11](snapshots/2026-11-04-i1.md).
 
+Refinamento solicitado em 04/11: **PB-027**, separação física e de dependências entre frontend e backend, com documentação de funcionamento.
+
 ## Snapshot I2 — Fluxo de compra (06–08/11)
 
 Meta: concluir uma compra de demonstração e usar seu histórico.

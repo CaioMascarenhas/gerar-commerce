@@ -2,7 +2,7 @@
 
 ## Estrutura implementada
 
-O framework está em `packages/framework/src/index.ts`. Ele controla a construção de aplicações com o padrão **Template Method**. `CommerceApplication.build()` mantém a sequência comum; `configure`, `shippingPolicy` e `registerExtensions` são os hotspots.
+O framework está em `backend/packages/framework/src/index.ts`. Ele controla a construção de aplicações com o padrão **Template Method**. `CommerceApplication.build()` mantém a sequência comum; `configure`, `shippingPolicy` e `registerExtensions` são os hotspots.
 
 ```mermaid
 classDiagram
@@ -68,7 +68,7 @@ flowchart LR
   REG -. opcional .-> AI
 ```
 
-Os nomes `CatalogComponent`, `InventoryComponent` etc. identificam os componentes arquiteturais e seus contratos; não são classes já implementadas com esses nomes. Os controladores reais estão em `apps/<serviço>/src/main.ts`. O registro de composição não substitui testes funcionais.
+Os nomes `CatalogComponent`, `InventoryComponent` etc. identificam os componentes arquiteturais e seus contratos; não são classes já implementadas com esses nomes. Os controladores reais estão em `backend/services/<serviço>/src/main.ts`. O registro de composição não substitui testes funcionais.
 
 ## Classes por componente — desenho de destino para I2
 
@@ -157,7 +157,7 @@ export class CampusStore extends EssentialStore {
 }
 ```
 
-3. Registre `campus` em `deriveProduct` e na lista de perfis de `scripts/dev.mjs`.
+3. Registre `campus` em `deriveProduct` e na lista de perfis de `backend/scripts/dev.mjs`.
 4. Para uma nova feature, primeiro defina o contrato, suas dependências e o componente. Amplie a lista permitida e a validação. Registre o componente pelo hotspot `registerExtensions` somente quando a feature estiver selecionada.
 5. Execute testes de composição, faça o build e gere os artefatos com `npm run derive -- campus`.
 6. Execute a nova aplicação com `PRODUCT_PROFILE=campus`, seguindo o README gerado. Não copie `catalog`, `inventory`, `orders` ou o frontend para criar outra loja.

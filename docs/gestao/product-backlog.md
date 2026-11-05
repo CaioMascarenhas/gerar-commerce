@@ -32,5 +32,6 @@ Fonte estruturada: [backlog.json](backlog.json). Prioridades: P0 obrigatório pa
 | [PB-024](https://github.com/CaioMascarenhas/gerar-commerce/issues/24) | Adicionar cupons como componente opcional                            | P2         | Futuro | Backlog        | PB-012                         |
 | [PB-025](https://github.com/CaioMascarenhas/gerar-commerce/issues/25) | Adicionar variações de produto como feature opcional                 | P2         | Futuro | Backlog        | PB-009, PB-010                 |
 | [PB-026](https://github.com/CaioMascarenhas/gerar-commerce/issues/26) | Adicionar avaliações de produtos como feature opcional               | P2         | Futuro | Backlog        | PB-013                         |
+| [PB-027](https://github.com/CaioMascarenhas/gerar-commerce/issues/27) | Separar frontend e backend com dependências independentes            | P0         | I1     | Concluído      | PB-001, PB-005, PB-006         |
 
 [Planejamento dos ciclos e regras de Kanban](ciclos.md).

@@ -1,95 +1,104 @@
 # Gerar Commerce
 
-**Uma base reutilizável para gerar diferentes lojas.** Projeto educacional do IC/UFAL para as disciplinas de LPS e Reuso de Software e Metodologias Ágeis, período 2026.2.
+**Uma base reutilizável para gerar diferentes lojas.** Projeto educacional do IC/UFAL para LPS e Reuso de Software e Metodologias Ágeis, período 2026.2.
 
 Equipe: **Caio Mascarenhas Soares e Laura Marques Costa**. Apresentação: **11/11/2026**. Meta de conclusão: **10/11/2026**.
 
-- [Repositório](https://github.com/CaioMascarenhas/gerar-commerce)
-- [Kanban](https://github.com/users/CaioMascarenhas/projects/3/views/2)
-- [Arquitetura e decisões](docs/arquitetura.md)
-- [Core, variabilidade e opcionais](docs/variabilidade.md)
-- [Diagramas de classes e componentes](docs/framework.md)
-- [Product Backlog](docs/gestao/product-backlog.md) · [Ciclos / Sprint Backlogs](docs/gestao/ciclos.md)
-- [Rastreabilidade dos relatórios](docs/requisitos-academicos.md)
-- [Estado real da implementação](docs/estado-atual.md)
+- [Comece aqui: organização e funcionamento](docs/organizacao-do-projeto.md)
+- [Frontend Angular](frontend/README.md) · [Backend NestJS e framework](backend/README.md)
+- [Repositório](https://github.com/CaioMascarenhas/gerar-commerce) · [Kanban](https://github.com/users/CaioMascarenhas/projects/3/views/2)
+- [Arquitetura](docs/arquitetura.md) · [Variabilidade](docs/variabilidade.md) · [Framework e diagramas](docs/framework.md)
+- [Product Backlog](docs/gestao/product-backlog.md) · [Ciclos](docs/gestao/ciclos.md)
+- [Requisitos acadêmicos](docs/requisitos-academicos.md) · [Estado da implementação](docs/estado-atual.md)
+
+## Estrutura
+
+```text
+frontend/                 Angular: interface, dependências e Dockerfile próprios
+  src/                    Telas, estilos e chamadas HTTP
+backend/                  NestJS: dependências e Dockerfile próprios
+  services/               Gateway, catálogo, estoque, pedidos, recomendações e IA
+  packages/framework/     Composição de lojas e hotspots
+  packages/contracts/     Tipos usados pelos serviços do backend
+  packages/platform/      Inicialização e utilitários técnicos do NestJS
+  scripts/                Build, inicialização, testes e derivação
+docs/                     Modelagem, explicações, gestão e evidências
+projeto_docs/             Materiais fornecidos pelas disciplinas
+scripts/                  Gestão do GitHub e verificação da documentação
+compose.yaml              Conecta os contêineres
+package.json              Atalhos e ferramenta de formatação do repositório
+```
+
+Frontend e backend têm `package.json`, lockfile e `node_modules` separados. O workspace npm existe somente dentro do backend. O frontend se comunica com as APIs por HTTP e não importa pacotes do servidor.
 
 ## Executar localmente
 
-Requisitos: **Node.js 24** (a partir de 24.15) e npm. Docker é opcional para o desenvolvimento local.
+Requisitos: **Node.js 24** (a partir de 24.15) e npm. Instale e inicie o backend em um terminal:
 
 ```powershell
+cd backend
 npm ci
 npm run dev
 ```
 
-Abra **http://127.0.0.1:4200**. O gateway fica em **http://127.0.0.1:3000/docs**. Os processos sobem juntos e são encerrados com `Ctrl+C`.
+Em outro terminal, a partir da raiz do repositório:
 
-Por padrão, inicia a loja **Gerar Essencial**. Para executar a segunda aplicação:
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
+Interface: **http://127.0.0.1:4200**. API do gateway: **http://127.0.0.1:3000/docs**. Encerre cada lado com `Ctrl+C` no respectivo terminal.
+
+O frontend pode ser instalado e compilado sozinho. Para mostrar os dados, precisa do backend em execução.
+
+## Perfil com IA
+
+No terminal do backend:
 
 ```powershell
 $env:PRODUCT_PROFILE='assistida'
 npm run dev
 ```
 
-O comando inicia também o serviço opcional de IA. Para consultar Gemini, copie `.env.example` para `.env` e preencha `GOOGLE_API_KEY` e `GEMINI_MODEL` com um modelo disponível na sua conta Google AI Studio. Nenhuma chave é necessária para a loja Essencial. Não há chamadas pagas nos testes.
+Copie `backend/.env.example` para `backend/.env` e configure `GOOGLE_API_KEY` e `GEMINI_MODEL` para usar Gemini. A loja Essencial não exige chave nem inicia o serviço de IA. O token `gerar-demo` e os dados de exemplo servem à demonstração educacional.
 
-O token administrativo `gerar-demo` é uma credencial pública de demonstração local, não um mecanismo de autenticação para produção. As fixtures não contêm dados reais. Cadastro complexo e pagamento real ficam fora do escopo acadêmico.
-
-## Derivar produtos
+## Atalhos da raiz
 
 ```powershell
-npm run derive -- essencial
-npm run derive -- assistida
+npm run setup
+npm run dev:backend
 ```
 
-Os artefatos aparecem em `output/products/<perfil>/`: blueprint validado, ambiente, referência ao Compose e instruções. As duas subclasses reutilizam `CommerceApplication`, registram componentes e escolhem a política de entrega pelos hotspots. [Tutorial para adicionar uma loja](docs/framework.md).
-
-## Docker
-
-Com o Docker Desktop em execução:
-
-```powershell
-docker compose up --build
-```
-
-Para a loja assistida, habilite **o perfil do produto e o perfil do Compose**:
-
-```powershell
-$env:PRODUCT_PROFILE='assistida'
-docker compose --profile ai up --build
-```
-
-Mesma interface na porta 4200. Somente a interface e o gateway são publicados no host; os serviços de domínio ficam na rede interna. `docker compose ps` exibe a saúde e as portas internas/publicadas.
-
-## Validar
+Use `npm run dev:frontend` em outro terminal na raiz. `setup` instala ambos nas respectivas pastas, mantendo as dependências separadas. `npm ci` na raiz instala apenas a ferramenta de formatação.
 
 ```powershell
 npm run build
 npm test
 npm run smoke
 npm run check:docs
-docker compose config --quiet
+npm run derive -- essencial
+npm run derive -- assistida
 ```
 
-Execute o smoke com as portas 3000–3004 livres. Ele inicia processos temporários e verifica a comunicação real entre os serviços. O CI executa build, testes, smoke e consistência do backlog.
+O smoke exige as portas 3000–3005 livres. Os produtos derivados são exportados para `output/products/<perfil>/`. O CI instala e compila frontend e backend em jobs separados.
 
-## Estrutura
+## Docker
 
-```text
-apps/
-  storefront/          Angular: vitrine, composição e saúde dos serviços
-  gateway/             NestJS: entrada única e composição das APIs
-  catalog/             NestJS: catálogo
-  inventory/           NestJS: estoque
-  orders/              NestJS: pedidos e resumo de vendas
-  recommendations/     NestJS: recomendação por histórico
-  ai-assistant/        NestJS + Mastra + Gemini, opcional
-packages/
-  contracts/           Tipos públicos de integração
-  framework/           Template Method, registry, validação e hotspots
-  backend/             Bootstrap técnico e cliente HTTP
-docs/                  Modelagem, gestão e evidências
-projeto_docs/          Enunciados e modelos fornecidos pelas disciplinas
+Com Docker Desktop em execução, na raiz:
+
+```powershell
+docker compose up --build
 ```
 
-Este é o primeiro incremento. Carrinho, checkout, escrita de estoque, PostgreSQL e validação real do Gemini estão nas issues, com critérios de aceite. Features selecionadas no blueprint descrevem a composição prevista, não significam que todas já estão implementadas.
+Para Assistida, crie `backend/.env` a partir do exemplo e execute:
+
+```powershell
+$env:PRODUCT_PROFILE='assistida'
+docker compose --env-file backend/.env --profile ai up --build
+```
+
+Cada lado tem contexto de build e Dockerfile próprios. A interface continua na porta 4200. Os serviços de domínio ficam na rede interna. `docker compose config --quiet` valida a configuração.
+
+Este é o primeiro incremento: catálogo, estoque de leitura, histórico de exemplo, recomendações e composição de lojas estão disponíveis. Carrinho, checkout completo, persistência PostgreSQL e validação real do Gemini seguem no backlog.

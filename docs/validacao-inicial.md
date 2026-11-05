@@ -22,3 +22,9 @@ O smoke verifica catálogo, estoque, histórico, recomendação personalizada/fa
 - Os relatórios finais e screenshots de todos os fluxos permanecem em PB-021/PB-022.
 
 Comandos reproduzíveis e verificações adicionais estão no README. O resultado final do workflow remoto pode ser consultado na aba Actions do repositório.
+
+## Revalidação após separar frontend e backend — PB-027
+
+Build executado dentro de `frontend/` sem instalação Angular na raiz e sem importar pacotes do backend. Build do servidor executado dentro de `backend/`, sem dependências Angular. Lockfiles independentes confirmam que NestJS/Mastra pertencem apenas ao backend.
+
+Os cinco testes do framework, o smoke dos dois perfis e a derivação dos dois produtos passaram na nova estrutura. Também foi verificado por HTTP o caminho Angular (4200) → proxy → gateway (3000) → catálogo do backend. Docker Compose foi validado estruturalmente com contextos de build separados; isso não substitui a execução real dos contêineres, que continua em PB-020.

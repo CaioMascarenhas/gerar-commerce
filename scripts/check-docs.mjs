@@ -30,6 +30,9 @@ for (const path of [
   'docs/estado-atual.md',
   'docs/gestao/product-backlog.md',
   'docs/gestao/ciclos.md',
+  'docs/organizacao-do-projeto.md',
+  'frontend/README.md',
+  'backend/README.md',
 ])
   assert(existsSync(path), `Documento ausente: ${path}`);
 const index = JSON.parse(readFileSync('docs/gestao/github-index.json', 'utf8'));

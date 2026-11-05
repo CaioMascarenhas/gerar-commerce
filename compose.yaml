@@ -1,8 +1,7 @@
 name: gerar-commerce
 x-service: &service
   build:
-    context: .
-    target: service
+    context: ./backend
   environment: &environment
     HOST: 0.0.0.0
     PRODUCT_PROFILE: ${PRODUCT_PROFILE:-essencial}
@@ -38,31 +37,31 @@ services:
       recommendations: { condition: service_healthy }
   catalog:
     <<: *service
-    command: [node, apps/catalog/dist/main.js]
+    command: [node, services/catalog/dist/main.js]
     environment: { <<: *environment, PORT: 3001 }
   inventory:
     <<: *service
-    command: [node, apps/inventory/dist/main.js]
+    command: [node, services/inventory/dist/main.js]
     environment: { <<: *environment, PORT: 3002 }
   orders:
     <<: *service
-    command: [node, apps/orders/dist/main.js]
+    command: [node, services/orders/dist/main.js]
     environment: { <<: *environment, PORT: 3003 }
   recommendations:
     <<: *service
-    command: [node, apps/recommendations/dist/main.js]
+    command: [node, services/recommendations/dist/main.js]
     environment: { <<: *environment, PORT: 3004 }
   ai-assistant:
     <<: *service
     profiles: [ai]
-    command: [node, apps/ai-assistant/dist/main.js]
+    command: [node, services/ai-assistant/dist/main.js]
     environment:
       <<: *environment
       PORT: 3005
       GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
       GEMINI_MODEL: ${GEMINI_MODEL:-}
   storefront:
-    build: { context: ., target: storefront }
+    build: { context: ./frontend }
     ports: [127.0.0.1:4200:80]
     depends_on:
       gateway: { condition: service_healthy }

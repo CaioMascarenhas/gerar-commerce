@@ -368,6 +368,22 @@
         "Interface oculta a funcionalidade quando desabilitada.",
         "Não bloquear a apresentação: evolução posterior ao escopo mínimo."
       ]
+    },
+    {
+      "id": "PB-027",
+      "title": "Separar frontend e backend com dependências independentes",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "infra",
+      "status": "done",
+      "dependencies": ["PB-001", "PB-005", "PB-006"],
+      "acceptance": [
+        "Frontend e backend possuem package.json, lockfile, instalação e Dockerfile próprios.",
+        "Angular fica somente no frontend; NestJS e Mastra ficam somente no backend.",
+        "Frontend não importa arquivos ou pacotes npm do backend; integração por HTTP.",
+        "Builds separados, testes do framework, smoke dos dois perfis e derivação aprovados.",
+        "CI usa jobs independentes e documentação explica pastas, comandos e fluxo das requisições."
+      ]
     }
   ]
 }

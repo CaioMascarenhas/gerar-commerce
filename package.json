@@ -7,32 +7,21 @@
   "engines": {
     "node": ">=24.15 <25"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "scripts": {
-    "build:libs": "npm run build -w @gerar/contracts && npm run build -w @gerar/framework && npm run build -w @gerar/backend",
-    "build:services": "node scripts/build-services.mjs",
-    "build:web": "ng build storefront",
-    "build": "npm run build:libs && npm run build:services && npm run build:web",
-    "predev": "npm run build:libs && npm run build:services",
-    "dev": "node scripts/dev.mjs",
-    "dev:web": "ng serve storefront --host 127.0.0.1",
-    "test": "npm run build:libs && tsx --test packages/framework/test/*.test.ts",
-    "smoke": "node scripts/smoke.mjs",
-    "derive": "npm run build:libs && tsx scripts/derive.ts",
+    "setup": "npm ci --prefix frontend && npm ci --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "build": "npm run build:backend && npm run build:frontend",
+    "test": "npm test --prefix backend",
+    "smoke": "npm run smoke --prefix backend",
+    "derive": "npm run derive --prefix backend --",
     "github:sync": "node scripts/github-sync.mjs",
     "check:docs": "node scripts/check-docs.mjs",
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@angular/build": "22.2.6",
-    "@angular/cli": "22.2.6",
-    "@angular/compiler-cli": "22.2.4",
-    "@types/node": "24.19.2",
-    "tsx": "4.23.15",
-    "typescript": "6.0.3",
     "prettier": "3.9.10"
   }
 }

@@ -4,7 +4,9 @@
 
 Construir uma **linha de produtos de lojas de e-commerce** e um **framework reutilizável** que sustente essa família. O domínio comum e as variantes atendem aos dois trabalhos. A demonstração usa dados sintéticos, uma persona de cliente, uma persona administrativa e pagamento simulado. Finalização prevista em 10/11/2026.
 
-Monorepo não implica processo único: cada microsserviço NestJS é iniciado e implantado separadamente. O compartilhamento se restringe a contratos públicos, composição do framework e infraestrutura técnica; entidades de persistência e regras de cada domínio pertencem ao próprio serviço.
+O repositório tem dois projetos com instalações independentes: `frontend/` contém Angular; `backend/` contém os serviços NestJS e o framework. Cada lado tem manifesto npm, lockfile, `node_modules` e Dockerfile próprios. A interface consome contratos HTTP, sem importar pacotes do backend.
+
+Dentro de `backend/`, os serviços e pacotes reutilizáveis pertencem a um workspace npm exclusivo do servidor. Cada microsserviço NestJS é iniciado e implantado separadamente. O compartilhamento interno se restringe a contratos públicos, composição do framework e infraestrutura técnica; entidades de persistência e regras de cada domínio pertencem ao próprio serviço.
 
 ## Contexto e contêineres
 
@@ -88,7 +90,7 @@ No protótipo, HTTP com timeouts é suficiente para tornar a separação observ�
 
 ## Decisões registradas
 
-1. **ADR-001 — monorepo npm e processos independentes.** Facilita mudanças coordenadas e reprodução pela dupla; mantém limites de implantação.
+1. **ADR-001 — frontend e backend com dependências independentes.** Cada projeto instala e compila sozinho. Somente o backend usa um workspace npm interno para serviços e pacotes reutilizáveis.
 2. **ADR-002 — um domínio por serviço.** Catálogo, estoque, pedidos e recomendação separados. Carrinho pode ficar no Angular nesta versão; pagamento e entrega são componentes de checkout, sem criar serviços extras.
 3. **ADR-003 — variabilidade por produto na inicialização.** Cada perfil configura uma implantação; a prévia não muda a loja ativa. Não implementar SaaS multi-tenant neste prazo.
 4. **ADR-004 — framework com fluxo controlado.** `CommerceApplication.build()` organiza validação, registro do core, extensões e política de entrega. As subclasses implementam hotspots; não copiam serviços.

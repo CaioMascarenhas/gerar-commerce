@@ -1,6 +1,8 @@
 # Contribuição
 
-Use pt-BR correto nas interfaces e na documentação. Frontend Angular, backend NestJS e execução dos microsserviços por Docker conforme `AGENTS.md`.
+Use pt-BR correto nas interfaces e na documentação. Frontend Angular em `frontend/`, backend NestJS em `backend/` e execução dos microsserviços por Docker conforme `AGENTS.md`.
+
+Instale cada projeto na própria pasta com `npm ci`. Dependências de interface pertencem a `frontend/package.json`; dependências de servidor pertencem ao serviço ou pacote correspondente em `backend/`. A raiz contém somente atalhos e a ferramenta de formatação. O frontend se comunica com o backend por HTTP; não importe arquivos de um projeto no outro.
 
 Selecione uma issue no [Kanban](https://github.com/users/CaioMascarenhas/projects/3/views/2), respeite o limite de trabalho em andamento e registre bloqueios. Crie branch `feat/pb-011-carrinho`, `fix/...` ou `docs/...`.
 
