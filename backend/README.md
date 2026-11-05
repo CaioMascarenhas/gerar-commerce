@@ -1,59 +1,48 @@
-# Backend — NestJS, microsserviços e framework
+# Backend — plataforma de lojas dinâmicas
 
-Esta pasta contém as APIs, os dados de demonstração, as regras de composição das lojas e o assistente opcional. Tem instalação própria, independente do Angular.
-
-## Executar
-
-Abra um terminal nesta pasta:
+Requisito: Node.js `>=24.15 <25` e PostgreSQL. Na raiz, `docker compose up -d postgres` inicia o banco na porta 5433. Nesta pasta:
 
 ```powershell
-npm ci
-npm run dev
+npm.cmd ci
+npm.cmd run dev
 ```
 
-O comando compila os pacotes e os serviços e inicia o perfil Essencial. A documentação do gateway fica em http://127.0.0.1:3000/docs. O frontend é iniciado em outro terminal, dentro de `frontend/`.
+O comando compila e inicia sete processos NestJS. `Ctrl+C` encerra os processos iniciados pelo script. Reinicie após alterar código. O Angular é executado separadamente em `frontend/`.
 
-Para iniciar a loja assistida:
+| Serviço         | Porta | Responsabilidade e dados próprios                                 |
+| --------------- | ----: | ----------------------------------------------------------------- |
+| gateway         |  3000 | API do frontend, sessão e autorização por loja                    |
+| catalog         |  3001 | Produtos e avaliações; schema `catalog`                           |
+| inventory       |  3002 | Saldos e reservas idempotentes; schema `inventory`                |
+| orders          |  3003 | Cotação durável, pagamento simulado e pedidos; schema `orders`    |
+| recommendations |  3004 | Consulta catálogo e histórico por APIs                            |
+| ai-assistant    |  3005 | Geração de três produtos e agente administrativo                  |
+| stores          |  3006 | Cadastro, composição, senha com scrypt e sessões; schema `stores` |
+
+Somente o gateway é exposto pelo Compose. Cada serviço tem `/api/health` e `/docs`; em execução local os endereços usam `127.0.0.1`.
+
+Configuração opcional: copie `.env.example` para `.env`. `DATABASE_URL` aponta para o PostgreSQL; `INTERNAL_API_KEY` protege mutações entre serviços. `GOOGLE_API_KEY` e `GEMINI_MODEL` habilitam Gemini. `COOKIE_SECURE=true` é destinado a execução com HTTPS; no ambiente HTTP local mantenha `false`.
+
+Para outra faixa de portas local, defina `PORT_BASE` (por exemplo, 3200). O inicializador atribui as sete portas consecutivas e os URLs internos; ajuste também o proxy do frontend. Variáveis `*_URL` explícitas têm precedência.
+
+O pacote `framework` controla composição e políticas. `contracts` define os tipos compartilhados. `platform` fornece HTTP, inicialização, validação e pool PostgreSQL; cada serviço declara e acessa somente as suas tabelas. Uma única instância e usuário de banco são usados na demonstração local, sem isolamento por credenciais de banco.
+
+## Testar
 
 ```powershell
-$env:PRODUCT_PROFILE='assistida'
-npm run dev
+npm.cmd run build
+npm.cmd test
+npm.cmd run smoke
 ```
 
-Para usar Gemini, copie `.env.example` para `.env` **nesta pasta** e configure `GOOGLE_API_KEY` e `GEMINI_MODEL`. Nenhuma chave é necessária no perfil Essencial. O assistente existe como integração inicial; a validação real com Gemini permanece no backlog.
+O smoke cria um banco temporário com nome `gerar_smoke_<timestamp>` no servidor de `DATABASE_URL`, usa portas 3100–3106 e o remove ao terminar. Não aponta os testes para as lojas cadastradas. `SMOKE_PORT_BASE` altera a faixa de testes.
 
-## Serviços
-
-| Pasta em `services/` | Porta | Função atual                                                                |
-| -------------------- | ----: | --------------------------------------------------------------------------- |
-| `gateway/`           |  3000 | Entrada usada pelo frontend; encaminha consultas e informa o perfil da loja |
-| `catalog/`           |  3001 | Lista produtos e preços de demonstração                                     |
-| `inventory/`         |  3002 | Consulta saldos de demonstração                                             |
-| `orders/`            |  3003 | Consulta pedidos e resumo de vendas de exemplo                              |
-| `recommendations/`   |  3004 | Recomenda produtos usando o histórico de exemplo                            |
-| `ai-assistant/`      |  3005 | Usa Mastra + Gemini para consultar estoque e vendas; opcional               |
-
-Cada pasta tem seu `package.json`, código em `src/` e saída compilada em `dist/`. São processos separados. O workspace npm desta pasta compartilha a instalação das dependências entre os serviços do backend.
-
-## Pacotes reutilizáveis
-
-- `packages/framework/`: monta as lojas Essencial e Assistida com Template Method, validação de features e políticas de entrega.
-- `packages/contracts/`: tipos públicos usados pelos serviços do backend.
-- `packages/platform/`: inicialização comum do NestJS, documentação das APIs e cliente HTTP. É infraestrutura técnica, não a regra de composição da loja.
-- `scripts/`: build dos serviços, inicialização, teste de integração e geração dos produtos.
-
-NestJS e Mastra pertencem ao backend. Angular não faz parte desta instalação. O workspace interno organiza os pacotes do servidor; o frontend não é membro dele.
-
-## Comandos
+Para exportar o snapshot de uma loja existente:
 
 ```powershell
-npm run build
-npm test
-npm run smoke
-npm run derive -- essencial
-npm run derive -- assistida
+npm.cmd run derive -- minha-loja
 ```
 
-O smoke precisa das portas 3000–3005 livres e verifica os dois perfis sem chamar o Gemini. Os produtos derivados são exportados para `output/products/` dentro do backend.
+Por padrão a CLI consulta o gateway em `http://127.0.0.1:3000`; `GATEWAY_URL` permite outro endereço. A exportação não cria uma implantação: a loja já é criada e recomposta pela plataforma.
 
-Atualmente os dados são de demonstração. PostgreSQL, carrinho, checkout completo e pagamento simulado operacional ainda serão implementados.
+Veja [contratos HTTP](../docs/api.md), [framework](../docs/framework.md) e [limites atuais](../docs/estado-atual.md).

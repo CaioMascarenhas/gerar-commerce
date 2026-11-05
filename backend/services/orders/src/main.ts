@@ -1,43 +1,173 @@
 import 'reflect-metadata';
-import { Controller, Get, Module, Param } from '@nestjs/common';
-import { bootstrap, healthController, safeCustomerId } from '@gerar/platform';
-import type { OrderSummary } from '@gerar/contracts';
+import { randomUUID } from 'node:crypto';
+import { BadRequestException, Body, Controller, Get, Module, Param, Post } from '@nestjs/common';
+import {
+  bootstrap,
+  database,
+  migrate,
+  transaction,
+  callService,
+  healthController,
+  integer,
+  text,
+} from '@gerar/platform';
+import { quoteCheckout, SimulatedPayment } from '@gerar/framework';
 
-/** Fixtures explícitas. Não representam vendas reais nem implementação de checkout. */
-const demoOrders = [
-  {
-    id: 'demo-001',
-    customerId: 'cliente-demo',
-    status: 'paid',
-    totalInCents: 2490,
-    items: [{ productId: 'caderno', quantity: 1 }],
-  },
-  {
-    id: 'demo-002',
-    customerId: 'outro-cliente',
-    status: 'paid',
-    totalInCents: 3990,
-    items: [{ productId: 'caneca', quantity: 1 }],
-  },
-];
+await migrate(
+  'CREATE SCHEMA IF NOT EXISTS orders; CREATE TABLE IF NOT EXISTS orders.purchases (store_slug text NOT NULL, reference text NOT NULL, data jsonb NOT NULL, request_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(store_slug,reference)); CREATE TABLE IF NOT EXISTS orders.attempts (store_slug text NOT NULL, reference text NOT NULL, data jsonb NOT NULL, request_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(store_slug,reference));',
+);
 
-@Controller('orders')
-class OrdersController {
-  @Get() list() {
-    return demoOrders;
+async function prepare(
+  slug: string,
+  body: any,
+  items: any[],
+  reference: string,
+  customerId: string,
+  requestHash: string,
+) {
+  const existing = await database.query(
+    'SELECT request_hash FROM orders.attempts WHERE store_slug=$1 AND reference=$2',
+    [slug, reference],
+  );
+  if (existing.rowCount) {
+    if (existing.rows[0].request_hash !== requestHash)
+      throw new BadRequestException('Esta referência já foi usada por outra compra.');
+    return;
   }
-  @Get('summary') summary(): OrderSummary {
+  const [store, products] = await Promise.all([
+    callService('stores', '/stores/' + slug),
+    callService<any[]>('catalog', '/stores/' + slug + '/products'),
+  ]);
+  const lines = items.map((item) => {
+    const product = products.find((p) => p.id === item.productId);
+    if (!product)
+      throw new BadRequestException('Um produto não pertence a esta loja ou foi removido.');
     return {
-      count: demoOrders.length,
-      totalInCents: demoOrders.reduce((total, order) => total + order.totalInCents, 0),
-      source: 'demo',
+      ...item,
+      name: product.name,
+      category: product.category,
+      priceInCents: product.priceInCents,
     };
+  });
+  let quote;
+  try {
+    quote = quoteCheckout(
+      store.blueprint,
+      lines.reduce((sum, item) => sum + item.priceInCents * item.quantity, 0),
+      body.coupon,
+      body.fulfillment,
+    );
+  } catch (error) {
+    throw new BadRequestException((error as Error).message);
   }
-  @Get('history/:customerId') history(@Param('customerId') customerId: string) {
-    return demoOrders.filter((order) => order.customerId === safeCustomerId(customerId));
-  }
+  const order = {
+    id: randomUUID(),
+    reference,
+    customerId,
+    items: lines,
+    ...quote,
+    status: new SimulatedPayment().authorize(body.payment),
+    fulfillment: body.fulfillment,
+    createdAt: new Date().toISOString(),
+  };
+  // A intenção é durável antes da chamada distribuída: retries reutilizam exatamente esta cotação.
+  await database.query(
+    'INSERT INTO orders.attempts(store_slug,reference,data,request_hash) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING',
+    [slug, reference, order, requestHash],
+  );
 }
 
-@Module({ controllers: [OrdersController, healthController('orders', 3003)] })
+@Controller()
+class OrdersController {
+  @Get('internal/stores/:slug/orders') async list(@Param('slug') slug: string) {
+    return (
+      await database.query(
+        'SELECT data FROM orders.purchases WHERE store_slug=$1 ORDER BY created_at DESC LIMIT 100',
+        [slug],
+      )
+    ).rows.map((row) => row.data);
+  }
+  @Get('internal/stores/:slug/history/:customerId') async history(
+    @Param('slug') slug: string,
+    @Param('customerId') customerId: string,
+  ) {
+    return (
+      await database.query(
+        "SELECT data FROM orders.purchases WHERE store_slug=$1 AND data->>'customerId'=$2 AND data->>'status'='paid' ORDER BY created_at DESC LIMIT 100",
+        [slug, customerId],
+      )
+    ).rows.map((row) => row.data);
+  }
+  @Post('internal/stores/:slug/checkout') async checkout(
+    @Param('slug') slug: string,
+    @Body() body: any,
+  ) {
+    const reference = text(body?.reference, 'Referência', 80);
+    const customerId = text(body?.customerId, 'Cliente', 80);
+    if (!Array.isArray(body.items) || body.items.length < 1 || body.items.length > 30)
+      throw new BadRequestException('Carrinho inválido.');
+    const items = body.items.map((item: any) => ({
+      productId: text(item?.productId, 'Produto', 80),
+      quantity: integer(item?.quantity, 'Quantidade', 1, 1000),
+    }));
+    if (new Set(items.map((i: any) => i.productId)).size !== items.length)
+      throw new BadRequestException('Produtos duplicados no carrinho.');
+    if (!['approved', 'declined'].includes(body.payment))
+      throw new BadRequestException('Selecione o resultado do pagamento simulado.');
+    if (!['pickup', 'delivery'].includes(body.fulfillment))
+      throw new BadRequestException('Modalidade de entrega inválida.');
+    const requestHash = JSON.stringify({
+      customerId,
+      items,
+      payment: body.payment,
+      coupon: body.coupon || '',
+      fulfillment: body.fulfillment,
+    });
+    await prepare(slug, body, items, reference, customerId, requestHash);
+    return transaction(async (client) => {
+      await client.query('SELECT pg_advisory_xact_lock(hashtext($1))', [
+        'checkout:' + slug + ':' + reference,
+      ]);
+      const attempt = (
+        await client.query(
+          'SELECT data,request_hash FROM orders.attempts WHERE store_slug=$1 AND reference=$2',
+          [slug, reference],
+        )
+      ).rows[0];
+      if (attempt.request_hash !== requestHash)
+        throw new BadRequestException('Esta referência já foi usada por outra compra.');
+      const previous = await client.query(
+        'SELECT data FROM orders.purchases WHERE store_slug=$1 AND reference=$2',
+        [slug, reference],
+      );
+      if (previous.rowCount) return previous.rows[0].data;
+      const order = attempt.data;
+      const reservation = await callService(
+        'inventory',
+        '/internal/stores/' + slug + '/reserve',
+        'POST',
+        { reference, items },
+      );
+      if (reservation.state === 'released' && order.status === 'paid')
+        throw new BadRequestException('Tentativa encerrada. Inicie uma nova compra.');
+      await callService(
+        'inventory',
+        '/internal/stores/' +
+          slug +
+          '/reservations/' +
+          encodeURIComponent(reference) +
+          (order.status === 'paid' ? '/confirm' : '/release'),
+        'POST',
+        {},
+      );
+      await client.query(
+        'INSERT INTO orders.purchases(store_slug,reference,data,request_hash) VALUES ($1,$2,$3,$4)',
+        [slug, reference, order, requestHash],
+      );
+      return order;
+    });
+  }
+}
+@Module({ controllers: [OrdersController, healthController('orders', 3003, 'postgres')] })
 class OrdersModule {}
-await bootstrap(OrdersModule, 'Pedidos', 3003);
+await bootstrap(OrdersModule, 'Pedidos e checkout simulado', 3003);

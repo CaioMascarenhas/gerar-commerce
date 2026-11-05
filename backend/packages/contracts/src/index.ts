@@ -17,7 +17,7 @@ export const coreFeatures = [
   'administration',
 ] as const;
 export type CoreFeature = (typeof coreFeatures)[number];
-export type OptionalFeature = 'aiAssistant';
+export type OptionalFeature = 'aiAssistant' | 'coupons' | 'reviews' | 'delivery';
 export type Feature = CoreFeature | OptionalFeature;
 
 export interface ProductConfiguration {
@@ -55,5 +55,5 @@ export interface ServiceHealth {
   service: string;
   status: 'ok';
   port: number;
-  storage: 'none' | 'memory-demo';
+  storage: 'none' | 'memory-demo' | 'postgres';
 }

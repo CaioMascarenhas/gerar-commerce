@@ -1,17 +1,19 @@
 name: gerar-commerce
 x-service: &service
-  build:
-    context: ./backend
+  build: { context: ./backend }
   environment: &environment
     HOST: 0.0.0.0
-    PRODUCT_PROFILE: ${PRODUCT_PROFILE:-essencial}
+    DATABASE_URL: postgres://gerar:gerar_local@postgres:5432/gerar_commerce
+    INTERNAL_API_KEY: ${INTERNAL_API_KEY:-gerar-local-internal}
     CATALOG_URL: http://catalog:3001
     INVENTORY_URL: http://inventory:3002
     ORDERS_URL: http://orders:3003
     RECOMMENDATIONS_URL: http://recommendations:3004
     AI_ASSISTANT_URL: http://ai-assistant:3005
-    DEMO_ADMIN_TOKEN: gerar-demo
+    STORES_URL: http://stores:3006
   init: true
+  depends_on:
+    postgres: { condition: service_healthy }
   healthcheck:
     test:
       [
@@ -24,17 +26,39 @@ x-service: &service
     timeout: 5s
     retries: 6
     start_period: 20s
-
 services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: gerar
+      POSTGRES_PASSWORD: gerar_local
+      POSTGRES_DB: gerar_commerce
+    ports: ['127.0.0.1:${POSTGRES_PORT:-5433}:5432']
+    volumes: [commerce-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U gerar -d gerar_commerce]
+      interval: 5s
+      timeout: 5s
+      retries: 12
   gateway:
     <<: *service
-    environment: { <<: *environment, PORT: 3000 }
-    ports: [127.0.0.1:3000:3000]
+    environment: { <<: *environment, PORT: 3000, COOKIE_SECURE: '${COOKIE_SECURE:-false}' }
+    ports: ['127.0.0.1:${GATEWAY_PORT:-3000}:3000']
     depends_on:
+      stores: { condition: service_healthy }
       catalog: { condition: service_healthy }
       inventory: { condition: service_healthy }
       orders: { condition: service_healthy }
       recommendations: { condition: service_healthy }
+      ai-assistant: { condition: service_healthy }
+  stores:
+    <<: *service
+    command: [node, services/stores/dist/main.js]
+    environment: { <<: *environment, PORT: 3006 }
+    depends_on:
+      postgres: { condition: service_healthy }
+      catalog: { condition: service_healthy }
+      inventory: { condition: service_healthy }
   catalog:
     <<: *service
     command: [node, services/catalog/dist/main.js]
@@ -53,7 +77,6 @@ services:
     environment: { <<: *environment, PORT: 3004 }
   ai-assistant:
     <<: *service
-    profiles: [ai]
     command: [node, services/ai-assistant/dist/main.js]
     environment:
       <<: *environment
@@ -62,6 +85,8 @@ services:
       GEMINI_MODEL: ${GEMINI_MODEL:-}
   storefront:
     build: { context: ./frontend }
-    ports: [127.0.0.1:4200:80]
+    ports: ['127.0.0.1:${FRONTEND_PORT:-4200}:80']
     depends_on:
       gateway: { condition: service_healthy }
+volumes:
+  commerce-data:

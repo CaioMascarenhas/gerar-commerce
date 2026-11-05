@@ -1,103 +1,105 @@
 # Gerar Commerce
 
-**Uma base reutilizável para gerar diferentes lojas.** Projeto educacional do IC/UFAL para LPS e Reuso de Software e Metodologias Ágeis, período 2026.2.
+Plataforma acadêmica para **criar lojas dinamicamente** com Angular, microsserviços NestJS e PostgreSQL. O framework compõe cada produto a partir das funcionalidades escolhidas no cadastro. Não é necessário copiar código nem implantar um conjunto de contêineres para cada loja.
 
-Equipe: **Caio Mascarenhas Soares e Laura Marques Costa**. Apresentação: **11/11/2026**. Meta de conclusão: **10/11/2026**.
+Equipe: Caio Mascarenhas Soares e Laura Marques Costa · IC/UFAL · 2026.2.
 
-- [Comece aqui: organização e funcionamento](docs/organizacao-do-projeto.md)
-- [Frontend Angular](frontend/README.md) · [Backend NestJS e framework](backend/README.md)
-- [Repositório](https://github.com/CaioMascarenhas/gerar-commerce) · [Kanban](https://github.com/users/CaioMascarenhas/projects/3/views/2)
-- [Arquitetura](docs/arquitetura.md) · [Variabilidade](docs/variabilidade.md) · [Framework e diagramas](docs/framework.md)
-- [Product Backlog](docs/gestao/product-backlog.md) · [Ciclos](docs/gestao/ciclos.md)
-- [Requisitos acadêmicos](docs/requisitos-academicos.md) · [Estado da implementação](docs/estado-atual.md)
+## Rodar com Docker
 
-## Estrutura
+Com Docker Desktop aberto, execute na raiz:
 
-```text
-frontend/                 Angular: interface, dependências e Dockerfile próprios
-  src/                    Telas, estilos e chamadas HTTP
-backend/                  NestJS: dependências e Dockerfile próprios
-  services/               Gateway, catálogo, estoque, pedidos, recomendações e IA
-  packages/framework/     Composição de lojas e hotspots
-  packages/contracts/     Tipos usados pelos serviços do backend
-  packages/platform/      Inicialização e utilitários técnicos do NestJS
-  scripts/                Build, inicialização, testes e derivação
-docs/                     Modelagem, explicações, gestão e evidências
-projeto_docs/             Materiais fornecidos pelas disciplinas
-.github/scripts/          Gestão do GitHub e verificação da documentação
-compose.yaml              Conecta os contêineres
+```powershell
+docker compose up --build -d
 ```
 
-Frontend e backend têm `package.json`, lockfile e `node_modules` separados. O workspace npm existe somente dentro do backend. O frontend se comunica com as APIs por HTTP e não importa pacotes do servidor.
+- Plataforma: http://localhost:4200
+- Cadastro: http://localhost:4200/criar
+- Loja: `http://localhost:4200/loja/<endereco>`
+- Administração: `http://localhost:4200/admin/<endereco>`
+- Swagger do gateway: http://localhost:3000/docs
+- PostgreSQL local: `localhost:5433`, banco `gerar_commerce`, usuário `gerar`, senha local `gerar_local`.
 
-## Executar localmente
+O banco persiste no volume `commerce-data`. `docker compose down` encerra os contêineres preservando os dados. As tabelas são criadas de forma idempotente na inicialização de cada serviço. Não use `down -v` se quiser preservar as lojas.
 
-Requisitos: **Node.js 24** (a partir de 24.15) e npm. Instale e inicie o backend em um terminal:
+Caso alguma porta esteja ocupada, defina `FRONTEND_PORT`, `GATEWAY_PORT` ou `POSTGRES_PORT` no terminal antes de subir os contêineres. Exemplo: `$env:FRONTEND_PORT='4400'` e `$env:GATEWAY_PORT='3300'`.
+
+## Desenvolver sem contêineres de aplicação
+
+Requisito: Node.js `>=24.15 <25`. Na raiz, inicie somente o banco:
+
+```powershell
+docker compose up -d postgres
+```
+
+Backend, em um terminal a partir da raiz:
 
 ```powershell
 cd backend
-npm ci
-npm run dev
+npm.cmd ci
+npm.cmd run dev
 ```
 
-Em outro terminal, a partir da raiz do repositório:
+Frontend, em outro terminal a partir da raiz:
 
 ```powershell
 cd frontend
-npm ci
-npm run dev
+npm.cmd ci
+npm.cmd run dev
 ```
 
-Interface: **http://127.0.0.1:4200**. API do gateway: **http://127.0.0.1:3000/docs**. Encerre cada lado com `Ctrl+C` no respectivo terminal.
+O PowerShell pode bloquear `npm.ps1`; `npm.cmd` evita esse problema. Não há `package.json` na raiz. O backend compila ao iniciar; reinicie-o após alterar seu código. O Angular atualiza automaticamente.
 
-O frontend pode ser instalado e compilado sozinho. Para mostrar os dados, precisa do backend em execução.
+## Criar e administrar uma loja
 
-## Perfil com IA
+1. Acesse `/criar`. Cadastre nome, endereço único, descrição, foto de capa, categoria e senha com pelo menos seis caracteres.
+2. Confira as sete funcionalidades core, sempre selecionadas. Escolha cupons, avaliações, entrega local e/ou agente de IA.
+3. Cadastre pelo menos um produto. O botão **Gerar 3 produtos com IA** usa Gemini quando configurado; sem chave, informa que adicionou exemplos editáveis da categoria.
+4. Crie a loja e abra `/loja/<endereco>`. Ela já tem catálogo, estoque, carrinho e compra simulada.
+5. Entre em `/admin/<endereco>` com a senha cadastrada. Gerencie produtos, estoque, pedidos e configurações. Alterar opcionais recompõe a loja e atualiza seu plano.
 
-No terminal do backend:
+Categorias: **Eletrônicos**, **Construção** e **Roupas**, cada uma com cores próprias. O endereço da loja permanece fixo após o cadastro.
+
+| Plano fictício | Regra                                                    | Mensalidade |
+| -------------- | -------------------------------------------------------- | ----------: |
+| Essencial      | Apenas core                                              |    R$ 59,90 |
+| Completo       | Um ou mais opcionais, sem agente                         |    R$ 79,90 |
+| Inteligente    | Agente de IA selecionado, com quaisquer outros opcionais |    R$ 99,90 |
+
+Não há cobrança, assinatura externa, cartão real ou recuperação de senha. A compra permite simular aprovação e recusa. Cupons habilitam `BOASVINDAS10` (10%); entrega local custa R$ 15,00 e a retirada é gratuita.
+
+## IA opcional
+
+Para chamadas reais, crie `backend/.env` a partir de `backend/.env.example` e preencha `GOOGLE_API_KEY` e `GEMINI_MODEL`. Nunca coloque a chave no frontend.
+
+Localmente o backend lê esse arquivo. No Docker:
 
 ```powershell
-$env:PRODUCT_PROFILE='assistida'
-npm run dev
+docker compose --env-file backend/.env up --build -d
 ```
 
-Copie `backend/.env.example` para `backend/.env` e configure `GOOGLE_API_KEY` e `GEMINI_MODEL` para usar Gemini. A loja Essencial não exige chave nem inicia o serviço de IA. O token `gerar-demo` e os dados de exemplo servem à demonstração educacional.
+O serviço de IA permanece disponível para ajudar no cadastro de qualquer loja. O agente administrativo só pode ser chamado após login em uma loja que selecionou `aiAssistant`. Sem chave, o restante da plataforma funciona e o agente informa a configuração ausente. Não há respostas de IA fingidas.
 
-## Verificar e gerar produtos
+## Verificação
 
-A raiz não tem `package.json` nem instalação npm. Dentro de `frontend/`, use `npm run build`. Dentro de `backend/`:
+Para criar três lojas fictícias de demonstração com o gateway já rodando, execute `npm.cmd run seed` dentro de `backend/`. Seus endereços são `demo-eletronicos`, `demo-construcao` e `demo-roupas`; a senha administrativa é `gerar-demo123`. O script preserva lojas que já existam com esses endereços. Para outro gateway, defina `GATEWAY_URL`, por exemplo `http://127.0.0.1:3300`.
+
+Dentro de `backend/`:
 
 ```powershell
-npm run build
-npm test
-npm run smoke
-npm run derive -- essencial
-npm run derive -- assistida
+npm.cmd run build
+npm.cmd test
+npm.cmd run smoke
 ```
 
-O smoke exige as portas 3000–3005 livres. Os produtos derivados são exportados para `backend/output/products/<perfil>/`. O CI instala e compila frontend e backend em jobs separados.
+O smoke exige PostgreSQL e permissão para criar um banco temporário. Usa as portas 3100–3106 e remove somente o banco de teste que criou. Confere cadastro, três categorias, preços, isolamento, sessões, CRUD, checkout, idempotência, estoque concorrente, persistência após reinício e opcionais. Nunca usa Gemini.
 
-Para verificar a documentação, execute na raiz:
+Dentro de `frontend/`: `npm.cmd run build`. Na raiz: `node .github/scripts/check-docs.mjs`.
 
-```powershell
-node .github/scripts/check-docs.mjs
-```
+## Arquitetura e gestão
 
-## Docker
+- [Organização](docs/organizacao-do-projeto.md) · [Arquitetura e decisões](docs/arquitetura.md)
+- [Framework](docs/framework.md) · [Modelo de features](docs/variabilidade.md) · [Contratos HTTP](docs/api.md)
+- [Estado e limites](docs/estado-atual.md) · [Product Backlog](docs/gestao/product-backlog.md) · [Ciclos Kanban](docs/gestao/ciclos.md)
+- [Materiais das disciplinas](projeto_docs/) · [Requisitos acadêmicos](docs/requisitos-academicos.md)
 
-Com Docker Desktop em execução, na raiz:
-
-```powershell
-docker compose up --build
-```
-
-Para Assistida, crie `backend/.env` a partir do exemplo e execute:
-
-```powershell
-$env:PRODUCT_PROFILE='assistida'
-docker compose --env-file backend/.env --profile ai up --build
-```
-
-Cada lado tem contexto de build e Dockerfile próprios. A interface continua na porta 4200. Os serviços de domínio ficam na rede interna. `docker compose config --quiet` valida a configuração.
-
-Este é o primeiro incremento: catálogo, estoque de leitura, histórico de exemplo, recomendações e composição de lojas estão disponíveis. Carrinho, checkout completo, persistência PostgreSQL e validação real do Gemini seguem no backlog.
+Os antigos perfis Essencial/Assistida em código são exemplos didáticos do framework. A criação operacional ocorre pela plataforma e persiste cada composição no PostgreSQL; a CLI é apenas uma exportação de diagnóstico de uma loja já cadastrada.

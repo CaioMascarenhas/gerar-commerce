@@ -4,8 +4,18 @@ import pt from '@angular/common/locales/pt';
 import { provideHttpClient } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { routes } from './app/routes';
 
 registerLocaleData(pt);
 bootstrapApplication(App, {
-  providers: [provideHttpClient(), { provide: LOCALE_ID, useValue: 'pt-BR' }],
+  providers: [
+    provideHttpClient(),
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+    ),
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+  ],
 }).catch(console.error);

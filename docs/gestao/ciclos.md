@@ -1,5 +1,7 @@
 # Kanban e snapshots de entrega
 
+> Atualização de 05/11: o cadastro dinâmico substitui o perfil fixo por implantação. O escopo, itens antecipados, evidências e revisão pendente estão no [snapshot de lojas dinâmicas](snapshots/2026-11-05-lojas-dinamicas.md). O cronograma abaixo preserva o planejamento inicial; o Product Backlog reflete o estado atual.
+
 Equipe: Caio Mascarenhas Soares e Laura Marques Costa. Laura será adicionada ao GitHub posteriormente pelo Caio; não há convite automático. A divisão das issues entre a dupla será combinada, sem inventar responsáveis.
 
 ## Método

@@ -1,36 +1,27 @@
 # Frontend — Angular
 
-Esta pasta contém a interface executada no navegador: vitrine, prévia de configuração da loja, painel de saúde dos serviços e tela do assistente no perfil Assistida.
-
-## Executar
-
-Abra um terminal nesta pasta:
+Interface da plataforma de criação de lojas, vitrine e painel de administração. Requisito: Node.js `>=24.15 <25`.
 
 ```powershell
-npm ci
-npm run dev
+npm.cmd ci
+npm.cmd run dev
 ```
 
-Acesse http://127.0.0.1:4200. A interface pode ser compilada sem instalar ou compilar o backend. Para exibir os dados, o gateway precisa estar em execução na porta 3000.
+Abra http://localhost:4200. O backend precisa estar em execução na porta 3000. O proxy encaminha `/api` para o gateway; no Docker essa função pertence ao Nginx.
+
+| Rota           | Tela                                                               |
+| -------------- | ------------------------------------------------------------------ |
+| `/`            | Apresentação, categorias, busca de lojas e planos fictícios        |
+| `/criar`       | Cadastro em três etapas: identidade, funcionalidades e produtos    |
+| `/loja/:slug`  | Loja com tema da categoria, catálogo, carrinho e checkout simulado |
+| `/admin/:slug` | Login, produtos/estoque, pedidos, configurações e agente opcional  |
+
+`src/app/routes.ts` declara as rotas. `pages/` contém as telas; `components/features.ts` é o seletor reutilizável; `models/commerce.ts` descreve os contratos HTTP e `api.ts` centraliza as chamadas. A senha não é salva no navegador; o servidor mantém uma sessão em cookie HttpOnly, limitada à loja. O carrinho fica no localStorage, com chave própria por loja.
+
+O frontend não importa pacotes npm do backend. O cálculo exibido no cadastro serve como prévia; o servidor valida a composição, calcula o plano e usa preços oficiais no checkout.
 
 ```powershell
-npm run build
+npm.cmd run build
 ```
 
-O resultado da compilação fica em `dist/browser/`.
-
-## Onde fica cada coisa
-
-- `src/main.ts`: inicia o Angular e configura HTTP e idioma pt-BR.
-- `src/app/app.ts`: carrega dados das APIs e controla as telas atuais.
-- `src/app/app.html`: estrutura visual das telas.
-- `src/styles.css`: aparência e adaptação a telas menores.
-- `src/app/models/api.ts`: tipos dos JSONs recebidos pela interface.
-- `proxy.conf.json`: encaminha `/api` para o gateway durante o desenvolvimento.
-- `angular.json` e `tsconfig.app.json`: configuração de build e TypeScript do frontend.
-- `package.json`, `package-lock.json` e `node_modules/`: dependências exclusivas do frontend.
-- `Dockerfile` e `nginx.conf`: compilam e servem a interface no Docker.
-
-Angular, suas ferramentas de build e TypeScript pertencem a esta instalação. Não há dependência npm dos serviços NestJS ou do framework do backend. Os formatos em `models/api.ts` descrevem o contrato HTTP; mudanças nesse contrato precisam ser refletidas no cliente.
-
-Chaves do Gemini ficam em `backend/.env`. A interface chama o gateway e não acessa diretamente o provedor de IA.
+A saída fica em `dist/browser/`. O Dockerfile compila Angular e usa Nginx com fallback para rotas como `/loja/minha-loja` e `/admin/minha-loja`. As chaves do Gemini pertencem somente ao backend.

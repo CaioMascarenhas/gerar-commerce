@@ -36,9 +36,15 @@ for (const path of [
 ])
   assert(existsSync(path), `Documento ausente: ${path}`);
 const index = JSON.parse(readFileSync('docs/gestao/github-index.json', 'utf8'));
-assert.equal(index.issues.length, issues.length, 'Issues e backlog estão divergentes.');
+const mapped = issues.filter((issue) => !issue.githubPending);
+assert.equal(index.issues.length, mapped.length, 'Issues vinculadas e backlog estão divergentes.');
+for (const issue of mapped)
+  assert(
+    index.issues.some((entry) => entry.id === issue.id),
+    `Issue sem vínculo remoto: ${issue.id}`,
+  );
 for (const issue of index.issues)
   assert(ids.has(issue.id), `Issue sem item de backlog: ${issue.id}`);
 console.log(
-  `Documentação OK: ${issues.length} itens, critérios de aceite, dependências acíclicas e links do GitHub.`,
+  `Documentação OK: ${issues.length} itens, critérios de aceite e dependências acíclicas; ${mapped.length} vínculos remotos e ${issues.length - mapped.length} itens locais pendentes de sincronização.`,
 );

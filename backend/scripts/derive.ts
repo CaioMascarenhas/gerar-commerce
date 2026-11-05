@@ -1,22 +1,31 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { deriveProduct } from '@gerar/framework';
-
-const profile = process.argv[2] ?? 'essencial';
-const blueprint = deriveProduct(profile);
-const directory = resolve('output', 'products', blueprint.configuration.id);
+import { existsSync } from 'node:fs';
+if (existsSync('.env')) process.loadEnvFile('.env');
+const slug = process.argv[2];
+if (!slug || !/^[a-z][a-z0-9-]{1,49}$/.test(slug))
+  throw new Error('Informe o endereço de uma loja cadastrada: npm run derive -- minha-loja');
+const response = await fetch(
+  (process.env['GATEWAY_URL'] ?? 'http://127.0.0.1:3000') + '/api/stores/' + slug,
+);
+if (!response.ok)
+  throw new Error('Não foi possível consultar a loja. Confira o endereço e o gateway em execução.');
+const store: any = await response.json();
+const directory = resolve('output', 'products', slug);
 await mkdir(directory, { recursive: true });
-await writeFile(resolve(directory, 'blueprint.json'), JSON.stringify(blueprint, null, 2) + '\n');
 await writeFile(
-  resolve(directory, 'product.env'),
-  `PRODUCT_PROFILE=${blueprint.configuration.id}\n`,
+  resolve(directory, 'blueprint.json'),
+  JSON.stringify(store.blueprint, null, 2) + '\n',
 );
-await writeFile(
-  resolve(directory, 'compose.yaml'),
-  `# Execute na raiz do repositório com os comandos do README gerado.\ninclude:\n  - path: ../../../../compose.yaml\n`,
-);
+await writeFile(resolve(directory, 'store.json'), JSON.stringify(store, null, 2) + '\n');
 await writeFile(
   resolve(directory, 'README.md'),
-  `# ${blueprint.configuration.name}\n\nAplicação derivada pelo Template Method de @gerar/framework.\n\nExecute na raiz do repositório. Para Assistida, crie backend/.env a partir do exemplo antes de usar Docker.\n\n\`\`\`powershell\n$env:PRODUCT_PROFILE='${blueprint.configuration.id}'\ndocker compose ${profile === 'assistida' ? '--env-file backend/.env --profile ai ' : ''}up --build\n\`\`\`\n\nSem Docker, use dois terminais a partir da raiz do repositório. Backend:\n\n\`\`\`powershell\ncd backend\n$env:PRODUCT_PROFILE='${blueprint.configuration.id}'\nnpm run dev\n\`\`\`\n\nFrontend, em outro terminal:\n\n\`\`\`powershell\ncd frontend\nnpm run dev\n\`\`\`\n\nBlueprint descreve composição, não conclusão de todas as funcionalidades. Veja docs/estado-atual.md.\n`,
+  '# ' +
+    store.name +
+    '\n\nSnapshot de uma loja criada dinamicamente. A configuração operacional está persistida no PostgreSQL.\n\nVitrine: /loja/' +
+    slug +
+    '\n\nAdministração: /admin/' +
+    slug +
+    '\n\nNenhuma senha ou sessão está incluída nesta exportação.\n',
 );
-console.log(`Produto validado e derivado: ${directory}`);
+console.log('Snapshot da composição exportado para ' + directory);

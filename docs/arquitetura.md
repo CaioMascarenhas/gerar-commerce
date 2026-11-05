@@ -1,100 +1,106 @@
-# Arquitetura do Gerar Commerce
+# Arquitetura — lojas dinâmicas
 
-## Objetivo e limites
+## Contexto e decisão de produto
 
-Construir uma **linha de produtos de lojas de e-commerce** e um **framework reutilizável** que sustente essa família. O domínio comum e as variantes atendem aos dois trabalhos. A demonstração usa dados sintéticos, uma persona de cliente, uma persona administrativa e pagamento simulado. Finalização prevista em 10/11/2026.
+A plataforma atende uma família de e-commerces configuráveis. O usuário cadastra sua loja pela interface e o framework monta a composição durante a execução. Cada loja tem um endereço estável (`slug`), identidade, categoria, opcionais e senha administrativa. Uma única implantação atende várias lojas, com dados identificados por `store_slug`.
 
-O repositório tem dois projetos com instalações independentes: `frontend/` contém Angular; `backend/` contém os serviços NestJS e o framework. Cada lado tem manifesto npm, lockfile, `node_modules` e Dockerfile próprios. A interface consome contratos HTTP, sem importar pacotes do backend.
+**ADR-009, 05/11/2026:** a solicitação de cadastro dinâmico substitui a antiga ADR-003 (um perfil por implantação). As lojas Essencial e Assistida em código permanecem exemplos didáticos; `ConfiguredStore` é o produto parametrizado usado no cadastro operacional. Não há contêiner ou build Angular por loja.
 
-Dentro de `backend/`, os serviços e pacotes reutilizáveis pertencem a um workspace npm exclusivo do servidor. Cada microsserviço NestJS é iniciado e implantado separadamente. O compartilhamento interno se restringe a contratos públicos, composição do framework e infraestrutura técnica; entidades de persistência e regras de cada domínio pertencem ao próprio serviço.
-
-## Contexto e contêineres
+## Serviços e propriedade dos dados
 
 ```mermaid
 flowchart LR
-  C[Cliente de demonstração] --> WEB[Angular · porta 4200]
-  A[Administrador de demonstração] --> WEB
-  WEB --> GW[API Gateway NestJS · 3000]
-  GW --> CAT[Catálogo · 3001]
-  GW --> INV[Estoque · 3002]
-  GW --> ORD[Pedidos e checkout · 3003]
-  GW --> REC[Recomendações · 3004]
-  REC --> CAT
-  REC --> ORD
-  GW -. feature aiAssistant .-> AI[Assistente NestJS + Mastra · 3005]
-  AI --> INV
-  AI --> ORD
-  AI --> GEM[Gemini · Google AI]
-  CAT --> CD[(Dados de catálogo)]
-  INV --> ID[(Dados de estoque)]
-  ORD --> OD[(Dados de pedidos e histórico)]
+  U[Cliente / lojista] --> A[Angular 4200]
+  A -->|HTTP /api| G[Gateway 3000]
+  G --> S[Lojas e sessões 3006]
+  G --> C[Catálogo e avaliações 3001]
+  G --> I[Estoque e reservas 3002]
+  G --> O[Pedidos e checkout 3003]
+  G --> R[Recomendações 3004]
+  G --> AI[IA 3005]
+  S --> F[Framework de composição]
+  S -->|provisionar produtos| C
+  S -->|provisionar saldos| I
+  O -->|preços oficiais| C
+  O -->|composição| S
+  O -->|reservar / confirmar / liberar| I
+  O --> F
+  R --> C
+  R --> O
+  AI --> I
+  AI --> O
+  AI --> C
+  AI --> S
+  AI --> GEM[Mastra / Gemini]
+  S --> SD[(PostgreSQL: stores)]
+  C --> CD[(PostgreSQL: catalog)]
+  I --> ID[(PostgreSQL: inventory)]
+  O --> OD[(PostgreSQL: orders)]
 ```
 
-No incremento inicial, os dados são fixtures em memória. O destino é PostgreSQL com banco/schema de propriedade exclusiva de cada serviço de domínio, usando uma instância física local para reduzir consumo. **Nenhum serviço deve consultar tabelas de outro serviço**; integrações utilizam HTTP. Recomendações inicialmente não têm banco próprio: consultam APIs. IA não recebe credenciais de banco.
+Cada domínio acessa apenas seu próprio schema. Não há consultas SQL entre schemas de domínio. Para a demonstração, uma instância PostgreSQL e um usuário são compartilhados; a separação é arquitetural, sem ACL de banco por serviço. Recomendações, gateway e IA não armazenam entidades próprias de domínio. O pacote `platform` compartilha somente infraestrutura e validação.
 
-## Camadas e direção das dependências
-
-```mermaid
-flowchart TB
-  UI[Apresentação · componentes Angular] --> API[Aplicação · gateway e casos de uso NestJS]
-  API --> DOMAIN[Domínio · produtos, pedidos, saldos e políticas]
-  INFRA[Infraestrutura · HTTP, PostgreSQL e adapters] --> PORTS[Portas · interfaces dos componentes]
-  DOMAIN --> PORTS
-  FW[Framework · composição e Template Method] --> PORTS
-  PRODUCTS[Aplicações Essencial e Assistida] --> FW
-```
-
-As camadas de domínio/persistência completas são o desenho de destino para o ciclo I2. Os controladores atuais concentram os casos de leitura de demonstração; não representam a estrutura final dos casos transacionais.
-
-| Aplicação       | Responsabilidade                                                 |          Porta interna | Dados atuais → destino        |
-| --------------- | ---------------------------------------------------------------- | ---------------------: | ----------------------------- |
-| storefront      | Vitrine, carrinho, configuração e administração                  | 4200 / 80 no contêiner | Estado de interface           |
-| gateway         | Contratos externos, composição, seleção de perfil e guarda da IA |                   3000 | Sem banco                     |
-| catalog         | Produtos, categorias e preços oficiais                           |                   3001 | Memória → PostgreSQL catálogo |
-| inventory       | Saldos, reservas e liberações                                    |                   3002 | Memória → PostgreSQL estoque  |
-| orders          | Checkout, pedido, pagamento simulado e histórico                 |                   3003 | Memória → PostgreSQL pedidos  |
-| recommendations | Recomendação baseada no histórico                                |                   3004 | Consulta APIs                 |
-| ai-assistant    | Consultas administrativas via ferramentas Mastra                 |                   3005 | Sem banco; Gemini externo     |
-
-Todos os backends usam TypeScript/NestJS. O frontend usa Angular. O serviço de IA usa NestJS na borda HTTP e Mastra para o agente e as ferramentas.
-
-## Fluxo de compra de destino — ainda no backlog
+## Cadastro e composição
 
 ```mermaid
 sequenceDiagram
-  actor Cliente
-  participant UI as Angular
+  actor L as Lojista
+  participant UI as Angular /criar
   participant GW as Gateway
-  participant O as Pedidos
+  participant S as Serviço de lojas
+  participant FW as Framework
   participant C as Catálogo
-  participant E as Estoque
-  participant P as PaymentProvider simulado
-  Cliente->>UI: Finalizar carrinho
-  UI->>GW: Criar pedido
-  GW->>O: Checkout com referência da tentativa
-  O->>C: Consultar preços oficiais
-  O->>E: Reservar saldo por referência de pedido
-  E-->>O: Reserva confirmada
-  O->>P: Simular pagamento
-  alt Aprovado
-    O->>E: Confirmar baixa
-    O->>O: Persistir pedido pago e histórico
-    O-->>UI: Pedido confirmado, via gateway
-  else Recusado ou falha
-    O->>E: Liberar reserva
-    O-->>UI: Recusa explicada, via gateway
-  end
+  participant I as Estoque
+  L->>UI: Identidade, capa, senha, categoria, opcionais, produtos
+  UI->>GW: POST /api/stores
+  GW->>S: Solicitar cadastro
+  S->>FW: composeStore(definição)
+  FW-->>S: Blueprint, tema e plano calculados
+  S->>S: Persistir cadastro inativo e hash da senha
+  S->>C: Provisionar produtos
+  S->>I: Provisionar saldos
+  S->>S: Ativar loja
+  S-->>UI: Loja disponível em /loja/:slug, via gateway
 ```
 
-No protótipo, HTTP com timeouts é suficiente para tornar a separação observável. A reserva precisa ter referência idempotente e saldo não negativo. Não haverá transação distribuída envolvendo todos os bancos. Filas, event sourcing e Kubernetes não são necessários para esta entrega.
+O cadastro exige pelo menos um produto. Se o provisionamento falhar, o serviço tenta compensar catálogo e estoque antes de liberar o endereço. A loja não é exibida enquanto estiver inativa. A composição e o preço são recalculados no servidor; valores informados pelo cliente não definem o plano.
 
-## Decisões registradas
+## Administração e isolamento
 
-1. **ADR-001 — frontend e backend com dependências independentes.** Cada projeto instala e compila sozinho. Somente o backend usa um workspace npm interno para serviços e pacotes reutilizáveis.
-2. **ADR-002 — um domínio por serviço.** Catálogo, estoque, pedidos e recomendação separados. Carrinho pode ficar no Angular nesta versão; pagamento e entrega são componentes de checkout, sem criar serviços extras.
-3. **ADR-003 — variabilidade por produto na inicialização.** Cada perfil configura uma implantação; a prévia não muda a loja ativa. Não implementar SaaS multi-tenant neste prazo.
-4. **ADR-004 — framework com fluxo controlado.** `CommerceApplication.build()` organiza validação, registro do core, extensões e política de entrega. As subclasses implementam hotspots; não copiam serviços.
-5. **ADR-005 — recomendação obrigatória por exigência do relatório.** Algoritmo explicável por histórico/categoria; não depende de LLM.
-6. **ADR-006 — IA opcional e administrativa.** Mastra + Gemini consultam APIs de leitura; sem SQL arbitrário e sem alteração automática de estoque/pedidos.
-7. **ADR-007 — autenticação de demonstração e pagamento simulado.** Concentra esforço em reuso, variabilidade, comunicação e fluxo de compra. Não incluir cadastro complexo ou integração financeira real.
-8. **ADR-008 — Kanban com ciclos de entrega.** Colunas e WIP controlam o fluxo; snapshots por ciclo atendem ao requisito de Sprint Backlog dos modelos acadêmicos.
+O acesso é feito por `/admin/:slug` com a senha da loja. O serviço de lojas usa scrypt com salt aleatório; só o hash é persistido. A sessão usa token aleatório de 256 bits, cujo hash fica no banco, com validade de sete dias. O gateway devolve cookie `HttpOnly`, `SameSite=Strict` e caminho limitado à API da loja. O logout revoga a sessão no servidor.
+
+Toda mutação administrativa verifica a associação entre sessão e loja. Endpoints internos exigem `INTERNAL_API_KEY`. No Docker, somente frontend, gateway e a porta local do PostgreSQL são publicados. O uso direto dos serviços locais é restrito a `127.0.0.1` por padrão. O gateway limita tentativas de login, geração, cadastro, checkout e avaliações por IP em memória.
+
+O painel oferece produtos/estoque, pedidos, configurações e agente opcional. Nome, descrição, capa, categoria e opções podem mudar; o endereço permanece fixo. Não há recuperação de senha, cadastro de usuários finais ou gateway financeiro externo.
+
+## Checkout e retentativas
+
+```mermaid
+sequenceDiagram
+  participant UI as Sacola Angular
+  participant O as Pedidos
+  participant F as Framework
+  participant C as Catálogo
+  participant I as Estoque
+  UI->>O: Checkout com referência única, via gateway
+  O->>C: Consultar preços oficiais
+  O->>F: Cotar desconto, entrega e pagamento simulado
+  O->>O: Persistir intenção e cotação antes da reserva
+  O->>I: Reservar por loja e referência
+  alt Aprovação simulada
+    O->>I: Confirmar reserva
+    O->>O: Persistir pedido aprovado
+  else Recusa simulada
+    O->>I: Liberar reserva
+    O->>O: Persistir pedido recusado
+  end
+  O-->>UI: Pedido com total e status
+```
+
+O estoque é descontado na reserva com atualização condicional e transação; nunca pode ficar negativo. Locks por referência serializam retentativas. A intenção durável conserva itens, valor e resultado simulado; confirmar/liberar são idempotentes. Repetir uma compra concluída devolve o mesmo pedido. Se houver falha após uma reserva, a repetição da mesma tentativa retoma a operação. Ainda não existe worker automático para reconciliar tentativas abandonadas.
+
+## Implantação e desenvolvimento
+
+O Compose inicia PostgreSQL, sete processos NestJS e Nginx com Angular. O banco é publicado na porta **5433** do host (5432 interna), para evitar conflito comum com outros projetos. As portas padrão da interface e gateway são 4200 e 3000. `FRONTEND_PORT`, `GATEWAY_PORT` e `POSTGRES_PORT` permitem ajustar o host. No desenvolvimento local, os serviços usam 3000–3006.
+
+As credenciais de banco no Compose são exclusivamente locais e educacionais. Valores de planos, vendas e pagamentos são fictícios. Configuração de produção, armazenamento de mídia dedicado e autorização distribuída por credenciais de banco não fazem parte desta entrega.

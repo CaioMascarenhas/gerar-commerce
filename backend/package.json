@@ -20,10 +20,12 @@
     "start": "node scripts/dev.mjs",
     "test": "npm run build:libs && tsx --test packages/framework/test/*.test.ts",
     "smoke": "node scripts/smoke.mjs",
-    "derive": "npm run build:libs && tsx scripts/derive.ts"
+    "derive": "npm run build:libs && tsx scripts/derive.ts",
+    "seed": "node scripts/seed.mjs"
   },
   "devDependencies": {
     "@types/node": "24.19.2",
+    "@types/pg": "^8.23.1",
     "tsx": "4.23.15",
     "typescript": "6.0.3"
   }

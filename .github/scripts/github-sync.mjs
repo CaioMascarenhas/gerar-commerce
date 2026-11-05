@@ -177,7 +177,10 @@ for (const issue of backlog.issues) {
     const body = `## Objetivo\n\n${issue.title}.\n\n## Critérios de aceite\n\n${issue.acceptance.map((item) => '- [ ] ' + item).join('\n')}\n\n## Planejamento e rastreabilidade\n\n- ID: ${issue.id}\n- Ciclo: ${issue.cycle}\n- Prioridade: ${issue.priority}\n- Dependências: ${issue.dependencies.join(', ') || 'nenhuma'}\n- Fonte: docs/gestao/backlog.json\n\nConsultar docs/requisitos-academicos.md e docs/estado-atual.md.\n\n${issue.status === 'done' ? 'Entregue no incremento inicial. Verificações: build, testes do framework e smoke de integração. Evidências: docs/validacao-inicial.md.' : 'Ao concluir, registrar evidências, atualizar diagramas afetados e o snapshot do ciclo.'}`;
     remote = api(`${path}/issues`, 'POST', {
       title: `[${issue.id}] ${issue.title}`,
-      body,
+      body: body.replace(
+        'Entregue no incremento inicial. Verificações: build, testes do framework e smoke de integração. Evidências: docs/validacao-inicial.md.',
+        'Implementado e verificado. Evidências: ' + (issue.evidence ?? 'docs/validacao-inicial.md') + '.',
+      ),
       labels: [
         `prioridade:${issue.priority}`,
         `area:${issue.area}`,
@@ -228,8 +231,11 @@ const rows = backlog.issues.map((issue) => {
   const link = index.find((item) => item.id === issue.id);
   return `| [${issue.id}](${link.url}) | ${issue.title} | ${issue.priority} | ${issue.cycle} | ${statuses[issue.status]} | ${issue.dependencies.join(', ') || '—'} |`;
 });
+// Só remove a pendência local depois que os vínculos reais foram persistidos.
+for (const issue of backlog.issues) delete issue.githubPending;
+writeFileSync('docs/gestao/backlog.json', JSON.stringify(backlog, null, 2) + '\n');
 writeFileSync(
   'docs/gestao/product-backlog.md',
-  `# Product Backlog\n\nSnapshot inicial de 04/11/2026. [Kanban](${projectUrl}). Estados atuais de execução são acompanhados no Project; este documento preserva o planejamento inicial.\n\nFonte estruturada: [backlog.json](backlog.json). Prioridades: P0 obrigatório para 11/11, P1 importante, P2 evolução posterior.\n\n| ID | Item | Prioridade | Ciclo | Estado inicial | Dependências |\n|---|---|---|---|---|---|\n${rows.join('\n')}\n\n[Planejamento dos ciclos e regras de Kanban](ciclos.md).\n`,
+  `# Product Backlog\n\nAtualizado em ${backlog.updatedAt}. [Kanban](${projectUrl}). Snapshot dos estados registrados no backlog local.\n\nFonte estruturada: [backlog.json](backlog.json). Prioridades: P0 obrigatório para 11/11, P1 importante, P2 evolução posterior.\n\n| ID | Item | Prioridade | Ciclo | Estado atual | Dependências |\n|---|---|---|---|---|---|\n${rows.join('\n')}\n\n[Planejamento dos ciclos e regras de Kanban](ciclos.md).\n`,
 );
 console.log(`GitHub sincronizado: ${config.url}`);
