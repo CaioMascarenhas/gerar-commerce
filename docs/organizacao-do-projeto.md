@@ -24,12 +24,11 @@ gerar-commerce/
 │   └── Dockerfile            Imagem dos serviços
 ├── docs/                     Arquitetura, explicações e backlogs
 ├── projeto_docs/             Materiais fornecidos pelas disciplinas
-├── scripts/                  Gestão do GitHub e verificação da documentação
-├── compose.yaml              Conecta os contêineres de frontend e backend
-└── package.json              Atalhos e ferramenta de formatação do repositório
+├── .github/scripts/          Gestão do GitHub e verificação da documentação
+└── compose.yaml              Conecta os contêineres de frontend e backend
 ```
 
-A raiz continua com um `package.json` pequeno para comandos de conveniência e Prettier. Angular, NestJS, Mastra e os compiladores de cada aplicação ficam nos projetos correspondentes. Por isso existe também um lockfile pequeno na raiz: ele pertence apenas à ferramenta de formatação, sem reunir as aplicações.
+A raiz reúne a documentação, as instruções do projeto e o Compose. Não há `package.json`, lockfile ou `node_modules` na raiz. Angular, NestJS, Mastra e os compiladores de cada aplicação ficam nos projetos correspondentes. Os produtos gerados ficam em `backend/output/products/`.
 
 ## Como as partes conversam
 
@@ -84,4 +83,4 @@ npm ci
 npm run dev
 ```
 
-Acesse http://127.0.0.1:4200. Instalar o frontend não instala o backend, e instalar o backend não instala o frontend. Na raiz, `npm run setup` instala ambos como atalho, mantendo as instalações separadas.
+Acesse http://127.0.0.1:4200. Instale e execute os comandos npm sempre dentro de `frontend/` ou `backend/`. Cada projeto mantém sua própria instalação.

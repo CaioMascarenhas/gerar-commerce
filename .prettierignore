@@ -1,9 +1,0 @@
-node_modules
-**/dist
-dist
-.angular
-output
-.tmp
-projeto_docs
-AGENTS.md
-package-lock.json

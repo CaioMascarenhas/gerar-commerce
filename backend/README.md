@@ -54,6 +54,6 @@ npm run derive -- essencial
 npm run derive -- assistida
 ```
 
-O smoke precisa das portas 3000–3005 livres e verifica os dois perfis sem chamar o Gemini. Os produtos derivados são exportados para `../output/products/`.
+O smoke precisa das portas 3000–3005 livres e verifica os dois perfis sem chamar o Gemini. Os produtos derivados são exportados para `output/products/` dentro do backend.
 
 Atualmente os dados são de demonstração. PostgreSQL, carrinho, checkout completo e pagamento simulado operacional ainda serão implementados.

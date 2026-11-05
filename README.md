@@ -24,9 +24,8 @@ backend/                  NestJS: dependências e Dockerfile próprios
   scripts/                Build, inicialização, testes e derivação
 docs/                     Modelagem, explicações, gestão e evidências
 projeto_docs/             Materiais fornecidos pelas disciplinas
-scripts/                  Gestão do GitHub e verificação da documentação
+.github/scripts/          Gestão do GitHub e verificação da documentação
 compose.yaml              Conecta os contêineres
-package.json              Atalhos e ferramenta de formatação do repositório
 ```
 
 Frontend e backend têm `package.json`, lockfile e `node_modules` separados. O workspace npm existe somente dentro do backend. O frontend se comunica com as APIs por HTTP e não importa pacotes do servidor.
@@ -64,25 +63,25 @@ npm run dev
 
 Copie `backend/.env.example` para `backend/.env` e configure `GOOGLE_API_KEY` e `GEMINI_MODEL` para usar Gemini. A loja Essencial não exige chave nem inicia o serviço de IA. O token `gerar-demo` e os dados de exemplo servem à demonstração educacional.
 
-## Atalhos da raiz
+## Verificar e gerar produtos
 
-```powershell
-npm run setup
-npm run dev:backend
-```
-
-Use `npm run dev:frontend` em outro terminal na raiz. `setup` instala ambos nas respectivas pastas, mantendo as dependências separadas. `npm ci` na raiz instala apenas a ferramenta de formatação.
+A raiz não tem `package.json` nem instalação npm. Dentro de `frontend/`, use `npm run build`. Dentro de `backend/`:
 
 ```powershell
 npm run build
 npm test
 npm run smoke
-npm run check:docs
 npm run derive -- essencial
 npm run derive -- assistida
 ```
 
-O smoke exige as portas 3000–3005 livres. Os produtos derivados são exportados para `output/products/<perfil>/`. O CI instala e compila frontend e backend em jobs separados.
+O smoke exige as portas 3000–3005 livres. Os produtos derivados são exportados para `backend/output/products/<perfil>/`. O CI instala e compila frontend e backend em jobs separados.
+
+Para verificar a documentação, execute na raiz:
+
+```powershell
+node .github/scripts/check-docs.mjs
+```
 
 ## Docker
 
