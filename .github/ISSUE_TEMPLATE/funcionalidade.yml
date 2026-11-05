@@ -1,0 +1,31 @@
+name: Funcionalidade
+description: Item do backlog com critérios de aceite e rastreabilidade.
+title: 'feat: '
+body:
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: Quem precisa desta funcionalidade e qual resultado espera?
+    validations:
+      required: true
+  - type: dropdown
+    id: variabilidade
+    attributes:
+      label: Classificação
+      options:
+        - Core
+        - Variante
+        - Opcional
+        - Infraestrutura ou documentação
+  - type: textarea
+    id: aceite
+    attributes:
+      label: Critérios de aceite
+      description: Liste resultados verificáveis.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencias
+    attributes:
+      label: Dependências e evidências para o relatório

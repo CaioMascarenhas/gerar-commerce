@@ -1,0 +1,24 @@
+Bom dia Turma de Reuso de Software e Metodologias Ágeis, 
+A seguir os temas do Projeto 2026.2
+
+Projeto (Modelagem) e Implementação de um Framework Usando Microservices e Componentes de Software  [e AgentesAI]
+
+Obrigatoriamente deve ser um Framework usando Microservices e Componentes de Software e opcionalmente também pode usar Agentic AI (ver o Relatorio dos alunos Giordani e Karla -  Material do tema 10-AgenticAI  dos Seminários)
+
+Exemplos:
+
+Um Framework para Sistemas de e-commerce Usando Microservices e Componentes de Software  [e AgentesAI]
+
+Um Framework para Jogos Digitais não Violentos Usando Microservices e Componentes de Software  [e AgentesAI]  
+
+Um Framework para AVAs (Ambientes Virtuais de Aprendizagem) Usando Microservices e Componentes de Software  [e AgentesAI]
+
+Um Framework para Sistemas de Gerenciamento de Formaturas Usando Microservices e Componentes de Software  [e AgentesAI]
+
+Um Framework para Sistemas de Gerenciamento de Aluguel de Apartamentos e Casas Usando Microservices e Componentes de Software  [e AgentesAI]
+
+Um Framework para Sistemas de Gerenciamento Eventos Científicos Usando Microservices e Componentes de Software  [e AgentesAI]
+
+
+Observação
+[ ] opcional

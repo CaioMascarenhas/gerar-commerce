@@ -1,0 +1,11 @@
+node_modules
+**/node_modules
+**/dist
+dist
+.angular
+.git
+.env
+.env.*
+output
+.tmp
+projeto_docs

@@ -1,0 +1,171 @@
+<div class="topline">IC / UFAL · Laboratório de reuso de software · 2026.2</div>
+<header class="shell header">
+  <a class="brand" href="/" aria-label="Gerar Commerce, início"
+    ><span class="brand-mark">g.</span> gerar<span class="brand-sub">commerce</span></a
+  >
+  <nav aria-label="Navegação principal">
+    <button [class.active]="view() === 'loja'" (click)="view.set('loja')">A loja</button>
+    <button [class.active]="view() === 'configurador'" (click)="view.set('configurador')">
+      Configurar produto
+    </button>
+    <button [class.active]="view() === 'estrutura'" (click)="view.set('estrutura')">
+      Microsserviços
+    </button>
+    @if (hasAssistant()) {
+    <button [class.active]="view() === 'assistente'" (click)="view.set('assistente')">
+      Assistente IA ↗
+    </button>
+    }
+  </nav>
+  <span class="profile">{{ blueprint()?.configuration?.name ?? 'Conectando…' }}</span>
+</header>
+<main class="shell">
+  @if (error()) {
+  <div class="notice error" role="alert">{{ error() }}</div>
+  } @if (view() === 'loja') {
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Uma base. Novas possibilidades.</p>
+      <h1>Boas ideias<br />merecem <em>gerar.</em></h1>
+      <p class="intro">
+        Uma pequena loja, construída com componentes que podem dar vida a muitas outras.
+      </p>
+      <a class="cta" href="#colecao">Explorar a coleção <span>↗</span></a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="tile tile-one">ideia.</div>
+      <div class="tile tile-two">reuso.</div>
+      <div class="tile tile-three">gerar.</div>
+      <span class="art-caption">COMPOR · ADAPTAR · CRIAR</span>
+    </div>
+  </section>
+  <section id="colecao">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Escolhas para o dia a dia</p>
+        <h2>Nossa coleção</h2>
+      </div>
+      <span>{{ products().length }} produtos · dados de demonstração</span>
+    </div>
+    <div class="product-grid">
+      @for (product of products(); track product.id; let index = $index) {
+      <article class="product-card">
+        <div class="product-art" [class]="'product-art art-' + index">
+          <span>{{ ['▤', '◡', '▱', '✎'][index] }}</span><small>{{ product.category }}</small>
+        </div>
+        <div class="product-details">
+          <span class="stock">{{ available(product.id) }} em estoque</span>
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <strong>{{ product.priceInCents / 100 | currency:'BRL' }}</strong>
+        </div>
+      </article>
+      }
+    </div>
+  </section>
+  <section class="recommendations">
+    <div>
+      <p class="eyebrow">Um componente do core</p>
+      <h2>Do seu histórico<br />para sua próxima ideia.</h2>
+      <p>
+        Recomendações calculadas pelo microsserviço a partir do histórico do cliente de
+        demonstração.
+      </p>
+    </div>
+    <div class="recommendation-list">
+      @for (product of recommendations(); track product.id) {
+      <div>
+        <strong>{{ product.name }}</strong
+        ><span>{{ product.priceInCents / 100 | currency:'BRL' }}</span>
+      </div>
+      }
+    </div>
+  </section>
+  <div class="notice">
+    Primeiro incremento: catálogo, estoque, composição de lojas e recomendações disponíveis.
+    Carrinho, checkout e persistência estão no backlog.
+  </div>
+  } @if (view() === 'configurador') {
+  <section class="page-heading">
+    <p class="eyebrow">Linha de produtos de software</p>
+    <h1>Componha sua loja.</h1>
+    <p>Selecione um perfil para validar e visualizar a composição pelo framework.</p>
+  </section>
+  <div class="profile-options">
+    <button (click)="selectProfile('essencial')">
+      01 · Gerar Essencial<small>Core + retirada na loja</small></button
+    ><button (click)="selectProfile('assistida')">
+      02 · Gerar Assistida<small>Core + entrega fixa + IA opcional</small>
+    </button>
+  </div>
+  @if (preview(); as product) {
+  <section class="composition">
+    <h2>{{ product.configuration.name }}</h2>
+    <p>Entrega: {{ product.shippingInCents / 100 | currency:'BRL' }} · pagamento simulado</p>
+    <div class="chips">
+      @for (feature of product.configuration.features; track feature) {<span>{{ feature }}</span>}
+    </div>
+    <h3>Derivar este produto</h3>
+    <code>npm run derive -- {{ product.configuration.id }}</code>
+    <p>
+      O comando gera a configuração e os arquivos de execução em <code>output/products/</code>. A
+      prévia não altera a loja em execução. O catálogo é compartilhado; carrinho e checkout ainda
+      serão implementados.
+    </p>
+  </section>
+  } } @if (view() === 'estrutura') {
+  <section class="page-heading">
+    <p class="eyebrow">Componentes independentes</p>
+    <h1>Por dentro da loja.</h1>
+    <p>O Angular acessa o gateway. Cada domínio roda em um processo NestJS separado.</p>
+  </section>
+  <div class="service-grid">
+    <article class="service">
+      <span class="dot"></span>
+      <h3>gateway</h3>
+      <p>Porta 3000 · ponto de entrada</p>
+      <a href="http://127.0.0.1:3000/docs" target="_blank" rel="noreferrer"
+        >Documentação da API ↗</a
+      >
+    </article>
+    @for (service of services(); track service.name) {
+    <article class="service">
+      <span class="dot" [class.offline]="service.status !== 'ok'"></span>
+      <h3>{{ service.name }}</h3>
+      <p>Porta {{ service.port ?? 'indisponível' }} · {{ service.status }}</p>
+    </article>
+    }
+  </div>
+  <div class="notice">
+    Dados temporários em memória, separados por serviço. PostgreSQL e o fluxo transacional serão
+    implementados no próximo ciclo.
+  </div>
+  } @if (view() === 'assistente' && hasAssistant()) {
+  <section class="page-heading">
+    <p class="eyebrow">Extensão opcional · sessão administrativa de demonstração</p>
+    <h1>Pergunte à sua loja.</h1>
+    <p>Mastra + Gemini consultam estoque e resumo de vendas por ferramentas de leitura.</p>
+  </section>
+  <section class="assistant">
+    <label for="question">O que você quer consultar?</label
+    ><textarea
+      id="question"
+      #question
+      maxlength="1500"
+      placeholder="Qual é o estoque disponível? Quanto vendemos na demonstração?"
+    ></textarea
+    ><button class="cta" [disabled]="thinking()" (click)="ask(question.value)">
+      {{ thinking() ? 'Consultando…' : 'Consultar assistente ↗' }}</button
+    >@if (response()) {
+    <div class="answer" aria-live="polite">{{ response() }}</div>
+    }
+    <p class="muted">
+      Requer GOOGLE_API_KEY e GEMINI_MODEL no backend. Os valores de vendas são dados de exemplo.
+    </p>
+  </section>
+  }
+</main>
+<footer class="shell">
+  <span class="brand-footer">gerar commerce.</span
+  ><span>Caio Mascarenhas Soares · Laura Marques Costa</span><span>Reuso que vira produto.</span>
+</footer>

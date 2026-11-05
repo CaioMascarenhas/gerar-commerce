@@ -1,0 +1,373 @@
+{
+  "updatedAt": "2026-11-04",
+  "presentation": "2026-11-11",
+  "targetCompletion": "2026-11-10",
+  "team": ["Caio Mascarenhas Soares", "Laura Marques Costa"],
+  "issues": [
+    {
+      "id": "PB-001",
+      "title": "Preparar monorepo, repositório, Kanban e backlogs",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "infra",
+      "status": "done",
+      "dependencies": [],
+      "acceptance": [
+        "Repositório privado, labels e Project vinculados.",
+        "Product Backlog e snapshot inicial do ciclo versionados.",
+        "Conventional Commits e instruções de contribuição documentados."
+      ]
+    },
+    {
+      "id": "PB-002",
+      "title": "Modelar arquitetura, features e rastreabilidade acadêmica",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "docs",
+      "status": "done",
+      "dependencies": [],
+      "acceptance": [
+        "Diagramas de camadas, microsserviços, features, componentes e classes em Mermaid.",
+        "Core, variantes e opcionais justificados.",
+        "Requisitos dos dois relatórios relacionados às entregas."
+      ]
+    },
+    {
+      "id": "PB-003",
+      "title": "Implementar framework com Template Method e hotspots",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "framework",
+      "status": "done",
+      "dependencies": ["PB-002"],
+      "acceptance": [
+        "Classe CommerceApplication executa validação e composição.",
+        "Duas subclasses adaptam entrega e extensão de IA.",
+        "Testes rejeitam configuração incompleta e extensão sem componente."
+      ]
+    },
+    {
+      "id": "PB-004",
+      "title": "Derivar duas lojas pelo mesmo framework",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "framework",
+      "status": "done",
+      "dependencies": ["PB-003"],
+      "acceptance": [
+        "Perfis Essencial e Assistida produzem blueprints distintos.",
+        "CLI gera artefatos e instruções de execução.",
+        "Core reutilizado sem cópia de implementação."
+      ]
+    },
+    {
+      "id": "PB-005",
+      "title": "Disponibilizar microsserviços de demonstração e gateway",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "backend",
+      "status": "done",
+      "dependencies": ["PB-001"],
+      "acceptance": [
+        "Catálogo, estoque, pedidos e recomendação rodam em processos separados.",
+        "Gateway agrega APIs e informa saúde/portas.",
+        "Fixtures identificadas como demonstração e smoke de integração aprovado."
+      ]
+    },
+    {
+      "id": "PB-006",
+      "title": "Criar interface Angular para explorar loja e composição",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "done",
+      "dependencies": ["PB-004", "PB-005"],
+      "acceptance": [
+        "Catálogo e saldos são carregados do gateway.",
+        "Prévia dos dois perfis usa validação do framework.",
+        "Tela lista microsserviços e portas; checkout pendente é indicado."
+      ]
+    },
+    {
+      "id": "PB-007",
+      "title": "Configurar CI com build, testes e smoke de integração",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "infra",
+      "status": "done",
+      "dependencies": ["PB-005", "PB-006"],
+      "acceptance": [
+        "npm ci e build reproduzíveis pelo lockfile.",
+        "Testes de variabilidade e smoke com cinco processos.",
+        "Workflow executa em push e pull request."
+      ]
+    },
+    {
+      "id": "PB-008",
+      "title": "Persistir os domínios em PostgreSQL com isolamento",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "backend",
+      "status": "todo",
+      "dependencies": ["PB-005"],
+      "acceptance": [
+        "Migrações e seed reproduzíveis.",
+        "Catálogo, estoque e pedidos têm propriedade de dados separada.",
+        "Reiniciar serviços mantém pedidos e saldos; nenhum serviço consulta tabelas de outro domínio."
+      ]
+    },
+    {
+      "id": "PB-009",
+      "title": "Implementar manutenção simples do catálogo",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "backend",
+      "status": "todo",
+      "dependencies": ["PB-008"],
+      "acceptance": [
+        "Administrador de demonstração cria e edita produtos.",
+        "Preço em centavos, nome obrigatório e identificação estável.",
+        "Loja exibe alterações pela API."
+      ]
+    },
+    {
+      "id": "PB-010",
+      "title": "Implementar reserva e liberação de estoque",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "backend",
+      "status": "todo",
+      "dependencies": ["PB-008"],
+      "acceptance": [
+        "Reserva rejeita quantidade inválida e saldo insuficiente.",
+        "Duas reservas concorrentes não deixam saldo negativo.",
+        "Liberação por referência de pedido não duplica saldo."
+      ]
+    },
+    {
+      "id": "PB-011",
+      "title": "Implementar carrinho e resumo da compra no Angular",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "todo",
+      "dependencies": ["PB-006"],
+      "acceptance": [
+        "Cliente adiciona, remove e altera quantidades.",
+        "Resumo calcula valores em centavos e mostra modalidade de entrega.",
+        "Carrinho não aceita quantidades menores que um."
+      ]
+    },
+    {
+      "id": "PB-012",
+      "title": "Implementar checkout com pagamento simulado e políticas do framework",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "framework",
+      "status": "todo",
+      "dependencies": ["PB-010", "PB-011"],
+      "acceptance": [
+        "Checkout usa preços do catálogo e política de entrega do perfil.",
+        "Adapter de pagamento simula aprovação e recusa sem dados financeiros reais.",
+        "Pedido confirma ou libera a reserva em caso de falha."
+      ]
+    },
+    {
+      "id": "PB-013",
+      "title": "Consultar pedidos, estados e resumo administrativo",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "backend",
+      "status": "todo",
+      "dependencies": ["PB-012"],
+      "acceptance": [
+        "Compra concluída aparece no histórico do cliente demo.",
+        "Administração consulta pedidos e totais persistidos.",
+        "Duplicar a confirmação não cria outra venda."
+      ]
+    },
+    {
+      "id": "PB-014",
+      "title": "Recomendar com histórico real das compras de demonstração",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "backend",
+      "status": "todo",
+      "dependencies": ["PB-013"],
+      "acceptance": [
+        "Nova compra altera recomendações de forma explicável.",
+        "Cliente sem histórico recebe fallback identificado.",
+        "Microsserviço próprio utiliza APIs de catálogo/pedidos."
+      ]
+    },
+    {
+      "id": "PB-015",
+      "title": "Concluir seletor de features e derivação pela interface",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "todo",
+      "dependencies": ["PB-004", "PB-006"],
+      "acceptance": [
+        "Interface permite habilitar/desabilitar IA em uma configuração válida.",
+        "Restrições do modelo de features são exibidas em pt-BR.",
+        "Exportação gera configuração consumida pelo mesmo framework e roteiro demonstra novo produto."
+      ]
+    },
+    {
+      "id": "PB-016",
+      "title": "Validar assistente Mastra + Gemini com estoque e vendas",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "ia",
+      "status": "todo",
+      "dependencies": ["PB-013"],
+      "acceptance": [
+        "Ferramentas consultam APIs persistidas de estoque e resumo de vendas.",
+        "Sessão administrativa de demonstração consulta Gemini com chave somente no backend.",
+        "IA desligada não inicia serviço nem exige chave; indisponibilidade da IA preserva a loja.",
+        "Registrar evidência de execução real sem expor chave."
+      ]
+    },
+    {
+      "id": "PB-017",
+      "title": "Concluir administração com sessão simples de demonstração",
+      "cycle": "I2",
+      "priority": "P1",
+      "area": "frontend",
+      "status": "todo",
+      "dependencies": ["PB-009", "PB-013"],
+      "acceptance": [
+        "Acesso por persona demo de administrador, sem cadastro complexo.",
+        "Catálogo, saldos e pedidos podem ser inspecionados pela interface.",
+        "Interface distingue loja e administração e não solicita dados pessoais reais."
+      ]
+    },
+    {
+      "id": "PB-018",
+      "title": "Documentar contratos HTTP e APIs de cada serviço",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "docs",
+      "status": "todo",
+      "dependencies": ["PB-012"],
+      "acceptance": [
+        "OpenAPI contém DTOs de entrada/saída, exemplos e códigos de erro.",
+        "Cada serviço e gateway possuem roteiro de chamadas.",
+        "Documentação corresponde ao código apresentado."
+      ]
+    },
+    {
+      "id": "PB-019",
+      "title": "Validar as duas aplicações de ponta a ponta",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "testes",
+      "status": "todo",
+      "dependencies": ["PB-014", "PB-015", "PB-016", "PB-017"],
+      "acceptance": [
+        "Executar fluxo catálogo → carrinho → pagamento simulado → histórico nos dois perfis.",
+        "Testar falta de estoque e pagamento recusado.",
+        "Demonstrar IA ausente no Essencial e consultando dados no Assistida."
+      ]
+    },
+    {
+      "id": "PB-020",
+      "title": "Validar Docker Compose e capturar serviços com portas",
+      "cycle": "I1",
+      "priority": "P0",
+      "area": "infra",
+      "status": "todo",
+      "dependencies": ["PB-005"],
+      "acceptance": [
+        "Subir ambos os perfis com healthchecks pelo Compose.",
+        "Comprovar que Essencial não inicia ai-assistant.",
+        "Capturar docker compose ps com portas para os relatórios."
+      ]
+    },
+    {
+      "id": "PB-021",
+      "title": "Redigir relatório da LPS e reunir evidências",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "docs",
+      "status": "todo",
+      "dependencies": ["PB-018", "PB-019", "PB-020"],
+      "acceptance": [
+        "Cobrir todos os itens do modelo de LPS em projeto_docs.",
+        "Incluir features, variabilidade, seletor, derivação, recomendação, APIs, telas e referências.",
+        "Adicionar links do código e snapshots reais dos ciclos."
+      ]
+    },
+    {
+      "id": "PB-022",
+      "title": "Redigir relatório de reuso e documentar duas aplicações",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "docs",
+      "status": "todo",
+      "dependencies": ["PB-018", "PB-019", "PB-020"],
+      "acceptance": [
+        "Cobrir todos os itens do modelo de Reuso em projeto_docs.",
+        "Explicar Template Method e hotspots com código das duas subclasses.",
+        "Incluir classes/interfaces por componente, passo a passo de extensão e referências."
+      ]
+    },
+    {
+      "id": "PB-023",
+      "title": "Congelar demonstração e ensaiar apresentação de 11/11",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "docs",
+      "status": "todo",
+      "dependencies": ["PB-021", "PB-022"],
+      "acceptance": [
+        "Versão demonstrável identificada por tag e roteiro.",
+        "Seed, comandos e plano de demonstração sem Gemini disponíveis.",
+        "Concluir até 10/11; apresentação em 11/11."
+      ]
+    },
+    {
+      "id": "PB-024",
+      "title": "Adicionar cupons como componente opcional",
+      "cycle": "Futuro",
+      "priority": "P2",
+      "area": "opcional",
+      "status": "backlog",
+      "dependencies": ["PB-012"],
+      "acceptance": [
+        "Hotspot de preço permite compor política de desconto.",
+        "Feature desabilitada impede aplicação do cupom.",
+        "Não bloquear a apresentação: evolução posterior ao escopo mínimo."
+      ]
+    },
+    {
+      "id": "PB-025",
+      "title": "Adicionar variações de produto como feature opcional",
+      "cycle": "Futuro",
+      "priority": "P2",
+      "area": "opcional",
+      "status": "backlog",
+      "dependencies": ["PB-009", "PB-010"],
+      "acceptance": [
+        "Tamanho/cor modelados por SKU com saldo próprio.",
+        "Dependência de catálogo e estoque declarada no feature model.",
+        "Não bloquear a apresentação: evolução posterior ao escopo mínimo."
+      ]
+    },
+    {
+      "id": "PB-026",
+      "title": "Adicionar avaliações de produtos como feature opcional",
+      "cycle": "Futuro",
+      "priority": "P2",
+      "area": "opcional",
+      "status": "backlog",
+      "dependencies": ["PB-013"],
+      "acceptance": [
+        "Avaliação é componente removível da composição.",
+        "Interface oculta a funcionalidade quando desabilitada.",
+        "Não bloquear a apresentação: evolução posterior ao escopo mínimo."
+      ]
+    }
+  ]
+}

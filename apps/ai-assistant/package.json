@@ -1,0 +1,20 @@
+{
+  "name": "@gerar/ai-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "@gerar/backend": "*",
+    "@gerar/contracts": "*",
+    "@gerar/framework": "*",
+    "@nestjs/common": "12.3.3",
+    "@nestjs/core": "12.3.3",
+    "@nestjs/swagger": "12.1.0",
+    "@mastra/core": "1.82.0",
+    "zod": "4.6.7"
+  }
+}

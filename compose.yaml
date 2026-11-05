@@ -1,0 +1,68 @@
+name: gerar-commerce
+x-service: &service
+  build:
+    context: .
+    target: service
+  environment: &environment
+    HOST: 0.0.0.0
+    PRODUCT_PROFILE: ${PRODUCT_PROFILE:-essencial}
+    CATALOG_URL: http://catalog:3001
+    INVENTORY_URL: http://inventory:3002
+    ORDERS_URL: http://orders:3003
+    RECOMMENDATIONS_URL: http://recommendations:3004
+    AI_ASSISTANT_URL: http://ai-assistant:3005
+    DEMO_ADMIN_TOKEN: gerar-demo
+  init: true
+  healthcheck:
+    test:
+      [
+        CMD,
+        node,
+        -e,
+        "fetch('http://127.0.0.1:'+process.env.PORT+'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+      ]
+    interval: 10s
+    timeout: 5s
+    retries: 6
+    start_period: 20s
+
+services:
+  gateway:
+    <<: *service
+    environment: { <<: *environment, PORT: 3000 }
+    ports: [127.0.0.1:3000:3000]
+    depends_on:
+      catalog: { condition: service_healthy }
+      inventory: { condition: service_healthy }
+      orders: { condition: service_healthy }
+      recommendations: { condition: service_healthy }
+  catalog:
+    <<: *service
+    command: [node, apps/catalog/dist/main.js]
+    environment: { <<: *environment, PORT: 3001 }
+  inventory:
+    <<: *service
+    command: [node, apps/inventory/dist/main.js]
+    environment: { <<: *environment, PORT: 3002 }
+  orders:
+    <<: *service
+    command: [node, apps/orders/dist/main.js]
+    environment: { <<: *environment, PORT: 3003 }
+  recommendations:
+    <<: *service
+    command: [node, apps/recommendations/dist/main.js]
+    environment: { <<: *environment, PORT: 3004 }
+  ai-assistant:
+    <<: *service
+    profiles: [ai]
+    command: [node, apps/ai-assistant/dist/main.js]
+    environment:
+      <<: *environment
+      PORT: 3005
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-}
+  storefront:
+    build: { context: ., target: storefront }
+    ports: [127.0.0.1:4200:80]
+    depends_on:
+      gateway: { condition: service_healthy }

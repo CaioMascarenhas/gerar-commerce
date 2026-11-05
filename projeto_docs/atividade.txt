@@ -1,0 +1,31 @@
+Boa tarde Turma,
+
+A seguir o assunto do Projeto de 2026.2:
+
+Projeto (Modelagem) e Implementação de uma Linha de Produto de Software (LPS) usando Microservices e Componentes de Software  [e AgentesAI]
+
+Obrigatoriamente deve ser uma 
+
+Linha de Produto de Software (LPS)  usando Microservices e Componentes de Software e opcionalmente também pode usar Agentic AI (ver o Relatorio dos alunos Giordani e Karla -  Material disponibilizado no classroom sobre AgenticAI).
+
+
+
+Exemplos:  
+
+LPS para Compiladores usando Microservices e Componentes de Software [e AgentesAI]
+
+LPS para Sistemas de e-commerce Usando Microservices e Componentes de Software [e AgentesAI]
+
+LPS para Jogos Digitais não Violentos Usando Microservices e Componentes de Software [e AgentesAI]
+
+LPS para  AVAs (Ambientes Virtuais de Aprendizagem) Usando Microservices e Componentes de Software [e AgentesAI]
+
+LPS para Sistemas de Gerenciamento de Formaturas Usando Microservices e Componentes de Software [e AgentesAI]
+
+LPS para Sistemas de Gerenciamento de Aluguel de Apartamentos e Casas Usando Microservices e Componentes de Software [e AgentesAI]
+
+LPS para Sistemas de Gerenciamento Eventos Científicos Usando Microservices e Componentes de Software [e AgentesAI]
+
+
+Observação
+[  ] opcional - não é obrigatorio
