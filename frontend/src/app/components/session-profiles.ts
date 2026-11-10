@@ -21,7 +21,9 @@ import { errorMessage } from '../api';
                 <div>
                   <small>Perfil da loja conectado</small><strong>{{ profile.name }}</strong>
                 </div>
-                <a class="text-link" [routerLink]="['/admin', slug]">Painel da loja</a>
+                @if (!inAdmin()) {
+                  <a class="text-link" [routerLink]="['/admin', slug]">Painel da loja</a>
+                }
                 <button
                   class="session-signout"
                   type="button"
@@ -66,6 +68,7 @@ export class SessionProfiles {
   router = inject(Router);
   busy = signal('');
   error = signal('');
+  inAdmin = signal(false);
   constructor() {
     this.router.events
       .pipe(
@@ -78,6 +81,7 @@ export class SessionProfiles {
   async sync() {
     const segments =
       this.router.parseUrl(this.router.url).root.children[PRIMARY_OUTLET]?.segments ?? [];
+    this.inAdmin.set(segments[0]?.path === 'admin');
     const slug = ['loja', 'admin'].includes(segments[0]?.path)
       ? segments[1]?.path
       : this.sessions.activeSlug() ||
