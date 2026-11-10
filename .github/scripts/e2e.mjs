@@ -101,7 +101,6 @@ try {
           'catalog',
           'inventory',
           'orders',
-          'recommendations',
           'storefront',
         ],
         true,

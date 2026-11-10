@@ -18,9 +18,7 @@ test('vitrine e login mantêm foco, enquadramento e largura da tela', async ({
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
   ).toBeTruthy();
-  const header = page
-    .locator('.platform-header')
-    .getByRole('button', { name: 'Entrar para comprar' });
+  const header = page.locator('.shop-header').getByRole('button', { name: 'Entrar / Criar conta' });
   if (isMobile) await header.tap();
   else await header.click();
   const account = page.getByRole('dialog', { name: 'Sua conta de comprador' });
@@ -38,7 +36,7 @@ test('vitrine e login mantêm foco, enquadramento e largura da tela', async ({
   await account.getByLabel('Senha', { exact: false }).fill(buyerPassword);
   await account.getByRole('button', { name: 'Entrar na minha conta', exact: true }).click();
   await expect(account).toHaveCount(0);
-  await expect(page.locator('.customer-profile')).toContainText('Comprador E2E');
+  await expect(page.locator('.shop-header .buyer-account-button')).toContainText('Comprador');
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
   ).toBeTruthy();

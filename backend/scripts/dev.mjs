@@ -26,7 +26,6 @@ const ports = {
   catalog: base + 1,
   inventory: base + 2,
   orders: base + 3,
-  recommendations: base + 4,
   'ai-assistant': base + 5,
   stores: base + 6,
 };
@@ -34,20 +33,11 @@ for (const [key, port] of Object.entries({
   CATALOG_URL: ports.catalog,
   INVENTORY_URL: ports.inventory,
   ORDERS_URL: ports.orders,
-  RECOMMENDATIONS_URL: ports.recommendations,
   AI_ASSISTANT_URL: ports['ai-assistant'],
   STORES_URL: ports.stores,
 }))
   env[key] ??= 'http://127.0.0.1:' + port;
-const apps = [
-  'catalog',
-  'inventory',
-  'orders',
-  'recommendations',
-  'stores',
-  'gateway',
-  'ai-assistant',
-];
+const apps = ['catalog', 'inventory', 'orders', 'stores', 'gateway', 'ai-assistant'];
 // O Nest precisa dos decorators/metadados emitidos pelo TypeScript.
 // Executar o build evita diferenças entre transpilers no Windows e no CI.
 const children = apps.map((app) =>

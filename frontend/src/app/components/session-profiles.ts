@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { Router, RouterLink, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
@@ -10,55 +10,58 @@ import { errorMessage } from '../api';
   standalone: true,
   imports: [RouterLink],
   template: `
-    @if (sessions.activeSlug(); as slug) {
-      @let profile = sessions.profile(slug);
-      @if (profile.admin || profile.buyer) {
-        <aside class="session-profiles" aria-label="Perfis conectados" aria-live="polite">
-          @if (profile.admin) {
-            <div class="session-profile owner-profile">
-              <span class="session-dot" aria-hidden="true"></span>
-              <div>
-                <small>Perfil da loja conectado</small><strong>{{ profile.name }}</strong>
+    @if (visible()) {
+      @if (sessions.activeSlug(); as slug) {
+        @let profile = sessions.profile(slug);
+        @if (profile.admin || profile.buyer) {
+          <aside class="session-profiles" aria-label="Perfis conectados" aria-live="polite">
+            @if (profile.admin) {
+              <div class="session-profile owner-profile">
+                <span class="session-dot" aria-hidden="true"></span>
+                <div>
+                  <small>Perfil da loja conectado</small><strong>{{ profile.name }}</strong>
+                </div>
+                <a class="text-link" [routerLink]="['/admin', slug]">Painel da loja</a>
+                <button
+                  class="session-signout"
+                  type="button"
+                  (click)="logout('admin', slug)"
+                  [disabled]="!!busy()"
+                >
+                  {{ busy() === 'admin' ? 'Saindo…' : 'Sair da loja' }}
+                </button>
               </div>
-              <a class="text-link" [routerLink]="['/admin', slug]">Painel da loja</a>
-              <button
-                class="session-signout"
-                type="button"
-                (click)="logout('admin', slug)"
-                [disabled]="!!busy()"
-              >
-                {{ busy() === 'admin' ? 'Saindo…' : 'Sair da loja' }}
-              </button>
-            </div>
-          }
-          @if (profile.buyer; as buyer) {
-            <div class="session-profile customer-profile">
-              <span class="session-dot" aria-hidden="true"></span>
-              <div>
-                <small>Comprador conectado · {{ profile.name }}</small
-                ><strong>{{ buyer.name }}</strong
-                ><span>{{ buyer.email }}</span>
+            }
+            @if (profile.buyer; as buyer) {
+              <div class="session-profile customer-profile">
+                <span class="session-dot" aria-hidden="true"></span>
+                <div>
+                  <small>Comprador conectado · {{ profile.name }}</small
+                  ><strong>{{ buyer.name }}</strong
+                  ><span>{{ buyer.email }}</span>
+                </div>
+                <a class="text-link" [routerLink]="['/loja', slug]">Ver loja</a>
+                <button
+                  class="session-signout"
+                  type="button"
+                  (click)="logout('buyer', slug)"
+                  [disabled]="!!busy()"
+                >
+                  {{ busy() === 'buyer' ? 'Saindo…' : 'Sair do comprador' }}
+                </button>
               </div>
-              <a class="text-link" [routerLink]="['/loja', slug]">Ver loja</a>
-              <button
-                class="session-signout"
-                type="button"
-                (click)="logout('buyer', slug)"
-                [disabled]="!!busy()"
-              >
-                {{ busy() === 'buyer' ? 'Saindo…' : 'Sair do comprador' }}
-              </button>
-            </div>
-          }
-        </aside>
-      }
-      @if (error()) {
-        <p class="session-error" role="alert">{{ error() }}</p>
+            }
+          </aside>
+        }
+        @if (error()) {
+          <p class="session-error" role="alert">{{ error() }}</p>
+        }
       }
     }
   `,
 })
 export class SessionProfiles {
+  visible = input(true);
   sessions = inject(StoreSessions);
   router = inject(Router);
   busy = signal('');

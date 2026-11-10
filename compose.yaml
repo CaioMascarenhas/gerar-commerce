@@ -8,7 +8,6 @@ x-service: &service
     CATALOG_URL: http://catalog:3001
     INVENTORY_URL: http://inventory:3002
     ORDERS_URL: http://orders:3003
-    RECOMMENDATIONS_URL: http://recommendations:3004
     AI_ASSISTANT_URL: http://ai-assistant:3005
     STORES_URL: http://stores:3006
   init: true
@@ -49,7 +48,6 @@ services:
       catalog: { condition: service_healthy }
       inventory: { condition: service_healthy }
       orders: { condition: service_healthy }
-      recommendations: { condition: service_healthy }
       ai-assistant: { condition: service_healthy }
   stores:
     <<: *service
@@ -71,10 +69,6 @@ services:
     <<: *service
     command: [node, services/orders/dist/main.js]
     environment: { <<: *environment, PORT: 3003 }
-  recommendations:
-    <<: *service
-    command: [node, services/recommendations/dist/main.js]
-    environment: { <<: *environment, PORT: 3004 }
   ai-assistant:
     <<: *service
     command: [node, services/ai-assistant/dist/main.js]

@@ -108,12 +108,10 @@ test('checkout aplica os componentes selecionados e rejeita opcionais ausentes',
   assert.equal(new SimulatedPayment().authorize('declined'), 'declined');
 });
 
-test('configuração que remove recomendação obrigatória é rejeitada', () => {
+test('configuração que remove estoque obrigatório é rejeitada', () => {
   const configuration = structuredClone(deriveProduct('essencial').configuration);
-  configuration.features = configuration.features.filter(
-    (feature) => feature !== 'recommendations',
-  );
-  assert.throws(() => validateConfiguration(configuration), /recommendations/);
+  configuration.features = configuration.features.filter((feature) => feature !== 'inventory');
+  assert.throws(() => validateConfiguration(configuration), /inventory/);
 });
 
 test('perfil e features desconhecidos não geram um produto aparentemente válido', () => {

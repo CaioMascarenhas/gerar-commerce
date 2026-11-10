@@ -54,3 +54,7 @@ Identificação específica desta entrega: Universidade Federal de Alagoas (UFAL
 ## Dependências documentais a obter depois
 
 Os modelos citam o artigo de framework de pagamentos e relatórios de referência disponíveis no Classroom, mas esses arquivos não estão em `projeto_docs`. O alinhamento fino das figuras com esses exemplos depende da consulta posterior pela equipe. Não foi presumido acesso ao Classroom.
+
+## Revisão de escopo — 10/11
+
+O usuário solicitou retirar as recomendações automáticas. As referências ao item 6.1 e PB-014 acima preservam a rastreabilidade do requisito inicial, mas esse recurso já não faz parte da versão atual. O relatório deve registrar essa diferença de escopo, sem declarar atendimento atual ao requisito de recomendação por histórico. O chat opcional com Gemini permanece distinto desse algoritmo.

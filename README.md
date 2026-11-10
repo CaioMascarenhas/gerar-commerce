@@ -52,7 +52,7 @@ O PowerShell pode bloquear `npm.ps1`; `npm.cmd` evita esse problema. Não há `p
 ## Criar e administrar uma loja
 
 1. Acesse `/criar`. Cadastre nome, endereço único, descrição, foto de capa, categoria e senha com pelo menos seis caracteres.
-2. Confira as sete funcionalidades core, sempre selecionadas. Escolha cupons, avaliações, entrega local e/ou agente de IA.
+2. Confira as seis funcionalidades core, sempre selecionadas. Escolha cupons, avaliações, entrega local e/ou agente de IA.
 3. Cadastre pelo menos um produto. O botão **Gerar 3 produtos com IA** usa Gemini quando configurado; sem chave, informa que adicionou exemplos editáveis da categoria.
 4. Crie a loja e abra `/loja/<endereco>`. Cada produto tem um link próprio. A sacola flutuante mostra a quantidade de itens e abre com animação.
 5. Para comprar, o visitante cria uma conta com nome, e-mail e senha de pelo menos oito caracteres. A conta e os pedidos ficam vinculados à loja; a navegação é livre.
@@ -112,3 +112,7 @@ Dentro de `frontend/`: `npm.cmd run build`. Na raiz: `node .github/scripts/check
 - [Materiais das disciplinas](projeto_docs/) · [Requisitos acadêmicos](docs/requisitos-academicos.md)
 
 Os antigos perfis Essencial/Assistida em código são exemplos didáticos do framework. A criação operacional ocorre pela plataforma e persiste cada composição no PostgreSQL; a CLI é apenas uma exportação de diagnóstico de uma loja já cadastrada.
+
+## Navegação e avaliações
+
+A vitrine mostra somente o menu da loja. Explorar a coleção mantém a rota da loja e rola para o catálogo. Avaliar exige login de comprador e compra aprovada do produto, usando o nome da conta. A seção e o serviço de recomendações automáticas foram retirados em 10/11 por solicitação do usuário. O chat opcional Gemini permanece disponível.

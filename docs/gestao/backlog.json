@@ -205,7 +205,8 @@
         "Cliente sem histórico recebe fallback identificado.",
         "Microsserviço próprio utiliza APIs de catálogo/pedidos."
       ],
-      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md",
+      "scopeChange": "Recurso retirado por solicitação em 10/11/2026; histórico de implementação preservado. Ver PB-043."
     },
     {
       "id": "PB-015",
@@ -613,6 +614,23 @@
         "Componente reutilizável aplica os ícones na plataforma, cadastro e vitrine sem alterar dados das lojas existentes."
       ],
       "evidence": "frontend/README.md"
+    },
+    {
+      "id": "PB-043",
+      "title": "Corrigir navegação da loja e avaliações verificadas e retirar recomendações",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "done",
+      "githubPending": true,
+      "dependencies": ["PB-029", "PB-033"],
+      "acceptance": [
+        "Explorar a coleção mantém a rota da loja e o catálogo em foco; vitrine tem somente um menu de conta e administração.",
+        "Avaliações exigem sessão de comprador e compra aprovada do produto, com nome obtido da conta no servidor.",
+        "Recomendações são removidas da vitrine, do core e dos serviços, preservando dados e atualizando composições existentes.",
+        "Testes de integração e E2E cobrem navegação, ausência de duplicação e bloqueios de avaliação."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-10-navegacao-avaliacoes.md"
     }
   ]
 }

@@ -11,6 +11,7 @@ import {
   Put,
   NotFoundException,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import {
   bootstrap,
@@ -21,10 +22,28 @@ import {
   productInput,
   text,
   integer,
+  callService,
 } from '@gerar/platform';
 await migrate(
   'CREATE SCHEMA IF NOT EXISTS catalog; CREATE TABLE IF NOT EXISTS catalog.products (store_slug text NOT NULL, id text NOT NULL, data jsonb NOT NULL, active boolean NOT NULL DEFAULT true, PRIMARY KEY(store_slug,id)); CREATE TABLE IF NOT EXISTS catalog.reviews (id uuid PRIMARY KEY, store_slug text NOT NULL, product_id text NOT NULL, author text NOT NULL, rating integer NOT NULL CHECK(rating BETWEEN 1 AND 5), comment text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());',
 );
+await migrate(
+  'ALTER TABLE catalog.reviews ADD COLUMN IF NOT EXISTS customer_id uuid; CREATE UNIQUE INDEX IF NOT EXISTS reviews_customer_product ON catalog.reviews(store_slug,product_id,customer_id) WHERE customer_id IS NOT NULL;',
+);
+async function reviewEligibility(slug: string, id: string, customerToken: unknown) {
+  await find(slug, id);
+  const customer = await callService(
+    'stores',
+    '/internal/stores/' + slug + '/customer-session',
+    'POST',
+    { token: customerToken },
+  );
+  const purchase = await callService(
+    'orders',
+    '/internal/stores/' + slug + '/purchases/' + customer.id + '/' + encodeURIComponent(id),
+  );
+  return { customer, purchased: purchase.purchased };
+}
 async function find(slug: string, id: string) {
   const result = await database.query(
     'SELECT data FROM catalog.products WHERE store_slug=$1 AND id=$2 AND active=true',
@@ -122,27 +141,40 @@ class CatalogController {
     await find(slug, id);
     return (
       await database.query(
-        'SELECT id,author,rating,comment,created_at AS "createdAt" FROM catalog.reviews WHERE store_slug=$1 AND product_id=$2 ORDER BY created_at DESC LIMIT 30',
+        'SELECT id,author,rating,comment,created_at AS "createdAt",(customer_id IS NOT NULL) AS "verifiedPurchase" FROM catalog.reviews WHERE store_slug=$1 AND product_id=$2 ORDER BY created_at DESC LIMIT 30',
         [slug, id],
       )
     ).rows;
+  }
+  @Post('internal/stores/:slug/review-eligibility/:id') async eligibility(
+    @Param('slug') slug: string,
+    @Param('id') id: string,
+    @Body() body: any,
+  ) {
+    const result = await reviewEligibility(slug, id, body?.customerToken);
+    return { purchased: result.purchased };
   }
   @Post('internal/stores/:slug/reviews/:id') async review(
     @Param('slug') slug: string,
     @Param('id') id: string,
     @Body() body: any,
   ) {
-    await find(slug, id);
+    const { customer, purchased } = await reviewEligibility(slug, id, body?.customerToken);
+    if (!purchased)
+      throw new ForbiddenException(
+        'Você só pode avaliar este produto após uma compra aprovada nesta conta.',
+      );
     return (
       await database.query(
-        'INSERT INTO catalog.reviews(id,store_slug,product_id,author,rating,comment) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id,author,rating,comment',
+        'INSERT INTO catalog.reviews(id,store_slug,product_id,author,rating,comment,customer_id) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (store_slug,product_id,customer_id) WHERE customer_id IS NOT NULL DO UPDATE SET author=EXCLUDED.author,rating=EXCLUDED.rating,comment=EXCLUDED.comment RETURNING id,author,rating,comment,true AS "verifiedPurchase"',
         [
           randomUUID(),
           slug,
           id,
-          text(body?.author, 'Seu nome', 60),
+          customer.name,
           integer(body?.rating, 'Nota', 1, 5),
           text(body?.comment, 'Comentário', 500),
+          customer.id,
         ],
       )
     ).rows[0];

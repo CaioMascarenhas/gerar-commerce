@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-10",
+  "item": "PB-043",
+  "frontendTests": {
+    "passed": 8
+  },
+  "backendTests": {
+    "passed": 15
+  },
+  "integrationChecks": {
+    "passed": 83
+  },
+  "e2e": {
+    "startTime": "2026-11-10T13:42:18.464Z",
+    "duration": 101487.427,
+    "expected": 15,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0,
+    "browsers": ["Chromium", "Firefox", "WebKit móvel"],
+    "liveGemini": false
+  },
+  "checks": [
+    "Coleção mantém /loja/:slug#colecao e rola após carregar o catálogo.",
+    "Vitrine sem cabeçalho e resumo de perfis duplicados.",
+    "Publicação exige conta e compra aprovada do produto; nome forjado é ignorado.",
+    "Uma avaliação por comprador/produto, com atualização em nova publicação.",
+    "Recomendações removidas e composições antigas migradas sem apagar cadastros."
+  ],
+  "screenshots": ["2026-11-10-menu-loja-desktop.png", "2026-11-10-menu-loja-movel.png"]
+}

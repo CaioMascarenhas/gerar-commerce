@@ -14,7 +14,6 @@ backend/
   services/catalog/      Produtos e avaliações
   services/inventory/    Saldos e reservas
   services/orders/       Cupons, compra simulada e pedidos
-  services/recommendations/ Recomendações por histórico
   services/ai-assistant/  Geração, chat público e agente administrativo
   services/gateway/      Entrada HTTP e autorização por loja
   packages/framework/    Template Method, features, temas, planos e políticas
@@ -23,7 +22,7 @@ backend/
   scripts/               Build, inicialização, smoke e exportação
 docs/                    Modelagem, contratos, gestão e evidências
 projeto_docs/            Materiais fornecidos pelas disciplinas
-compose.yaml             Nove contêineres e volume PostgreSQL
+compose.yaml             Oito contêineres e volume PostgreSQL
 ```
 
 Frontend e backend têm dependências e lockfiles próprios. O workspace npm existe somente dentro do backend. Não há instalação npm na raiz nem imports do backend pelo Angular.

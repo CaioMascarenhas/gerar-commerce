@@ -100,16 +100,16 @@ class OrdersController {
       )
     ).rows.map((row) => row.data);
   }
-  @Get('internal/stores/:slug/history/:customerId') async history(
+  @Get('internal/stores/:slug/purchases/:customerId/:productId') async purchased(
     @Param('slug') slug: string,
     @Param('customerId') customerId: string,
+    @Param('productId') productId: string,
   ) {
-    return (
-      await database.query(
-        "SELECT data FROM orders.purchases WHERE store_slug=$1 AND data->>'customerId'=$2 AND data->>'status'='paid' ORDER BY created_at DESC LIMIT 100",
-        [slug, customerId],
-      )
-    ).rows.map((row) => row.data);
+    const result = await database.query(
+      "SELECT EXISTS (SELECT 1 FROM orders.purchases p WHERE p.store_slug=$1 AND p.data->>'customerId'=$2 AND p.data->>'status'='paid' AND EXISTS (SELECT 1 FROM jsonb_array_elements(p.data->'items') AS item WHERE item->>'productId'=$3)) AS purchased",
+      [slug, customerId, productId],
+    );
+    return { purchased: result.rows[0].purchased };
   }
   @Post('internal/stores/:slug/checkout') async checkout(
     @Param('slug') slug: string,
