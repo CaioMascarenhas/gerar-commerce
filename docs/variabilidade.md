@@ -2,14 +2,14 @@
 
 ## Core obrigatório
 
-Catálogo, estoque, carrinho, checkout, pedidos, recomendações e administração são obrigatórios e aparecem marcados e bloqueados no cadastro. As operações de compra são simuladas; as entidades e os saldos são persistidos no PostgreSQL.
+Catálogo, estoque, carrinho, checkout, pedidos e administração são obrigatórios e aparecem marcados e bloqueados no cadastro. As operações de compra são simuladas; as entidades e os saldos são persistidos no PostgreSQL.
 
 ## Opcionais implementados
 
 | Feature       | Componente                     | Comportamento quando selecionada                                     |
 | ------------- | ------------------------------ | -------------------------------------------------------------------- |
 | `coupons`     | Pedidos / política de desconto | Cupons cadastrados pela loja, com percentual, mínimo e validade      |
-| `reviews`     | Catálogo                       | Consulta e publicação de avaliações com nota e comentário            |
+| `reviews`     | Catálogo                       | Compradores conectados avaliam produtos de compras aprovadas         |
 | `delivery`    | Pedidos / ShippingPolicy       | Entrega local por R$ 15,00, preservando retirada gratuita            |
 | `aiAssistant` | Mastra + Gemini                | Agente administrativo e chat público de dicas com links dos produtos |
 
@@ -25,7 +25,6 @@ flowchart TB
   CORE --> CART[Carrinho]
   CORE --> CHECK[Checkout]
   CORE --> O[Pedidos]
-  CORE --> R[Recomendações]
   CORE --> A[Administração]
   L --> CAT[Exatamente uma categoria]
   CAT --> EL[Eletrônicos / azul]

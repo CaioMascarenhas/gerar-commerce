@@ -16,7 +16,6 @@ flowchart LR
   G --> C[Catálogo e avaliações 3001]
   G --> I[Estoque e reservas 3002]
   G --> O[Pedidos e checkout 3003]
-  G --> R[Recomendações 3004]
   G --> AI[IA 3005]
   S --> F[Framework de composição]
   S -->|provisionar produtos| C
@@ -25,8 +24,6 @@ flowchart LR
   O -->|composição| S
   O -->|reservar / confirmar / liberar| I
   O --> F
-  R --> C
-  R --> O
   AI --> I
   AI --> O
   AI --> C
@@ -38,7 +35,7 @@ flowchart LR
   O --> OD[(PostgreSQL: orders / pedidos, tentativas e cupons)]
 ```
 
-Cada domínio acessa apenas seu próprio schema. Não há consultas SQL entre schemas de domínio. Para a demonstração, uma instância PostgreSQL e um usuário são compartilhados; a separação é arquitetural, sem ACL de banco por serviço. Recomendações, gateway e IA não armazenam entidades próprias de domínio. O pacote `platform` compartilha somente infraestrutura e validação.
+Cada domínio acessa apenas seu próprio schema. Não há consultas SQL entre schemas de domínio. Para a demonstração, uma instância PostgreSQL e um usuário são compartilhados; a separação é arquitetural, sem ACL de banco por serviço. Gateway e IA não armazenam entidades próprias de domínio. O pacote `platform` compartilha somente infraestrutura e validação.
 
 ## Cadastro e composição
 
@@ -75,7 +72,7 @@ No Angular, `StoreSessions` compartilha o estado confirmado pelas APIs entre cab
 
 O painel oferece produtos/estoque, pedidos, cupons, configurações e agente opcional. Nome, descrição, capa, categoria e opções podem mudar; o endereço permanece fixo. Não há recuperação de senha ou gateway financeiro externo.
 
-**Evolução de 09/11/2026:** compradores possuem contas por loja, com nome, e-mail normalizado e senha scrypt. O schema `stores` mantém `customers` e `customer_sessions`; contas administrativas e de compradores têm cookies e sessões separados. A navegação é pública e a finalização exige comprador autenticado. O serviço de pedidos valida a sessão pela API de lojas e usa o ID retornado, sem confiar no ID do navegador. Histórico pessoal e recomendações usam essa identidade.
+**Evolução de 09/11/2026:** compradores possuem contas por loja, com nome, e-mail normalizado e senha scrypt. O schema `stores` mantém `customers` e `customer_sessions`; contas administrativas e de compradores têm cookies e sessões separados. A navegação é pública e a finalização exige comprador autenticado. O serviço de pedidos valida a sessão pela API de lojas e usa o ID retornado, sem confiar no ID do navegador. Histórico pessoal e avaliações usam essa identidade.
 
 ```mermaid
 sequenceDiagram
@@ -130,6 +127,14 @@ O estoque é descontado na reserva com atualização condicional e transação; 
 
 ## Implantação e desenvolvimento
 
-O Compose inicia PostgreSQL, sete processos NestJS e Nginx com Angular. O banco é publicado na porta **5433** do host (5432 interna), para evitar conflito comum com outros projetos. As portas padrão da interface e gateway são 4200 e 3000. `FRONTEND_PORT`, `GATEWAY_PORT` e `POSTGRES_PORT` permitem ajustar o host. No desenvolvimento local, os serviços usam 3000–3006.
+O Compose inicia PostgreSQL, seis processos NestJS e Nginx com Angular, em oito contêineres. O banco é publicado na porta **5433** do host (5432 interna), para evitar conflito comum com outros projetos. As portas padrão da interface e gateway são 4200 e 3000. `FRONTEND_PORT`, `GATEWAY_PORT` e `POSTGRES_PORT` permitem ajustar o host. No desenvolvimento local, os serviços usam 3000–3003 e 3005–3006. A porta 3004 está livre.
 
 As credenciais de banco no Compose são exclusivamente locais e educacionais. Valores de planos, vendas e pagamentos são fictícios. Configuração de produção, armazenamento de mídia dedicado e autorização distribuída por credenciais de banco não fazem parte desta entrega.
+
+## Ajustes de navegação e avaliações — 10/11/2026
+
+Na vitrine, somente o menu da própria loja é mostrado. O cabeçalho e o resumo de perfis da plataforma não são repetidos; os logouts independentes continuam disponíveis nas contas e no painel. O link da coleção mantém /loja/:slug#colecao e a rolagem aguarda a renderização do catálogo.
+
+ADR-010: as recomendações automáticas foram retiradas por solicitação do usuário. O core passa a ter seis funcionalidades. O serviço e as rotas de recomendações são removidos, e os blueprints antigos são atualizados preservando os cadastros. O chat opcional Gemini é um recurso distinto e permanece disponível.
+
+O catálogo valida a sessão do comprador pela API de lojas e consulta a API de pedidos para confirmar compra aprovada do produto, loja e comprador, sem limitar a consulta aos últimos 100 pedidos. Nome e identidade enviados pelo navegador não autorizam a publicação. O nome público vem da conta. Avaliações anteriores à regra são preservadas sem selo de compra verificada.

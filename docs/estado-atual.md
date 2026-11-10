@@ -17,11 +17,11 @@
 - CRUD administrativo de produtos e edição de estoque; proteção para manter ao menos um produto ativo.
 - Carrinho por loja no navegador e checkout com preços oficiais, aprovação/recusa simuladas, reserva idempotente e controle de concorrência.
 - Intenção durável anterior à reserva para retomar a confirmação da mesma compra após falha de comunicação. Pedido final e snapshot da cotação persistidos.
-- Pedidos no painel e recomendações baseadas nas compras persistidas da loja.
+- Pedidos no painel, com histórico pessoal por conta de comprador.
 - Cupons, avaliações, entrega local e agente de IA como opcionais com guarda no servidor.
 - Geração de três produtos no cadastro via Gemini; sem configuração, retorna exemplos editáveis com origem identificada.
 - Agente Mastra + Gemini com ferramentas de leitura limitadas ao estoque e vendas da loja autenticada.
-- Compose com nove contêineres; frontend e backend com builds e instalações independentes; CI com PostgreSQL.
+- Compose com oito contêineres; frontend e backend com builds e instalações independentes; CI com PostgreSQL.
 
 ## Verificação realizada
 
@@ -49,6 +49,12 @@ A tentativa anterior de inspeção com controle do navegador foi bloqueada pela 
 - Atualização administrativa de produto e saldo usa duas APIs. Não existe transação distribuída entre os serviços.
 - Fotos de capa pequenas ficam como data URL ou endereço HTTPS no cadastro; armazenamento de objetos e processamento de mídia não foram incluídos.
 - Compradores agora possuem conta por loja. Permanecem ausentes recuperação de senha, confirmação de e-mail, assinatura financeira real e pagamento real.
-- Avaliações são de demonstração, sem comprovação de compra. Variações de SKU permanecem no backlog.
+- Avaliações novas exigem comprador conectado e compra aprovada do produto, usando o nome da conta. Registros antigos são preservados sem selo de compra verificada. Variações de SKU permanecem no backlog.
 
 Os registros de gestão distinguem implementação, evidência automatizada e revisão manual pendente; os snapshots antigos preservam o estado histórico anterior.
+
+## Revisão de navegação e avaliações — PB-043
+
+A vitrine usa somente o menu da loja. O link da coleção mantém a rota e a âncora corretas. Avaliar exige sessão de comprador e compra aprovada, usando o nome confirmado pelo servidor. Recomendações automáticas foram retiradas do core, das APIs e do Compose. Blueprints antigos são atualizados sem apagar os dados da loja.
+
+Verificação desta revisão: 8 testes de frontend, 15 de backend, 83 verificações PostgreSQL e 15 E2E aprovados, com um cenário de Gemini real ignorado por não usar chave nesta rodada. Capturas em desktop e celular foram inspecionadas. Consulte o [snapshot](gestao/snapshots/2026-11-10-navegacao-avaliacoes.md).

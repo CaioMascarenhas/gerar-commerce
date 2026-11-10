@@ -51,7 +51,7 @@ Settings recebe os mesmos campos de identidade do cadastro, sem alterar slug ou 
 
 ## Vitrine e compra simulada
 
-`GET /stores/:slug/products` retorna os produtos ativos da loja; `GET /stores/:slug/products/:id` consulta um produto e retorna 404 se não pertence à loja. A página é `/loja/:slug/produto/:id`. `GET /stores/:slug/stock` retorna `{ productId, available }[]`. `GET /stores/:slug/recommendations` usa a conta autenticada ou apresenta sugestões de catálogo ao visitante. A rota antiga com `:customerId` exige que o ID corresponda à sessão.
+`GET /stores/:slug/products` retorna os produtos ativos da loja; `GET /stores/:slug/products/:id` consulta um produto e retorna 404 se não pertence à loja. A página é `/loja/:slug/produto/:id`. `GET /stores/:slug/stock` retorna `{ productId, available }[]`. As rotas de recomendações automáticas foram removidas e retornam 404.
 
 `POST /stores/:slug/checkout`:
 
@@ -102,6 +102,6 @@ Fotos usam `image` e `imageFrame`; capas usam `cover` e `coverFrame`. Enquadrame
 
 ## Avaliações e saúde
 
-`GET /stores/:slug/reviews/:productId` e `POST` na mesma rota exigem o opcional `reviews`. A publicação recebe `{ "author": "Cliente", "rating": 5, "comment": "Comentário" }`; notas válidas de 1 a 5. Há limite de publicações por IP. Não é uma comprovação de compra.
+`GET /stores/:slug/reviews/:productId` e `POST` na mesma rota exigem o opcional `reviews`. A leitura é pública. A publicação recebe apenas `{ "rating": 5, "comment": "Comentário" }` e exige sessão de comprador da loja e uma compra aprovada daquele produto. Sem login: 401; sem compra aprovada: 403. O nome do autor vem da conta autenticada; `author` e `customerId` enviados no corpo são ignorados. Notas válidas de 1 a 5. Cada comprador mantém uma avaliação por produto, atualizada nas próximas publicações. As novas avaliações retornam `verifiedPurchase: true`; avaliações anteriores são preservadas sem selo. `GET /stores/:slug/review-eligibility/:productId` exige comprador e retorna `{ purchased: boolean }`. Há limite de publicações por IP.
 
-`GET /services` agrega a saúde dos seis serviços internos. `GET /health` informa o gateway. Cada processo também disponibiliza Swagger em `/docs`; os DTOs detalhados por endpoint ainda precisam ser ampliados para o relatório final. Os exemplos e limites deste documento descrevem a validação implementada no código.
+`GET /services` agrega a saúde dos cinco serviços internos. `GET /health` informa o gateway. Cada processo também disponibiliza Swagger em `/docs`; os DTOs detalhados por endpoint ainda precisam ser ampliados para o relatório final. Os exemplos e limites deste documento descrevem a validação implementada no código.

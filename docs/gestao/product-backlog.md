@@ -54,3 +54,9 @@ Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação
 31 itens concluídos, seis em revisão, quatro prontos e um no backlog. A revisão visual geral, Swagger completo, relatórios e ensaio continuam pendentes. [Auditoria e evidências](snapshots/2026-11-09-sincronizacao-e-merge.md).
 
 [Planejamento dos ciclos e regras de Kanban](ciclos.md).
+
+## Ajuste de escopo de 10/11
+
+PB-043 — Concluído: corrigir navegação para coleção e menus duplicados; exigir compra aprovada e identidade da conta nas avaliações; retirar recomendações automáticas. Registro local, sem issue remota criada. PB-014 permanece no histórico como implementação anterior, retirada nesta revisão.
+
+[Snapshot desta revisão](snapshots/2026-11-10-navegacao-avaliacoes.md).
