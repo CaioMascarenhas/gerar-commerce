@@ -78,11 +78,12 @@ services:
   ai-assistant:
     <<: *service
     command: [node, services/ai-assistant/dist/main.js]
+    env_file:
+      - path: ./backend/.env
+        required: false
     environment:
       <<: *environment
       PORT: 3005
-      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-}
   storefront:
     build: { context: ./frontend }
     ports: ['127.0.0.1:${FRONTEND_PORT:-4200}:80']
