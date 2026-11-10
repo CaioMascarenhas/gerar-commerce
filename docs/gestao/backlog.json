@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-10",
   "presentation": "2026-11-11",
   "targetCompletion": "2026-11-10",
   "team": ["Caio Mascarenhas Soares", "Laura Marques Costa"],
@@ -278,7 +278,8 @@
         "Smoke com PostgreSQL testa as três categorias, planos, cadastro, compra aprovada e recusada, concorrência, sessões e isolamento.",
         "Validar manualmente cadastro, vitrine, painel e responsividade no navegador.",
         "Registrar chamada real de Gemini quando houver credenciais; ausência não impede as demais lojas."
-      ]
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-10-validacao-e2e.md"
     },
     {
       "id": "PB-020",

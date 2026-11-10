@@ -55,6 +55,10 @@ Selecionados: **PB-015, PB-016, PB-018, PB-019, PB-021, PB-022 e PB-023**. Docum
 
 Na abertura/fechamento de cada ciclo, adicionar snapshot datado em `docs/gestao/snapshots/`, com itens selecionados, concluídos, bloqueios e mudanças de escopo. Manter histórico real, links de commits/PRs e evidências; não reconstruir um histórico fictício no final. Se mudar status manualmente no Project, registrar também o fechamento no snapshot para preservar a rastreabilidade.
 
+## Snapshot I3 — validação de 10/11
+
+PB-019 recebe uma suíte E2E isolada com Chromium, Firefox e WebKit móvel, chamadas reais do Gemini e correções de checkout encontradas nos testes. Evidências e limites estão no [snapshot de validação](snapshots/2026-11-10-validacao-e2e.md). Os testes não encerram automaticamente a revisão final das funcionalidades. PB-022 recebe a identificação individual e os requisitos completos do [relatório de Reuso](../relatorio-reuso.md).
+
 ## Snapshot I3 — evolução de 09/11
 
 Auditoria e sincronização da [PR #29](https://github.com/CaioMascarenhas/gerar-commerce/pull/29): agente administrativo validado com Gemini real em dados fictícios; PB-016, PB-038, PB-039 e PB-040 passam a concluídos. Os 42 itens recebem vínculos no GitHub e estados atualizados no Kanban. [Snapshot de integração](snapshots/2026-11-09-sincronizacao-e-merge.md).

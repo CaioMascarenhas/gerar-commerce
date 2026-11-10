@@ -1,0 +1,241 @@
+{
+  "date": "2026-11-10",
+  "timezone": "America/Fortaleza",
+  "codeRevision": "df3de18cccb2faecaf23a3ea1432f3aeab07d48b",
+  "unitTests": {
+    "frontend": {
+      "passed": 8,
+      "failed": 0
+    },
+    "backend": {
+      "passed": 15,
+      "failed": 0
+    }
+  },
+  "integrationSmoke": {
+    "checks": 75,
+    "failed": 0,
+    "database": "PostgreSQL temporário"
+  },
+  "isolation": "Projetos Docker exclusivos por rodada, sem portas públicas; volume e imagens temporários removidos após cada execução.",
+  "limitations": [
+    "Pagamento simulado.",
+    "WebKit com emulação de iPhone 13; aparelho físico e teclado virtual não testados.",
+    "URLs de imagens testadas com origem HTTPS interceptada; disponibilidade de terceiros não garantida."
+  ],
+  "captures": [
+    "2026-11-10-loja-criada.png",
+    "2026-11-10-login-movel.png",
+    "2026-11-10-sacola-movel.png"
+  ],
+  "runs": [
+    {
+      "project": "gerar-commerce-e2e-1794284180888",
+      "liveGemini": false,
+      "stats": {
+        "startTime": "2026-11-10T04:18:37.148Z",
+        "duration": 43243.481,
+        "expected": 14,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "title": "plataforma carrega categorias, fontes e ícones; busca e rotas de produto funcionam",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "onboarding cria uma loja pela interface com produto, upload e enquadramento",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "comprador cria conta na finalização e compra com cupom e entrega na página do produto",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "login pelo cabeçalho mantém o produto e os perfis têm logout independente",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "lojista administra produto, foto e estoque e remove um item do catálogo",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "foto por link HTTPS é renderizada e uma falha de rede mostra alternativa acessível",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "painel cadastra, edita e exclui cupom com condições próprias",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "pagamento recusado mantém sacola e saldo e produto de outra loja é rejeitado",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "opcionais são bloqueados no Essencial e avaliações ficam na loja correta",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "IA sem configuração informa indisponibilidade sem inventar resposta",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "Gemini real consulta estoque e recomenda links da loja fictícia",
+          "browser": "chromium",
+          "status": "skipped",
+          "outcomes": ["skipped"]
+        },
+        {
+          "title": "vitrine e login mantêm foco, enquadramento e largura da tela",
+          "browser": "firefox",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "vitrine e login mantêm foco, enquadramento e largura da tela",
+          "browser": "mobile-webkit",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "sacola abre e fecha com contador, movimento reduzido e itens preservados",
+          "browser": "firefox",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "sacola abre e fecha com contador, movimento reduzido e itens preservados",
+          "browser": "mobile-webkit",
+          "status": "expected",
+          "outcomes": ["passed"]
+        }
+      ]
+    },
+    {
+      "project": "gerar-commerce-e2e-1794284016670",
+      "liveGemini": true,
+      "stats": {
+        "startTime": "2026-11-10T04:15:09.247Z",
+        "duration": 56266.736,
+        "expected": 14,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "cases": [
+        {
+          "title": "plataforma carrega categorias, fontes e ícones; busca e rotas de produto funcionam",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "onboarding cria uma loja pela interface com produto, upload e enquadramento",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "comprador cria conta na finalização e compra com cupom e entrega na página do produto",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "login pelo cabeçalho mantém o produto e os perfis têm logout independente",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "lojista administra produto, foto e estoque e remove um item do catálogo",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "foto por link HTTPS é renderizada e uma falha de rede mostra alternativa acessível",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "painel cadastra, edita e exclui cupom com condições próprias",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "pagamento recusado mantém sacola e saldo e produto de outra loja é rejeitado",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "opcionais são bloqueados no Essencial e avaliações ficam na loja correta",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "IA sem configuração informa indisponibilidade sem inventar resposta",
+          "browser": "chromium",
+          "status": "skipped",
+          "outcomes": ["skipped"]
+        },
+        {
+          "title": "Gemini real consulta estoque e recomenda links da loja fictícia",
+          "browser": "chromium",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "vitrine e login mantêm foco, enquadramento e largura da tela",
+          "browser": "firefox",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "vitrine e login mantêm foco, enquadramento e largura da tela",
+          "browser": "mobile-webkit",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "sacola abre e fecha com contador, movimento reduzido e itens preservados",
+          "browser": "firefox",
+          "status": "expected",
+          "outcomes": ["passed"]
+        },
+        {
+          "title": "sacola abre e fecha com contador, movimento reduzido e itens preservados",
+          "browser": "mobile-webkit",
+          "status": "expected",
+          "outcomes": ["passed"]
+        }
+      ]
+    }
+  ]
+}
