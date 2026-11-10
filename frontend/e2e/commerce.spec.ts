@@ -62,7 +62,7 @@ test('onboarding cria uma loja pela interface com produto, upload e enquadrament
   await page.getByLabel('Senha de administração').fill(adminPassword);
   await page.getByRole('button', { name: 'Continuar →', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Combine possibilidades.' })).toBeVisible();
-  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(6);
+  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(7);
   await page.getByRole('checkbox', { name: /Cupons de desconto/ }).check();
   await page.getByRole('checkbox', { name: /Avaliações/ }).check();
   await page.getByRole('button', { name: 'Continuar →', exact: true }).click();
