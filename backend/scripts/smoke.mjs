@@ -4,22 +4,13 @@ import { randomUUID } from 'node:crypto';
 import assert from 'node:assert/strict';
 import { Pool } from 'pg';
 if (existsSync('.env')) process.loadEnvFile('.env');
-const apps = [
-  'catalog',
-  'inventory',
-  'orders',
-  'recommendations',
-  'ai-assistant',
-  'stores',
-  'gateway',
-];
+const apps = ['catalog', 'inventory', 'orders', 'ai-assistant', 'stores', 'gateway'];
 const base = Number(process.env.SMOKE_PORT_BASE ?? 3100);
 const ports = {
   gateway: base,
   catalog: base + 1,
   inventory: base + 2,
   orders: base + 3,
-  recommendations: base + 4,
   'ai-assistant': base + 5,
   stores: base + 6,
 };
@@ -65,7 +56,6 @@ function start() {
         CATALOG_URL: 'http://127.0.0.1:' + ports.catalog,
         INVENTORY_URL: 'http://127.0.0.1:' + ports.inventory,
         ORDERS_URL: 'http://127.0.0.1:' + ports.orders,
-        RECOMMENDATIONS_URL: 'http://127.0.0.1:' + ports.recommendations,
         AI_ASSISTANT_URL: 'http://127.0.0.1:' + ports['ai-assistant'],
         STORES_URL: 'http://127.0.0.1:' + ports.stores,
       },
@@ -106,7 +96,7 @@ async function ready() {
     try {
       const result = await ok('/services');
       lastHealth = result;
-      if (result.length === 6 && result.every((s) => s.status === 'ok')) return;
+      if (result.length === 5 && result.every((s) => s.status === 'ok')) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 300));
   }
@@ -289,15 +279,8 @@ try {
     'Conta e sessão isoladas por loja.',
   );
   check(
-    (
-      await request(
-        '/stores/smoke-tech/recommendations/' + buyers['smoke-obra'].id,
-        'GET',
-        undefined,
-        buyerCookie,
-      )
-    ).status === 403,
-    'Histórico de outro comprador bloqueado.',
+    (await request('/stores/smoke-tech/recommendations')).status === 404,
+    'Rota de recomendações removida.',
   );
   const completeLogin = await request('/stores/smoke-obra/login', 'POST', {
     password: 'senha-teste',
@@ -496,24 +479,82 @@ try {
     (await request('/stores/smoke-tech/reviews/' + product.id)).status === 403,
     'Avaliações bloqueadas sem feature.',
   );
-  await ok('/stores/smoke-obra/reviews/' + completeProduct.id, 'POST', {
+  const reviewPath = '/stores/smoke-obra/reviews/' + completeProduct.id;
+  const reviewBody = {
     author: 'Cliente',
+    customerId: buyers['smoke-tech'].id,
     rating: 5,
     comment: 'Ótimo produto de demonstração.',
+  };
+  check(
+    (await request(reviewPath, 'POST', reviewBody)).status === 401,
+    'Avaliar exige login de comprador.',
+  );
+  check(
+    (await request(reviewPath, 'POST', reviewBody, completeLogin.cookie)).status === 401,
+    'Administrador não avalia como comprador.',
+  );
+  check(
+    (await request(reviewPath, 'POST', reviewBody, buyerCookie)).status === 401,
+    'Sessão de outra loja não autoriza avaliação.',
+  );
+  const unpublishedProduct = otherProducts.find((p) => p.id !== completeProduct.id);
+  check(
+    (
+      await request(
+        '/stores/smoke-obra/reviews/' + unpublishedProduct.id,
+        'POST',
+        reviewBody,
+        buyerCookies.get('smoke-obra'),
+      )
+    ).status === 403,
+    'Produto não comprado não pode ser avaliado.',
+  );
+  await ok('/stores/smoke-obra/checkout', 'POST', {
+    ...purchase,
+    reference: randomUUID(),
+    items: [{ productId: unpublishedProduct.id, quantity: 1 }],
+    payment: 'declined',
+    coupon: '',
+    fulfillment: 'pickup',
   });
+  check(
+    (
+      await request(
+        '/stores/smoke-obra/reviews/' + unpublishedProduct.id,
+        'POST',
+        reviewBody,
+        buyerCookies.get('smoke-obra'),
+      )
+    ).status === 403,
+    'Pagamento recusado não autoriza avaliação.',
+  );
+  const review = await ok(reviewPath, 'POST', reviewBody, buyerCookies.get('smoke-obra'));
+  check(
+    review.author === 'Comprador fictício' && review.verifiedPurchase === true,
+    'Nome da avaliação vem da conta autenticada, ignorando identidade forjada.',
+  );
+  const editedReview = await ok(
+    reviewPath,
+    'POST',
+    { ...reviewBody, rating: 4 },
+    buyerCookies.get('smoke-obra'),
+  );
+  check(editedReview.id === review.id, 'Mesmo comprador atualiza sua avaliação sem duplicá-la.');
   check(
     (await ok('/stores/smoke-obra/reviews/' + completeProduct.id)).length === 1,
     'Avaliação persistida.',
   );
-  const recommendations = await ok(
-    '/stores/smoke-tech/recommendations',
-    'GET',
-    undefined,
-    buyerCookie,
-  );
   check(
-    recommendations.products.every((p) => p.id !== product.id),
-    'Recomendação exclui produtos comprados.',
+    (
+      await ok(
+        '/stores/smoke-obra/review-eligibility/' + completeProduct.id,
+        'GET',
+        undefined,
+        buyerCookies.get('smoke-obra'),
+      )
+    ).purchased,
+    'Elegibilidade confirma compra aprovada.',
   );
   const updated = await ok(
     '/stores/smoke-tech/settings',
@@ -579,9 +620,30 @@ try {
       concurrent.some((r) => r.status === 409),
     'Concorrência não gera saldo negativo.',
   );
+  const legacy = new Pool({ connectionString: testUrl.href });
+  try {
+    const saved = (
+      await legacy.query('SELECT data FROM stores.shops WHERE slug=$1', ['smoke-tech'])
+    ).rows[0].data;
+    saved.blueprint.configuration.features.push('recommendations');
+    saved.blueprint.components.push({
+      id: 'recommendations',
+      feature: 'recommendations',
+      service: 'recommendations',
+    });
+    await legacy.query('UPDATE stores.shops SET data=$2 WHERE slug=$1', ['smoke-tech', saved]);
+  } finally {
+    await legacy.end();
+  }
   await stop();
   start();
   await ready();
+  const migrated = await ok('/stores/smoke-tech');
+  check(
+    !migrated.blueprint.configuration.features.includes('recommendations') &&
+      !migrated.blueprint.components.some((component) => component.id === 'recommendations'),
+    'Composição antiga é migrada sem recomendações.',
+  );
   check(
     (await ok('/stores/smoke-tech')).name === 'Tech atualizada',
     'Loja persiste após reiniciar.',

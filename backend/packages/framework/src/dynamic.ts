@@ -40,12 +40,6 @@ export const featureCatalog = [
     core: true,
   },
   {
-    id: 'recommendations',
-    name: 'Recomendações',
-    description: 'Sugestões a partir das compras.',
-    core: true,
-  },
-  {
     id: 'administration',
     name: 'Painel administrativo',
     description: 'Produtos, pedidos e configurações.',
@@ -60,7 +54,7 @@ export const featureCatalog = [
   {
     id: 'reviews',
     name: 'Avaliações',
-    description: 'Clientes avaliam produtos com estrelas e comentários.',
+    description: 'Compradores conectados avaliam produtos de compras aprovadas.',
     core: false,
   },
   {

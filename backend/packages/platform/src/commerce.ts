@@ -5,7 +5,6 @@ export const serviceUrls = {
   catalog: process.env['CATALOG_URL'] ?? 'http://127.0.0.1:3001',
   inventory: process.env['INVENTORY_URL'] ?? 'http://127.0.0.1:3002',
   orders: process.env['ORDERS_URL'] ?? 'http://127.0.0.1:3003',
-  recommendations: process.env['RECOMMENDATIONS_URL'] ?? 'http://127.0.0.1:3004',
   ai: process.env['AI_ASSISTANT_URL'] ?? 'http://127.0.0.1:3005',
 };
 export async function callService<T = any>(

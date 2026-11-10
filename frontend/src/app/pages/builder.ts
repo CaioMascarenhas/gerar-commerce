@@ -317,7 +317,9 @@ import { ImageEditor, CommerceImage } from '../components/images';
               <div class="plan-price">
                 {{ currentPlan().price / 100 | currency: 'BRL' }}<small>/mês</small>
               </div>
-              <div class="summary-line"><span>Funcionalidades core</span><b>7 incluídas</b></div>
+              <div class="summary-line">
+                <span>Funcionalidades core</span><b>{{ coreCount() }} incluídas</b>
+              </div>
               <div class="summary-line">
                 <span>Opcionais selecionados</span><b>{{ draft.options.length }}</b>
               </div>
@@ -336,6 +338,9 @@ import { ImageEditor, CommerceImage } from '../components/images';
   `,
 })
 export class BuilderPage {
+  coreCount() {
+    return this.features().filter((feature) => feature.core).length;
+  }
   api = inject(Api);
   draft = newStore();
   step = signal(0);

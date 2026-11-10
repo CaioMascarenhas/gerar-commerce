@@ -135,21 +135,6 @@ class GatewayController {
     await store(slug);
     return callService('catalog', path(slug, '/products/' + encodeURIComponent(id)));
   }
-  @Get('stores/:slug/recommendations') async suggestions(
-    @Param('slug') slug: string,
-    @Req() req: any,
-  ) {
-    await store(slug);
-    let id = 'visitante';
-    if (token(req, slug, true)) {
-      try {
-        id = (await this.customerSession(slug, req)).id;
-      } catch (error) {
-        if (!(error instanceof HttpException) || error.getStatus() !== 401) throw error;
-      }
-    }
-    return callService('recommendations', path(slug, '/recommendations/' + id));
-  }
   @Post('stores/:slug/chat') async chat(
     @Param('slug') slug: string,
     @Body() body: any,
@@ -231,17 +216,6 @@ class GatewayController {
   @Get('stores/:slug/stock') async stock(@Param('slug') slug: string) {
     await store(slug);
     return callService('inventory', path(slug, '/stock'));
-  }
-  @Get('stores/:slug/recommendations/:customerId') async recommendations(
-    @Param('slug') slug: string,
-    @Param('customerId') id: string,
-    @Req() req: any,
-  ) {
-    await store(slug);
-    text(id, 'Cliente', 80);
-    const customer = await this.customerSession(slug, req);
-    if (customer.id !== id) throw new ForbiddenException('Histórico restrito à sua conta.');
-    return callService('recommendations', path(slug, '/recommendations/' + encodeURIComponent(id)));
   }
   @Post('stores/:slug/checkout') async checkout(
     @Param('slug') slug: string,
@@ -369,7 +343,22 @@ class GatewayController {
       'catalog',
       '/internal' + path(slug, '/reviews/' + encodeURIComponent(id)),
       'POST',
-      body,
+      { rating: body?.rating, comment: body?.comment, customerToken: token(req, slug, true) },
+    );
+  }
+  @Get('stores/:slug/review-eligibility/:id') async reviewEligibility(
+    @Param('slug') slug: string,
+    @Param('id') id: string,
+    @Req() req: any,
+  ) {
+    const shop = await store(slug);
+    if (!shop.options.includes('reviews'))
+      throw new ForbiddenException('Avaliações desabilitadas.');
+    return callService(
+      'catalog',
+      '/internal' + path(slug, '/review-eligibility/' + encodeURIComponent(id)),
+      'POST',
+      { customerToken: token(req, slug, true) },
     );
   }
   @Post('stores/:slug/assistant') async query(
@@ -383,7 +372,7 @@ class GatewayController {
   }
   @Get('services') async services() {
     return Promise.all(
-      ['stores', 'catalog', 'inventory', 'orders', 'recommendations', 'ai'].map(async (name) => {
+      ['stores', 'catalog', 'inventory', 'orders', 'ai'].map(async (name) => {
         try {
           return await callService(name as any, '/health');
         } catch {

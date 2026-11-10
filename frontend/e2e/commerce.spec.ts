@@ -62,7 +62,7 @@ test('onboarding cria uma loja pela interface com produto, upload e enquadrament
   await page.getByLabel('Senha de administração').fill(adminPassword);
   await page.getByRole('button', { name: 'Continuar →', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Combine possibilidades.' })).toBeVisible();
-  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(7);
+  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(6);
   await page.getByRole('checkbox', { name: /Cupons de desconto/ }).check();
   await page.getByRole('checkbox', { name: /Avaliações/ }).check();
   await page.getByRole('button', { name: 'Continuar →', exact: true }).click();
@@ -143,8 +143,8 @@ test('comprador cria conta na finalização e compra com cupom e entrega na pág
     stock.find((s: any) => s.productId === store.products[0].id).available - 2,
   );
   await page
-    .locator('.platform-header')
-    .getByRole('button', { name: 'Minha conta', exact: true })
+    .locator('.shop-header')
+    .getByRole('button', { name: /Minha conta/ })
     .click();
   await expect(
     page.getByRole('dialog', { name: 'Minha conta' }).getByText('195,00', { exact: false }),
@@ -160,12 +160,11 @@ test('login pelo cabeçalho mantém o produto e os perfis têm logout independen
   // O logout deste teste deve revogar apenas sua própria sessão, não a da massa compartilhada.
   await json(page.request, '/stores/' + store.slug + '/login', 'POST', { password: adminPassword });
   await openProduct(page, store);
-  await expect(page.locator('.owner-profile')).toContainText(store.name);
+  await expect(page.locator('.platform-header')).toHaveCount(0);
+  await expect(page.locator('.session-profiles')).toHaveCount(0);
+  await expect(page.locator('.shop-header .buyer-account-button')).toHaveCount(1);
   const original = new URL(page.url()).pathname;
-  await page
-    .locator('.platform-header')
-    .getByRole('button', { name: 'Entrar para comprar' })
-    .click();
+  await page.locator('.shop-header').getByRole('button', { name: 'Entrar / Criar conta' }).click();
   expect(new URL(page.url()).pathname).toBe(original);
   const account = page.getByRole('dialog', { name: 'Sua conta de comprador' });
   await account.getByLabel('E-mail').fill(buyerEmail);
@@ -174,6 +173,8 @@ test('login pelo cabeçalho mantém o produto e os perfis têm logout independen
   await expect(account.getByRole('alert')).toContainText('E-mail ou senha incorretos.');
   await account.getByLabel('Senha', { exact: false }).fill(buyerPassword);
   await account.getByRole('button', { name: 'Entrar na minha conta', exact: true }).click();
+  await expect(page.locator('.shop-header .buyer-account-button')).toContainText('Comprador');
+  await page.goto('/admin/' + store.slug);
   await expect(page.locator('.customer-profile')).toContainText('Comprador E2E');
   await expect(page.locator('.owner-profile')).toBeVisible();
   await page.getByRole('button', { name: 'Sair da loja', exact: true }).click();
@@ -303,7 +304,7 @@ test('pagamento recusado mantém sacola e saldo e produto de outra loja é rejei
   expect(response.status()).toBe(400);
 });
 
-test('opcionais são bloqueados no Essencial e avaliações ficam na loja correta', async ({
+test('avaliações exigem conta e compra aprovada e usam o nome da conta', async ({
   page,
   stores,
 }) => {
@@ -320,15 +321,71 @@ test('opcionais são bloqueados no Essencial e avaliações ficam na loja corret
   await openProduct(page, stores.complete);
   await page.getByRole('button', { name: /Ver avaliações e avaliar/ }).click();
   const dialog = page.getByRole('dialog', { name: 'Avaliações do produto' });
-  await dialog.getByLabel('Seu nome').fill('Cliente fictício');
+  await expect(dialog.getByRole('button', { name: 'Entrar para avaliar' })).toBeVisible();
+  await expect(dialog.getByLabel('Comentário')).toHaveCount(0);
+  const reviewPath =
+    '/stores/' + stores.complete.slug + '/reviews/' + stores.complete.products[0].id;
+  const reviewPayload = {
+    author: 'Autor forjado',
+    rating: 4,
+    comment: 'Avaliação criada pelo teste E2E.',
+  };
+  expect((await page.request.post('/api' + reviewPath, { data: reviewPayload })).status()).toBe(
+    401,
+  );
+  await json(page.request, '/stores/' + stores.complete.slug + '/customers', 'POST', {
+    name: 'Avaliador E2E',
+    email: 'avaliador-' + Date.now() + '@example.test',
+    password: buyerPassword,
+  });
+  await page.reload();
+  await page.getByRole('button', { name: /Ver avaliações e avaliar/ }).click();
+  await expect(dialog).toContainText('após uma compra aprovada');
+  expect((await page.request.post('/api' + reviewPath, { data: reviewPayload })).status()).toBe(
+    403,
+  );
+  await json(page.request, '/stores/' + stores.complete.slug + '/checkout', 'POST', {
+    reference: crypto.randomUUID(),
+    items: [{ productId: stores.complete.products[0].id, quantity: 1 }],
+    payment: 'approved',
+    fulfillment: 'pickup',
+    coupon: '',
+  });
+  await page.reload();
+  await page.getByRole('button', { name: /Ver avaliações e avaliar/ }).click();
+  await expect(dialog.locator('.review-author')).toContainText('Avaliador E2E');
+  await expect(dialog.getByLabel('Seu nome')).toHaveCount(0);
   await dialog.getByLabel('Sua nota').selectOption({ label: '★★★★ · Muito bom' });
   await dialog.getByLabel('Comentário').fill('Avaliação criada pelo teste E2E.');
   await dialog.getByRole('button', { name: 'Publicar avaliação' }).click();
   await expect(dialog.getByText('Avaliação criada pelo teste E2E.')).toBeVisible();
+  await expect(dialog.getByText('Compra verificada', { exact: true })).toBeVisible();
+  const forged = await json(page.request, reviewPath, 'POST', reviewPayload);
+  expect(forged.author).toBe('Avaliador E2E');
   const foreign = await page.request.get(
     '/api/stores/' + stores.essential.slug + '/products/' + stores.complete.products[0].id,
   );
   expect(foreign.status()).toBe(404);
+});
+
+test('coleção permanece na loja e a vitrine tem somente um menu de conta', async ({
+  page,
+  stores,
+}) => {
+  const store = stores.complete;
+  await page.goto('/loja/' + store.slug);
+  await expect(page.locator('.platform-header')).toHaveCount(0);
+  await expect(page.locator('.session-profiles')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Acessar minha loja', exact: true })).toHaveCount(1);
+  await expect(page.locator('.buyer-account-button')).toHaveCount(1);
+  await expect(page.locator('.recommendation-section')).toHaveCount(0);
+  await page.getByRole('link', { name: 'Explorar a coleção ↗', exact: true }).click();
+  await expect(page).toHaveURL(new RegExp('/loja/' + store.slug + '#colecao$'));
+  await expect(page.getByRole('heading', { name: 'Nossa coleção.' })).toBeInViewport();
+  await openProduct(page, store);
+  await page.getByRole('link', { name: 'Coleção', exact: true }).click();
+  await expect(page).toHaveURL(new RegExp('/loja/' + store.slug + '#colecao$'));
+  await expect(page.getByRole('heading', { name: 'Nossa coleção.' })).toBeInViewport();
 });
 
 test('IA sem configuração informa indisponibilidade sem inventar resposta', async ({

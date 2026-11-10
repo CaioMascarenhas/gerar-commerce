@@ -53,6 +53,17 @@ function configuration(body: any, slug: string) {
   };
   return { ...store, blueprint: composeStore(store) };
 }
+// Atualiza apenas a composição antiga, preservando cadastros, senhas, fotos e produtos.
+for (const row of (
+  await database.query(
+    "SELECT slug,data FROM stores.shops WHERE data#>'{blueprint,configuration,features}' ? 'recommendations'",
+  )
+).rows) {
+  await database.query(
+    "UPDATE stores.shops SET data=jsonb_set(data,'{blueprint}',$2::jsonb) WHERE slug=$1 AND data=$3::jsonb",
+    [row.slug, JSON.stringify(composeStore(row.data)), JSON.stringify(row.data)],
+  );
+}
 async function shop(slug: string) {
   slugInput(slug);
   const result = await database.query(

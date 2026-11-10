@@ -13,7 +13,6 @@ export const coreFeatures = [
   'cart',
   'orders',
   'checkout',
-  'recommendations',
   'administration',
 ] as const;
 export type CoreFeature = (typeof coreFeatures)[number];

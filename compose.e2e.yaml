@@ -14,9 +14,6 @@ services:
   orders:
     image: ${E2E_PROJECT_NAME:?}-backend
     build: !reset null
-  recommendations:
-    image: ${E2E_PROJECT_NAME:?}-backend
-    build: !reset null
   stores:
     image: ${E2E_PROJECT_NAME:?}-backend
     build: !reset null

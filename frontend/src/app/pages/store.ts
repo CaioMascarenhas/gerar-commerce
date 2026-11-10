@@ -1,5 +1,13 @@
 import { DialogFocus } from '../components/dialog-focus';
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  afterNextRender,
+  Injector,
+  DestroyRef,
+} from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -60,6 +68,7 @@ import { checkoutReference } from '../checkout-reference';
             >{{ store.name }}</a
           >
           <nav>
+            <a routerLink="/">Explorar lojas</a>
             <a [routerLink]="['/loja', store.slug]" fragment="colecao">Coleção</a
             ><a [routerLink]="['/admin', store.slug]">Acessar minha loja</a
             ><button class="text-link buyer-account-button" (click)="openAccount()">
@@ -155,7 +164,9 @@ import { checkoutReference } from '../checkout-reference';
                 {{ store.name }}<span>Novas escolhas.<br />Do seu jeito.</span>
               </h1>
               <p>{{ store.description }}</p>
-              <a class="button" href="#colecao">Explorar a coleção ↗</a>
+              <a class="button" [routerLink]="['/loja', store.slug]" fragment="colecao"
+                >Explorar a coleção ↗</a
+              >
             </div>
             <div class="shop-hero-image">
               <commerce-image
@@ -239,34 +250,6 @@ import { checkoutReference } from '../checkout-reference';
               <div class="empty">Nenhum produto encontrado.</div>
             }
           </section>
-          @if (recommendations().length) {
-            <section class="container recommendation-section">
-              <div>
-                <span class="eyebrow">ESCOLHAS QUE COMBINAM COM VOCÊ</span>
-                <h2>Vale conhecer também.</h2>
-                <p>
-                  {{
-                    recommendationStrategy() === 'history-category'
-                      ? 'Sugestões a partir das suas compras nesta loja.'
-                      : 'Algumas escolhas da nossa coleção para começar.'
-                  }}
-                </p>
-              </div>
-              <div class="recommendation-items">
-                @for (product of recommendations(); track product.id) {
-                  <button
-                    (click)="add(product)"
-                    [disabled]="available(product.id) <= quantity(product.id) || paying()"
-                  >
-                    <span
-                      >{{ product.name
-                      }}<small>{{ product.priceInCents / 100 | currency: 'BRL' }}</small></span
-                    ><b>＋</b>
-                  </button>
-                }
-              </div>
-            </section>
-          }
         }
         <div class="container shop-signature">
           <span>{{ store.name }}</span>
@@ -496,6 +479,9 @@ import { checkoutReference } from '../checkout-reference';
                     >{{ review.author }}
                     <span class="stars">{{ '★'.repeat(review.rating) }}</span></strong
                   >
+                  @if (review.verifiedPurchase) {
+                    <small class="verified-review">Compra verificada</small>
+                  }
                   <p>{{ review.comment }}</p>
                 </article>
               }
@@ -503,36 +489,51 @@ import { checkoutReference } from '../checkout-reference';
                 <p class="muted">Seja a primeira pessoa a avaliar este produto.</p>
               }
             </div>
-            <form (ngSubmit)="submitReview()">
-              <label
-                >Seu nome<input
-                  name="author"
-                  [(ngModel)]="reviewDraft.author"
-                  required
-                  maxlength="60" /></label
-              ><label
-                >Sua nota<select name="rating" [(ngModel)]="reviewDraft.rating">
-                  <option [ngValue]="5">★★★★★ · Excelente</option>
-                  <option [ngValue]="4">★★★★ · Muito bom</option>
-                  <option [ngValue]="3">★★★ · Bom</option>
-                  <option [ngValue]="2">★★ · Regular</option>
-                  <option [ngValue]="1">★ · Ruim</option>
-                </select></label
-              ><label
-                >Comentário<textarea
-                  name="comment"
-                  [(ngModel)]="reviewDraft.comment"
-                  required
-                  maxlength="500"
-                ></textarea>
-              </label>
-              @if (reviewError()) {
-                <div class="notice error" role="alert">{{ reviewError() }}</div>
-              }
-              <button class="button" [disabled]="reviewSaving()">
-                {{ reviewSaving() ? 'Enviando…' : 'Publicar avaliação' }}
+            @if (!customer()) {
+              <p class="notice">
+                Entre na sua conta de comprador para avaliar um produto que você comprou.
+              </p>
+              <button class="button" (click)="reviewProduct.set(null); openAccount()">
+                Entrar para avaliar
               </button>
-            </form>
+            } @else if (reviewEligibility() === 'loading') {
+              <p role="status">Conferindo sua compra…</p>
+            } @else if (reviewEligibility() === 'purchase-required') {
+              <p class="notice">
+                Você só pode avaliar este produto após uma compra aprovada nesta conta.
+              </p>
+            } @else if (reviewEligibility() === 'allowed') {
+              <form (ngSubmit)="submitReview()">
+                <p class="review-author">
+                  Avaliando como <strong>{{ customer()!.name }}</strong>
+                </p>
+                <label
+                  >Sua nota<select name="rating" [(ngModel)]="reviewDraft.rating">
+                    <option [ngValue]="5">★★★★★ · Excelente</option>
+                    <option [ngValue]="4">★★★★ · Muito bom</option>
+                    <option [ngValue]="3">★★★ · Bom</option>
+                    <option [ngValue]="2">★★ · Regular</option>
+                    <option [ngValue]="1">★ · Ruim</option>
+                  </select></label
+                ><label
+                  >Comentário<textarea
+                    name="comment"
+                    [(ngModel)]="reviewDraft.comment"
+                    required
+                    maxlength="500"
+                  ></textarea>
+                </label>
+                @if (reviewError()) {
+                  <div class="notice error" role="alert">{{ reviewError() }}</div>
+                }
+                <button class="button" [disabled]="reviewSaving()">
+                  {{ reviewSaving() ? 'Enviando…' : 'Publicar avaliação' }}
+                </button>
+              </form>
+            }
+            @if (reviewError() && reviewEligibility() !== 'allowed') {
+              <p class="notice error" role="alert">{{ reviewError() }}</p>
+            }
           </section>
         }
       </main>
@@ -544,6 +545,8 @@ export class StorePage {
   route = inject(ActivatedRoute);
   router = inject(Router);
   sessions = inject(StoreSessions);
+  private injector = inject(Injector);
+  private destroyRef = inject(DestroyRef);
   slug = '';
   productId = '';
   customer = computed(() => this.sessions.profile(this.slug).buyer);
@@ -557,8 +560,6 @@ export class StorePage {
   stock = signal<{ productId: string; available: number }[]>([]);
   loading = signal(true);
   error = signal('');
-  recommendations = signal<Product[]>([]);
-  recommendationStrategy = signal('');
   query = '';
   cart = signal<Record<string, number>>({});
   cartOpen = signal(false);
@@ -571,7 +572,8 @@ export class StorePage {
   reference = '';
   reviewProduct = signal<Product | null>(null);
   reviews = signal<any[]>([]);
-  reviewDraft = { author: '', rating: 5, comment: '' };
+  reviewDraft = { rating: 5, comment: '' };
+  reviewEligibility = signal<'loading' | 'allowed' | 'purchase-required' | 'error'>('loading');
   reviewError = signal('');
   reviewSaving = signal(false);
   constructor() {
@@ -639,20 +641,16 @@ export class StorePage {
           if (pending.couponQuote) this.couponQuote.set(pending.couponQuote);
         }
       } catch {}
-      await this.loadRecommendations();
     } catch (e) {
       this.error.set(errorMessage(e));
     } finally {
       this.loading.set(false);
-    }
-  }
-  async loadRecommendations() {
-    try {
-      const result = await this.api.get('/stores/' + this.slug + '/recommendations');
-      this.recommendations.set(result.products);
-      this.recommendationStrategy.set(result.strategy);
-    } catch {
-      this.recommendations.set([]);
+      if (!this.destroyRef.destroyed && this.route.snapshot?.fragment === 'colecao') {
+        afterNextRender(
+          () => document.getElementById('colecao')?.scrollIntoView({ block: 'start' }),
+          { injector: this.injector },
+        );
+      }
     }
   }
   selectedProduct() {
@@ -663,7 +661,6 @@ export class StorePage {
     this.reference = '';
     this.checkoutError.set('');
     localStorage.removeItem('gerar-checkout-' + this.slug);
-    void this.loadRecommendations();
   }
   openAccount() {
     if (this.paying()) return;
@@ -805,7 +802,6 @@ export class StorePage {
       } catch {
         this.error.set('Pedido registrado. Atualize a página para conferir os saldos atuais.');
       }
-      await this.loadRecommendations();
     } catch (e: any) {
       if (e.status === 401) {
         this.sessions.setBuyer(this.slug, null);
@@ -822,15 +818,30 @@ export class StorePage {
     this.reviewProduct.set(product);
     this.reviewError.set('');
     this.reviews.set([]);
+    this.reviewEligibility.set('loading');
     try {
       this.reviews.set(await this.api.get('/stores/' + this.slug + '/reviews/' + product.id));
+      if (this.customer()) {
+        const eligibility = await this.api.get(
+          '/stores/' + this.slug + '/review-eligibility/' + product.id,
+        );
+        this.reviewEligibility.set(eligibility.purchased ? 'allowed' : 'purchase-required');
+      }
     } catch (e) {
+      if ((e as any).status === 401) this.sessions.setBuyer(this.slug, null);
+      this.reviewEligibility.set('error');
       this.reviewError.set(errorMessage(e));
     }
   }
   async submitReview() {
     const product = this.reviewProduct();
-    if (!product || this.reviewSaving()) return;
+    if (
+      !product ||
+      !this.customer() ||
+      this.reviewEligibility() !== 'allowed' ||
+      this.reviewSaving()
+    )
+      return;
     this.reviewSaving.set(true);
     this.reviewError.set('');
     try {
