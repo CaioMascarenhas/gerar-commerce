@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-10",
+  "codeRevision": "be534c187ffa2d8baa5f21de7943fb6e406c299b",
+  "captureRun": {
+    "project": "gerar-commerce-e2e-1794321506969",
+    "browser": "Chromium",
+    "liveGemini": false,
+    "stats": {
+      "startTime": "2026-11-10T14:39:25.601Z",
+      "duration": 7920.5830000000005,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "images": [
+    {
+      "file": "figuras/compra-movel.png",
+      "origin": "docs/gestao/evidencias/2026-11-10-sacola-movel.png; revisão df3de18cccb2faecaf23a3ea1432f3aeab07d48b",
+      "sha256": "c53ef14be4c7644da61306155ae1a00ac5f906f960ea756377ed245903c729f9"
+    },
+    {
+      "file": "figuras/essential-admin.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "68170bf6490ef529af93503b904581ee556c6572076a42a18e14ac42a53e54bf"
+    },
+    {
+      "file": "figuras/essential-vitrine.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "635bfd2c3ce0be15def05d6fd14dd8a50a2637abbae3266faeacdf6f67dc4ecf"
+    },
+    {
+      "file": "figuras/intelligent-admin.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "647f7c1da99a0fc6d8f9f94b202e76cc9c708256a45b6a4daea6479683b87ba3"
+    },
+    {
+      "file": "figuras/intelligent-vitrine.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "019972f9450de6048a1aaf166f56f04795a3baaa5ed6099f5439fefda1bbb4cb"
+    },
+    {
+      "file": "figuras/plataforma.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "78a7b5e84578e8ac1b7648ebf20e8711b63fcc72dbf2f701fbfb517d7c6f65a8"
+    },
+    {
+      "file": "figuras/selecao-features.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "ae4b556f9c3aecef30d7729edbd9261a9130cd588f9aa8c3e61fd79968e82091"
+    },
+    {
+      "file": "figuras/servicos-ativos.png",
+      "origin": "Rodada isolada de capturas do relatório",
+      "sha256": "d5c5ab0d6b3cea85d6b5035e579bb0d6a1670c29d1bbeada61aaad2ada5639c2"
+    },
+    {
+      "file": "figuras/ufal.png",
+      "origin": "https://ufal.br/ufal/comunicacao/identidade-visual/brasao/sigla/png.png",
+      "sha256": "6df0be3244cfaa670e24d880f7d2fede163db482102b4e16acd6d4e970bbf440"
+    }
+  ]
+}

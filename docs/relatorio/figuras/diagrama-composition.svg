@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="345" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 345" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="345"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-345)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="245" width="216.7716535433071" height="95" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="90.64197911540356" y="328" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,656) scale(1,-1)">«abstract»</text>
+			<text x="60.62606114665355" y="315" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">CommerceApplication</text>
+			<path d="M 0,307 L 216.771654,307 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="294" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,588) scale(1,-1)">+build(): ApplicationBlueprint</text>
+			<text x="8" y="283" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,566) scale(1,-1)">#registerCore(registry)</text>
+			<rect x="236.7716535433071" y="245" width="216.7716535433071" height="95" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="332.2731053149607" y="328" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,656) scale(1,-1)">«class»</text>
+			<text x="302.15479476808565" y="315" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">ComponentRegistry</text>
+			<path d="M 236.771654,307 L 453.543307,307 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="294" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,588) scale(1,-1)">+register(ComponentDescriptor)</text>
+			<text x="244.7716535433071" y="283" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,566) scale(1,-1)">+list(): ComponentDescriptor[]</text>
+			<rect x="0" y="125" width="216.7716535433071" height="85" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="70.36727208415356" y="198" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">«interface TypeScript»</text>
+			<text x="64.13729161540354" y="185" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,370) scale(1,-1)">ApplicationBlueprint</text>
+			<path d="M 0,177 L 216.771654,177 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="164" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,328) scale(1,-1)">configuration: ProductConfiguration</text>
+			<text x="8" y="153" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,306) scale(1,-1)">components: ComponentDescriptor[]</text>
+			<rect x="236.7716535433071" y="125" width="216.7716535433071" height="85" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="307.13892562746065" y="198" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">«interface TypeScript»</text>
+			<text x="297.65479476808565" y="185" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,370) scale(1,-1)">ComponentDescriptor</text>
+			<path d="M 236.771654,177 L 453.543307,177 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="164" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,328) scale(1,-1)">id: string / feature: Feature</text>
+			<text x="244.7716535433071" y="153" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,306) scale(1,-1)">service: string</text>
+			<rect x="0" y="0" width="453.5433070866142" height="85" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="170.3802472933071" y="73" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,146) scale(1,-1)">«classes em processos próprios»</text>
+			<text x="174.0131086214321" y="60" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">Componentes concretos</text>
+			<path d="M 0,52 L 453.543307,52 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="39" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,78) scale(1,-1)">StoresController / CustomersController / CatalogController / InventoryController</text>
+			<text x="8" y="28" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,56) scale(1,-1)">OrdersController / CouponsController / AssistantController / GatewayController</text>
+			<text x="8" y="17" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,34) scale(1,-1)">Frontend: StorePage, AdminPage e componentes Angular</text>
+			<path d="M 216.771654,290 L 236.771654,290 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="236.7717 290, 229.7717 293.3, 229.7717 286.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 108.385827,245 L 108.385827,210 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="108.3858 210, 111.6858 217, 105.0858 217" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 340.15748,245 L 340.15748,210 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="340.1575 210, 343.4575 217, 336.8575 217" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 216.771654,168 L 236.771654,168 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="236.7717 168, 229.7717 171.3, 229.7717 164.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 340.15748,125 L 340.15748,85 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="340.1575 85, 343.4575 92, 336.8575 92" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

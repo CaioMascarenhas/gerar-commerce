@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="255" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 255" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="255"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-255)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="110" y="175" width="233.54330708661422" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="197.8374738558071" y="243" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,486) scale(1,-1)">«contrato HTTP»</text>
+			<text x="188.2645734651821" y="230" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">Pedidos e cupons</text>
+			<path d="M 110,222 L 343.543307,222 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="118" y="209" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,418) scale(1,-1)">POST checkout autenticado</text>
+			<text x="118" y="198" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">GET pedidos / compra verificada</text>
+			<text x="118" y="187" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">CRUD de cupons</text>
+			<rect x="0" y="0" width="217.7716535433071" height="120" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="96.00145177165355" y="108" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,216) scale(1,-1)">«class»</text>
+			<text x="72.62874669352854" y="95" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,190) scale(1,-1)">OrdersController</text>
+			<path d="M 0,87 L 217.771654,87 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="74" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,148) scale(1,-1)">+customerOrders(), list()</text>
+			<text x="8" y="63" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">+purchased(), checkout()</text>
+			<text x="8" y="52" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,104) scale(1,-1)">prepare(): intenção durável</text>
+			<rect x="235.7716535433071" y="0" width="217.7716535433071" height="120" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="310.2218357837107" y="108" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,216) scale(1,-1)">«componente / tipo»</text>
+			<text x="303.66089828371065" y="95" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,190) scale(1,-1)">CouponsController</text>
+			<path d="M 235.771654,87 L 453.543307,87 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="243.7716535433071" y="74" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,148) scale(1,-1)">+list(), save(), remove(), quote()</text>
+			<text x="243.7716535433071" y="63" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">quoteCheckout / SimulatedPayment</text>
+			<text x="243.7716535433071" y="52" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,104) scale(1,-1)">orders: purchases / attempts / coupons</text>
+			<path d="M 113.385827,120 L 201.771654,175 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="201.7717 175, 194.0849 174.1035, 197.5719 168.4999" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<path d="M 217.771654,57 L 235.771654,57 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="235.7717 57, 228.7717 60.3, 228.7717 53.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

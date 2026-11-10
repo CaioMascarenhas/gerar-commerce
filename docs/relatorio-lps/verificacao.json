@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-10",
+  "revision": "5435ce33c7c0cb0f5cd226938793e771464b64a9",
+  "pdf": {
+    "pages": 37,
+    "sha256": "8c671415b78e3250a3f10e2315dce73d08164ef9115d04e37e082c2daec2380b",
+    "figures": 18
+  },
+  "checks": {
+    "authorsVerified": true,
+    "noEnrollmentNumbersOnCover": true,
+    "modelSectionsVerified": 10,
+    "numberedFigures": 18,
+    "outlineDestinationsVerified": 32,
+    "selectedExcerptsVerified": 2,
+    "repositoryLinksOnCoverAndToc": true,
+    "runtimeScenarioPassed": 1,
+    "liveGemini": false,
+    "unresolvedDirectives": 0,
+    "replacementGlyphs": 0
+  },
+  "captureRun": {
+    "project": "gerar-commerce-e2e-1794353528992",
+    "stats": {
+      "startTime": "2026-11-10T23:32:50.261Z",
+      "duration": 6575.681,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  }
+}

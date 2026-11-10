@@ -1,0 +1,258 @@
+{
+  "revision": "5435ce33c7c0cb0f5cd226938793e771464b64a9",
+  "services": [
+    {
+      "service": "stores",
+      "status": "ok",
+      "port": 3006,
+      "storage": "postgres"
+    },
+    {
+      "service": "catalog",
+      "status": "ok",
+      "port": 3001,
+      "storage": "postgres"
+    },
+    {
+      "service": "inventory",
+      "status": "ok",
+      "port": 3002,
+      "storage": "postgres"
+    },
+    {
+      "service": "orders",
+      "status": "ok",
+      "port": 3003,
+      "storage": "postgres"
+    },
+    {
+      "service": "recommendations",
+      "status": "ok",
+      "port": 3004,
+      "storage": "none"
+    },
+    {
+      "service": "ai-assistant",
+      "status": "ok",
+      "port": 3005,
+      "storage": "none"
+    }
+  ],
+  "gateway": {
+    "service": "gateway",
+    "status": "ok",
+    "port": 3000,
+    "storage": "none"
+  },
+  "personal": {
+    "strategy": "history-category",
+    "products": [
+      {
+        "id": "c41ab69c-7bdf-4058-ae2b-31b665b7894f",
+        "name": "Hub Beta",
+        "image": "",
+        "category": "eletronicos",
+        "imageFrame": {
+          "x": 50,
+          "y": 50,
+          "fit": "contain",
+          "zoom": 1
+        },
+        "description": "Produto fictício para validar a linha de produtos.",
+        "imageSource": "owner",
+        "priceInCents": 12000,
+        "reason": "Quem comprou Sensor Alpha também levou este."
+      },
+      {
+        "id": "fe0677b5-d637-4707-8ca0-0d3b4d52a930",
+        "name": "Fone Sigma",
+        "image": "",
+        "category": "eletronicos",
+        "imageFrame": {
+          "x": 50,
+          "y": 50,
+          "fit": "contain",
+          "zoom": 1
+        },
+        "description": "Produto fictício para validar a linha de produtos.",
+        "imageSource": "owner",
+        "priceInCents": 8000,
+        "reason": "Combina com as categorias das suas compras."
+      },
+      {
+        "id": "bad3427e-70b5-4a41-970f-169d2f240e38",
+        "name": "Cabo Delta",
+        "image": "",
+        "category": "eletronicos",
+        "imageFrame": {
+          "x": 50,
+          "y": 50,
+          "fit": "contain",
+          "zoom": 1
+        },
+        "description": "Produto fictício para validar a linha de produtos.",
+        "imageSource": "owner",
+        "priceInCents": 3000,
+        "reason": "Combina com as categorias das suas compras."
+      }
+    ]
+  },
+  "visitor": {
+    "strategy": "store-popularity",
+    "products": [
+      {
+        "id": "907da15d-0a5e-483c-bad8-7c2a1914c1c0",
+        "name": "Sensor Alpha",
+        "image": "",
+        "category": "eletronicos",
+        "imageFrame": {
+          "x": 50,
+          "y": 50,
+          "fit": "contain",
+          "zoom": 1
+        },
+        "description": "Produto fictício para validar a linha de produtos.",
+        "imageSource": "owner",
+        "priceInCents": 10000,
+        "reason": "Um dos mais comprados da loja."
+      },
+      {
+        "id": "c41ab69c-7bdf-4058-ae2b-31b665b7894f",
+        "name": "Hub Beta",
+        "image": "",
+        "category": "eletronicos",
+        "imageFrame": {
+          "x": 50,
+          "y": 50,
+          "fit": "contain",
+          "zoom": 1
+        },
+        "description": "Produto fictício para validar a linha de produtos.",
+        "imageSource": "owner",
+        "priceInCents": 12000,
+        "reason": "Um dos mais comprados da loja."
+      },
+      {
+        "id": "fe0677b5-d637-4707-8ca0-0d3b4d52a930",
+        "name": "Fone Sigma",
+        "image": "",
+        "category": "eletronicos",
+        "imageFrame": {
+          "x": 50,
+          "y": 50,
+          "fit": "contain",
+          "zoom": 1
+        },
+        "description": "Produto fictício para validar a linha de produtos.",
+        "imageSource": "owner",
+        "priceInCents": 8000,
+        "reason": "Um dos mais comprados da loja."
+      }
+    ]
+  },
+  "foreignHistoryStatus": 403,
+  "derived": {
+    "slug": "atelie-horizonte",
+    "options": [
+      "coupons",
+      "reviews",
+      "aiAssistant"
+    ],
+    "blueprint": {
+      "plan": {
+        "id": "inteligente",
+        "name": "Inteligente",
+        "monthlyInCents": 9990
+      },
+      "theme": {
+        "icon": "✳",
+        "name": "Roupas",
+        "accent": "#a33265",
+        "surface": "#fbeaf2"
+      },
+      "components": [
+        {
+          "id": "catalog",
+          "feature": "catalog",
+          "service": "catalog"
+        },
+        {
+          "id": "inventory",
+          "feature": "inventory",
+          "service": "inventory"
+        },
+        {
+          "id": "cart",
+          "feature": "cart",
+          "service": "storefront"
+        },
+        {
+          "id": "orders",
+          "feature": "orders",
+          "service": "orders"
+        },
+        {
+          "id": "checkout",
+          "feature": "checkout",
+          "service": "orders"
+        },
+        {
+          "id": "recommendations",
+          "feature": "recommendations",
+          "service": "recommendations"
+        },
+        {
+          "id": "administration",
+          "feature": "administration",
+          "service": "storefront"
+        },
+        {
+          "id": "coupons",
+          "feature": "coupons",
+          "service": "orders"
+        },
+        {
+          "id": "reviews",
+          "feature": "reviews",
+          "service": "catalog"
+        },
+        {
+          "id": "aiAssistant",
+          "feature": "aiAssistant",
+          "service": "ai-assistant"
+        }
+      ],
+      "configuration": {
+        "id": "atelie-horizonte",
+        "name": "Ateliê Horizonte",
+        "payment": "simulated",
+        "features": [
+          "catalog",
+          "inventory",
+          "cart",
+          "orders",
+          "checkout",
+          "recommendations",
+          "administration",
+          "coupons",
+          "reviews",
+          "aiAssistant"
+        ],
+        "accentColor": "#a33265",
+        "fulfillment": "pickup"
+      },
+      "shippingInCents": 0
+    }
+  },
+  "checks": [
+    "Composição core de 7 features",
+    "Cadastro completo pela interface",
+    "Plano recalculado para 9990 centavos",
+    "Recomendação personalizada por cesta",
+    "Exclusão de comprado e esgotado",
+    "Popularidade para visitante",
+    "Histórico alheio bloqueado",
+    "Seis serviços internos e gateway saudáveis"
+  ],
+  "liveGemini": false
+}

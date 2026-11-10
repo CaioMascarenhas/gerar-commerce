@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-10",
+  "pdf": {
+    "pages": 44,
+    "sha256": "41dd62d46a5d91684c57677816f63c0a11b3e5d04ac498b7190933e60d3ba24b",
+    "figures": 20
+  },
+  "checks": {
+    "numberedModelSections": 11,
+    "outlineDestinationsVerified": 41,
+    "sourceFilesReferencedOnGitHub": 16,
+    "selectedExcerptsVerified": 5,
+    "selectedExcerptLines": 134,
+    "noFullCodeAppendices": true,
+    "githubLinksVerifiedInPdf": 14,
+    "individualCoverIdentityVerified": true,
+    "unresolvedDirectives": 0,
+    "replacementGlyphs": 0,
+    "repositoryLinkOnCover": true,
+    "repositoryLinkOnToc": true,
+    "tocInternalLinksOnFirstPage": 56
+  }
+}

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="495" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 495" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="495"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-495)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="126" y="445" width="200" height="45" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="185.442431640625" y="464.5" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,929) scale(1,-1)">Loja Gerar Commerce</text>
+			<path d="M 226.771654,445 L 72.5,415 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="72.5 415, 80.00121 413.0969, 78.74136 419.5755" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="0" y="365" width="145" height="50" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="49.481542968750006" y="387.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,774) scale(1,-1)">Núcleo [7..7]</text>
+			<path d="M 72.5,365 L 72.5,358 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<path d="M 72.5,358 L 6,358 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<path d="M 6,358 L 6,90 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<path d="M 6,336 L 20,336 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 336, 13 339.3, 13 332.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="319" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="64.08798828125" y="333.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,666) scale(1,-1)">Catálogo</text>
+			<path d="M 6,295 L 20,295 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 295, 13 298.3, 13 291.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="278" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="65.455322265625" y="292.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,584) scale(1,-1)">Estoque</text>
+			<path d="M 6,254 L 20,254 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 254, 13 257.3, 13 250.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="237" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="64.77666015625" y="251.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,502) scale(1,-1)">Carrinho</text>
+			<path d="M 6,213 L 20,213 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 213, 13 216.3, 13 209.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="196" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="63.1791015625" y="210.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,420) scale(1,-1)">Checkout</text>
+			<path d="M 6,172 L 20,172 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 172, 13 175.3, 13 168.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="155" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="65.683544921875" y="169.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,338) scale(1,-1)">Pedidos</text>
+			<path d="M 6,131 L 20,131 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 131, 13 134.3, 13 127.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="114" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="49.731982421875" y="128.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,256) scale(1,-1)">Recomendações</text>
+			<path d="M 6,90 L 20,90 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="20 90, 13 93.3, 13 86.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="20" y="73" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="54.522656250000004" y="87.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,174) scale(1,-1)">Administração</text>
+			<path d="M 226.771654,445 L 226.5,415 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.5 415, 229.8632 421.9698, 223.2635 422.0296" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="154" y="365" width="145" height="50" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="198.466650390625" y="387.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,774) scale(1,-1)">Categoria [1..1]</text>
+			<path d="M 226.5,365 L 226.5,358 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<path d="M 226.5,358 L 160,358 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<path d="M 160,358 L 160,218 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<path d="M 160,336 L 174,336 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="174 336, 167 339.3, 167 332.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="174" y="319" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="214.218212890625" y="333.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,666) scale(1,-1)">Eletrônicos</text>
+			<path d="M 160,277 L 174,277 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="174 277, 167 280.3, 167 273.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="174" y="260" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="213.533544921875" y="274.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,548) scale(1,-1)">Construção</text>
+			<path d="M 160,218 L 174,218 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="174 218, 167 221.3, 167 214.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="174" y="201" width="121" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="220.368212890625" y="215.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,430) scale(1,-1)">Roupas</text>
+			<path d="M 226.771654,445 L 380.771654,415 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="380.7717 415, 374.5318 419.5776, 373.2698 413.0994" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="308" y="365" width="145.54330708661422" height="50" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="352.28386057455714" y="387.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,774) scale(1,-1)">Opcionais [0..4]</text>
+			<path d="M 380.771654,365 L 380.771654,358 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<path d="M 380.771654,358 L 314,358 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<path d="M 314,358 L 314,159 Z" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<path d="M 314,336 L 328,336 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="328 336, 321 339.3, 321 332.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="328" y="319" width="121.54330708661422" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="374.6398664339321" y="333.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,666) scale(1,-1)">Cupons</text>
+			<path d="M 314,277 L 328,277 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="328 277, 321 280.3, 321 273.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="328" y="260" width="121.54330708661422" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="368.9443097933071" y="274.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,548) scale(1,-1)">Avaliações</text>
+			<path d="M 314,218 L 328,218 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="328 218, 321 221.3, 321 214.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="328" y="201" width="121.54330708661422" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="364.8403058870571" y="215.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,430) scale(1,-1)">Entrega local</text>
+			<path d="M 314,159 L 328,159 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="328 159, 321 162.3, 321 155.7" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="328" y="142" width="121.54330708661422" height="34" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(100%,100%,100%); fill-rule: evenodd; stroke-dasharray: 3, 2;"/>
+			<text x="365.06452463705716" y="156.0" style="font-family: Sans; font-size: 8.2px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,312) scale(1,-1)">Agente de IA</text>
+			<text x="0" y="12" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,24) scale(1,-1)">Cardinalidades: todos os 7; exatamente 1 categoria; qualquer subconjunto dos 4 opcionais.</text>
+		</g>
+	</g>
+</svg>

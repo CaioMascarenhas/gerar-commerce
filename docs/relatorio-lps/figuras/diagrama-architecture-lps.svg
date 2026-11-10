@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="555" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 555" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="555"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-555)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="110" y="475" width="233.54330708661422" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="199.5166730745571" y="538" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1076) scale(1,-1)">«apresentação»</text>
+			<text x="193.5204328401821" y="525" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1050) scale(1,-1)">Nginx / Angular</text>
+			<path d="M 110,517 L 343.543307,517 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="118" y="504" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1008) scale(1,-1)">Host 4200; HTTP /api</text>
+			<rect x="110" y="375" width="233.54330708661422" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="210.2969465120571" y="438" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,876) scale(1,-1)">«NestJS»</text>
+			<text x="197.0009015901821" y="425" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,850) scale(1,-1)">Gateway 3000</text>
+			<path d="M 110,417 L 343.543307,417 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="118" y="404" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,808) scale(1,-1)">Sessões e roteamento</text>
+			<path d="M 226.771654,475 L 226.771654,450 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 450, 230.0717 457, 223.4717 457" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="0" y="115" width="453.5433070866142" height="235" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.6; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="176.0082258089321" y="334" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,668) scale(1,-1)">Serviços internos HTTP</text>
+			<path d="M 226.771654,375 L 226.771654,350 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 350, 230.0717 357, 223.4717 357" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="7.0" y="238" width="141.18110236220474" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="61.11584414985237" y="306" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,612) scale(1,-1)">«NestJS»</text>
+			<text x="65.83737735297737" y="293" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,586) scale(1,-1)">Lojas</text>
+			<path d="M 7,285 L 148.181102,285 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="15.0" y="272" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,544) scale(1,-1)">3006</text>
+			<rect x="156.18110236220474" y="238" width="141.18110236220474" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="210.2969465120571" y="306" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,612) scale(1,-1)">«NestJS»</text>
+			<text x="207.5214094026821" y="293" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,586) scale(1,-1)">Catálogo</text>
+			<path d="M 156.181102,285 L 297.362205,285 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="164.18110236220474" y="272" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,544) scale(1,-1)">3001</text>
+			<rect x="305.3622047244095" y="238" width="141.18110236220474" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="359.47804887426184" y="306" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,612) scale(1,-1)">«NestJS»</text>
+			<text x="358.2010469211368" y="293" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,586) scale(1,-1)">Estoque</text>
+			<path d="M 305.362205,285 L 446.543307,285 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="313.3622047244095" y="272" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,544) scale(1,-1)">3002</text>
+			<rect x="7.0" y="135" width="141.18110236220474" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="61.11584414985237" y="203" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,406) scale(1,-1)">«NestJS»</text>
+			<text x="60.08713321235237" y="190" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,380) scale(1,-1)">Pedidos</text>
+			<path d="M 7,182 L 148.181102,182 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="15.0" y="169" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,338) scale(1,-1)">3003</text>
+			<rect x="156.18110236220474" y="135" width="141.18110236220474" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="210.2969465120571" y="203" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,406) scale(1,-1)">«NestJS»</text>
+			<text x="191.0067609651821" y="190" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,380) scale(1,-1)">Recomendações</text>
+			<path d="M 156.181102,182 L 297.362205,182 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="164.18110236220474" y="169" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,338) scale(1,-1)">3004</text>
+			<rect x="305.3622047244095" y="135" width="141.18110236220474" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="359.47804887426184" y="203" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,406) scale(1,-1)">«NestJS»</text>
+			<text x="371.4527559055118" y="190" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,380) scale(1,-1)">IA</text>
+			<path d="M 305.362205,182 L 446.543307,182 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="313.3622047244095" y="169" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,338) scale(1,-1)">3005</text>
+			<rect x="0" y="0" width="326.55118110236225" height="85" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="138.77227023868113" y="73" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,146) scale(1,-1)">«persistência»</text>
+			<text x="131.01533664493112" y="60" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">PostgreSQL 17</text>
+			<path d="M 0,52 L 326.551181,52 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="39" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,78) scale(1,-1)">stores | catalog | inventory | orders</text>
+			<text x="8" y="28" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,56) scale(1,-1)">Host 5433; volume commerce-data</text>
+			<rect x="340.15748031496065" y="0" width="113.38582677165357" height="85" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="372.76826479453746" y="73" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,146) scale(1,-1)">«API externa»</text>
+			<text x="381.59697573203744" y="60" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">Gemini</text>
+			<path d="M 340.15748,52 L 453.543307,52 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="348.15748031496065" y="39" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,78) scale(1,-1)">Via Mastra</text>
+			<path d="M 158.740157,115 L 158.740157,85 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="158.7402 85, 162.0402 92, 155.4402 92" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 394.582677,135 L 394.582677,85 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="394.5827 85, 397.8827 92, 391.2827 92" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

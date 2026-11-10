@@ -4,6 +4,8 @@ Fontes locais: `projeto_docs/atividade.txt`, `projeto_docs/atividadereuso.txt` e
 
 ## Linha de produtos — Tópico em Engenharia de Software
 
+Entrega de PB-021: [PDF da LPS](relatorio-lps/relatorio-lps.pdf) e [fonte editável](relatorio-lps.md), de **Caio Mascarenhas Soares e Laura Marques Costa**, sem matrículas. A referência é a revisão do GitHub `5435ce33c7c0cb0f5cd226938793e771464b64a9`, com sete features core e recomendações restauradas. Os diagramas e capturas dessa referência estão em `docs/relatorio-lps/`, preservando os arquivos locais de implementação e a referência anterior do relatório de Reuso.
+
 | Item do modelo                                   | Evidência planejada / caminho                              | Backlog                |
 | ------------------------------------------------ | ---------------------------------------------------------- | ---------------------- |
 | 1–4: enunciado, método ágil e técnicas de reuso  | README, gestão, arquitetura e descrição do processo        | PB-001, PB-002, PB-021 |
@@ -19,11 +21,10 @@ Fontes locais: `projeto_docs/atividade.txt`, `projeto_docs/atividadereuso.txt` e
 | 7: tecnologias e bancos por serviço              | docs/arquitetura.md, schemas PostgreSQL por domínio        | PB-008, PB-021         |
 | 8: telas e destaque dos microsserviços           | Roteiro e screenshots da versão final                      | PB-019, PB-021         |
 | 9–10: código GitHub, execução e referências      | README e docs/referencias.md                               | PB-021                 |
-| 11: vídeo de jogo                                | Não aplicável ao e-commerce                                | —                      |
 
 ## Reuso de Software e Metodologias Ágeis
 
-Identificação específica desta entrega: Universidade Federal de Alagoas (UFAL), Instituto de Computação, **Caio Mascarenhas Soares**, matrícula **22111481**, como único autor. A capa deve incluir a marca oficial da UFAL. A estrutura completa e os critérios de geração estão em [Preparação do relatório de Reuso](relatorio-reuso.md). A autoria individual deste relatório não altera o histórico da equipe no projeto.
+Identificação específica desta entrega: Universidade Federal de Alagoas (UFAL), Instituto de Computação, **Caio Mascarenhas Soares**, matrícula **22111481**, como único autor. O [PDF do relatório](relatorio/relatorio-reuso.pdf) inclui a marca oficial da UFAL, as 11 seções aplicáveis, diagramas e capturas. Conforme solicitação do autor, as listagens se concentram no funcionamento do framework e dos agentes Mastra, e o código completo é referenciado por links do GitHub na seção 10. A [fonte editável](relatorio-reuso.md) e o [procedimento de geração](relatorio/README.md) acompanham a entrega, registrada em PB-022 como Em revisão. A autoria individual deste relatório não altera o histórico da equipe no projeto.
 
 | Item do modelo                                      | Evidência planejada / caminho                                               | Backlog        |
 | --------------------------------------------------- | --------------------------------------------------------------------------- | -------------- |
@@ -36,7 +37,6 @@ Identificação específica desta entrega: Universidade Federal de Alagoas (UFAL
 | 7–8: tecnologias, bancos e aplicações               | Tabela por serviço + duas derivações                                        | PB-008, PB-022 |
 | 9: telas e funcionamento das duas aplicações        | Demonstração completa e capturas                                            | PB-019, PB-022 |
 | 10–11: GitHub, execução e referências               | README e referências                                                        | PB-022         |
-| 12: vídeo de jogo                                   | Não aplicável ao e-commerce                                                 | —              |
 
 ## Regras comerciais adotadas
 
@@ -57,4 +57,4 @@ Os modelos citam o artigo de framework de pagamentos e relatórios de referênci
 
 ## Revisão de escopo — 10/11
 
-As recomendações foram retiradas em 10/11 e restauradas com melhorias (ADR-011). O item 6.1 e PB-014 voltam a ser atendidos pelo serviço `recommendations`, que usa o histórico do comprador e as cestas da loja. O chat opcional com Gemini permanece distinto desse algoritmo.
+O usuário solicitou uma retirada temporária das recomendações automáticas, registrada em PB-043 e na revisão de referência do relatório de Reuso. Posteriormente, a pull request 47 e a ADR-011 restauraram o microsserviço obrigatório, e o relatório de LPS utiliza a revisão posterior `5435ce3`. O item 6.1 e PB-014 voltam a ser atendidos pelo serviço `recommendations`, que usa o histórico do comprador e as cestas da loja. Cada relatório identifica a própria referência e suas evidências. O chat opcional com Gemini permanece distinto do ranking por histórico.

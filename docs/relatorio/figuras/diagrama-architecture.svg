@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="430" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 430" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="430"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-430)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="115" y="353" width="223.54330708661422" height="77" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="207.1259504183071" y="418" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,836) scale(1,-1)">«processo»</text>
+			<text x="193.5204328401821" y="405" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,810) scale(1,-1)">Nginx / Angular</text>
+			<path d="M 115,397 L 338.543307,397 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="123" y="384" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,768) scale(1,-1)">Host 4200; HTTP /api</text>
+			<rect x="115" y="248" width="223.54330708661422" height="77" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="207.1259504183071" y="313" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,626) scale(1,-1)">«processo»</text>
+			<text x="208.2618879183071" y="300" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,600) scale(1,-1)">Gateway</text>
+			<path d="M 115,292 L 338.543307,292 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="123" y="279" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,558) scale(1,-1)">3000; sessão e roteamento</text>
+			<path d="M 226.771654,353 L 226.771654,325 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 325, 230.0717 332, 223.4717 332" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="0.0" y="130" width="85.10866141732285" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="28.406381489911425" y="193" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,386) scale(1,-1)">«HTTP»</text>
+			<text x="30.801156880536425" y="180" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">Lojas</text>
+			<path d="M 0,172 L 85.108661,172 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8.0" y="159" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,318) scale(1,-1)">3006</text>
+			<path d="M 226.771654,248 L 42.554331,205 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="42.55433 205, 50.12121 203.3776, 48.62097 209.8048" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="92.10866141732285" y="130" width="85.10866141732285" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="120.51504290723426" y="193" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,386) scale(1,-1)">«HTTP»</text>
+			<text x="115.41274798535926" y="180" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">Catálogo</text>
+			<path d="M 92.108661,172 L 177.217323,172 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="100.10866141732285" y="159" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,318) scale(1,-1)">3001</text>
+			<path d="M 226.771654,248 L 134.662992,205 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="134.663 205, 142.4018 204.9709, 139.6099 210.9513" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="184.2173228346457" y="130" width="85.10866141732282" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="212.62370432455714" y="193" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,386) scale(1,-1)">«HTTP»</text>
+			<text x="209.01994455893214" y="180" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">Estoque</text>
+			<path d="M 184.217323,172 L 269.325984,172 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="192.2173228346457" y="159" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,318) scale(1,-1)">3002</text>
+			<path d="M 226.771654,248 L 226.771654,205 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 205, 230.0717 212, 223.4717 212" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="276.3259842519685" y="130" width="85.10866141732288" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="304.73236574187996" y="193" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,386) scale(1,-1)">«HTTP»</text>
+			<text x="301.37689699187996" y="180" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">Pedidos</text>
+			<path d="M 276.325984,172 L 361.434646,172 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="284.3259842519685" y="159" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,318) scale(1,-1)">3003</text>
+			<path d="M 226.771654,248 L 318.880315,205 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="318.8803 205, 313.9334 210.9513, 311.1415 204.9709" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="368.4346456692914" y="130" width="85.10866141732288" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="396.84102715920284" y="193" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,386) scale(1,-1)">«HTTP»</text>
+			<text x="406.48897637795284" y="180" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">IA</text>
+			<path d="M 368.434646,172 L 453.543307,172 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="376.4346456692914" y="159" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,318) scale(1,-1)">3005</text>
+			<path d="M 226.771654,248 L 410.988976,205 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="410.989 205, 404.9223 209.8048, 403.4221 203.3776" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="0" y="0" width="326.55118110236225" height="83" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="131.58975070743114" y="71" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,142) scale(1,-1)">«armazenamento»</text>
+			<text x="131.01533664493112" y="58" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,116) scale(1,-1)">PostgreSQL 17</text>
+			<path d="M 0,50 L 326.551181,50 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="37" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,74) scale(1,-1)">stores | catalog | inventory | orders</text>
+			<text x="8" y="26" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,52) scale(1,-1)">Uma instância, schemas por domínio</text>
+			<text x="8" y="15" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,30) scale(1,-1)">Host 5433; volume commerce-data</text>
+			<rect x="340.15748031496065" y="0" width="113.38582677165357" height="83" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="386.49873354453746" y="71" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,142) scale(1,-1)">«API»</text>
+			<text x="381.59697573203744" y="58" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,116) scale(1,-1)">Gemini</text>
+			<path d="M 340.15748,50 L 453.543307,50 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="348.15748031496065" y="37" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,74) scale(1,-1)">Provedor externo</text>
+			<text x="348.15748031496065" y="26" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,52) scale(1,-1)">Via Mastra</text>
+			<path d="M 42.554331,130 L 42.554331,83 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="42.55433 83, 45.85433 90, 39.25433 90" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 134.662992,130 L 134.662992,83 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="134.663 83, 137.963 90, 131.363 90" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 226.771654,130 L 226.771654,83 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 83, 230.0717 90, 223.4717 90" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 318.880315,130 L 312.944882,83 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="312.9449 83, 317.0959 89.53138, 310.5479 90.3583" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 410.988976,130 L 394.582677,83 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="394.5827 83, 400.0053 88.52135, 393.774 90.6965" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

@@ -9,6 +9,8 @@ coverage/
 .env.*
 !.env.example
 *.tsbuildinfo
+__pycache__/
+*.pyc
 .tmp/
 tmp/
 output/

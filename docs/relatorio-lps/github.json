@@ -1,0 +1,62 @@
+{
+  "repository": "https://github.com/CaioMascarenhas/gerar-commerce",
+  "branch": "main",
+  "revision": "5435ce33c7c0cb0f5cd226938793e771464b64a9",
+  "team": [
+    "Caio Mascarenhas Soares",
+    "Laura Marques Costa"
+  ],
+  "readmeTeam": [
+    "Equipe: Caio Mascarenhas Soares e Laura Marques Costa · IC/UFAL · 2026.2."
+  ],
+  "recentCommits": [
+    {
+      "sha": "5435ce33c7c0cb0f5cd226938793e771464b64a9",
+      "message": "Merge pull request #48 from CaioMascarenhas/docs/diagramas-recomendacoes",
+      "author": "Laura Costa"
+    },
+    {
+      "sha": "d8e58347a93224846f5712801a6291e58fb0a9f1",
+      "message": "docs: adiciona diagramas de camadas, variabilidade e componentes",
+      "author": "Lauracostam"
+    },
+    {
+      "sha": "d872ae5e04f960d07c7e5ab9ed453835d6315ad5",
+      "message": "Merge pull request #47 from CaioMascarenhas/feat/restaura-recomendacoes",
+      "author": "Laura Costa"
+    },
+    {
+      "sha": "2d3b8e08d302cacabbbc640e7e97caddb84bd8be",
+      "message": "test(e2e): atualiza a contagem de funcionalidades core para 7",
+      "author": "Lauracostam"
+    },
+    {
+      "sha": "32082ad9e13c85165649fa1ef8db987b86cd1f5b",
+      "message": "feat(recomendacoes): restaura o serviço e ranqueia por histórico e cestas da loja",
+      "author": "Lauracostam"
+    },
+    {
+      "sha": "1eb36161ce80ea38819ed38a3dc7a8a6bd6f5772",
+      "message": "fix(frontend): oculta link Painel da loja quando já está em /admin",
+      "author": "Lauracostam"
+    },
+    {
+      "sha": "be534c187ffa2d8baa5f21de7943fb6e406c299b",
+      "message": "fix: integra correções da loja e avaliações verificadas (#46)",
+      "author": "Caio Mascarenhas Soares"
+    },
+    {
+      "sha": "f94f32a405bb288f8a2de34864da370fc8398833",
+      "message": "test(e2e): delimita logout aos controles de cada perfil",
+      "author": "Caio"
+    }
+  ],
+  "recommendationFiles": [
+    "backend/services/recommendations",
+    "backend/services/recommendations/package.json",
+    "backend/services/recommendations/src",
+    "backend/services/recommendations/src/main.ts",
+    "backend/services/recommendations/tsconfig.json"
+  ],
+  "files": 196
+}

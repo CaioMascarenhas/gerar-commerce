@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="455" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 455" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="455"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-455)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="390" width="453.5433070866142" height="65" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.0259504183071" y="443" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,886) scale(1,-1)">«camada»</text>
+			<text x="197.0096906526821" y="430" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,860) scale(1,-1)">Apresentação</text>
+			<path d="M 0,422 L 453.543307,422 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="409" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,818) scale(1,-1)">Angular + Nginx: plataforma, cadastro, vitrine e administração</text>
+			<rect x="0" y="305" width="453.5433070866142" height="65" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.0259504183071" y="358" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,716) scale(1,-1)">«camada»</text>
+			<text x="210.0175031526821" y="345" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,690) scale(1,-1)">Entrada</text>
+			<path d="M 0,337 L 453.543307,337 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="324" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,648) scale(1,-1)">Gateway: rotas /api, cookies, limites e autorização</text>
+			<rect x="0" y="205" width="453.5433070866142" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.0259504183071" y="273" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,546) scale(1,-1)">«camada»</text>
+			<text x="182.7604230745571" y="260" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,520) scale(1,-1)">Serviços de domínio</text>
+			<path d="M 0,252 L 453.543307,252 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="239" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,478) scale(1,-1)">Lojas | Catálogo | Estoque | Pedidos | Recomendações | IA</text>
+			<text x="8" y="228" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,456) scale(1,-1)">Processos NestJS independentes; integração HTTP/JSON</text>
+			<rect x="0" y="105" width="453.5433070866142" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.0259504183071" y="173" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,346) scale(1,-1)">«camada»</text>
+			<text x="160.50212229330708" y="160" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,320) scale(1,-1)">Ativos de reuso em bibliotecas</text>
+			<path d="M 0,152 L 453.543307,152 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="139" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,278) scale(1,-1)">framework: composição, features, planos e políticas</text>
+			<text x="8" y="128" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,256) scale(1,-1)">contracts: tipos | platform: bootstrap, HTTP e PostgreSQL</text>
+			<rect x="0" y="0" width="453.5433070866142" height="80" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.0259504183071" y="68" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,136) scale(1,-1)">«camada»</text>
+			<text x="200.2550519808071" y="55" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,110) scale(1,-1)">Persistência</text>
+			<path d="M 0,47 L 453.543307,47 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="34" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,68) scale(1,-1)">PostgreSQL 17: stores, catalog, inventory e orders</text>
+			<text x="8" y="23" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,46) scale(1,-1)">Instância e credencial compartilhadas na demonstração</text>
+			<path d="M 226.771654,390 L 226.771654,370 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 370, 230.0717 377, 223.4717 377" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 226.771654,305 L 226.771654,285 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 285, 230.0717 292, 223.4717 292" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 226.771654,205 L 226.771654,185 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 185, 230.0717 192, 223.4717 192" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 226.771654,105 L 226.771654,80 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 80, 230.0717 87, 223.4717 87" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

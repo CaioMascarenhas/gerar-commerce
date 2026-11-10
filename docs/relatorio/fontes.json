@@ -1,0 +1,155 @@
+{
+  "revision": "be534c187ffa2d8baa5f21de7943fb6e406c299b",
+  "date": "2026-11-10",
+  "sourceFiles": [
+    {
+      "path": "backend/services/gateway/src/main.ts",
+      "sha256": "bbaf7b84eba44b9c56fdf11f86a02c3564677ce326c13dd6783960fea5b30845",
+      "lines": 387,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/gateway/src/main.ts"
+    },
+    {
+      "path": "backend/services/stores/src/customers.ts",
+      "sha256": "59792cc0d88f044e5683f3a9779a4b91f9677a11cc4b0e12bf9cc736ee137847",
+      "lines": 124,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/stores/src/customers.ts"
+    },
+    {
+      "path": "backend/services/stores/src/main.ts",
+      "sha256": "1f87360554269dfc1d16bc44d904cb5b71258fb670b7dc8bd5afe3a5659c563f",
+      "lines": 198,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/stores/src/main.ts"
+    },
+    {
+      "path": "backend/services/catalog/src/main.ts",
+      "sha256": "f659f4b4b9c920ff6cdacec73892c50ff2894acd465b82cdcc4f40fdd387e024",
+      "lines": 185,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/catalog/src/main.ts"
+    },
+    {
+      "path": "backend/services/inventory/src/main.ts",
+      "sha256": "acedf71d90d783f91f607762868e64bd5d4a9b3bf4c6b5235fa7ffc577c2c64e",
+      "lines": 131,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/inventory/src/main.ts"
+    },
+    {
+      "path": "backend/services/orders/src/coupons.ts",
+      "sha256": "8395b306d0cba6145e22cc0a982f33ac710ac70e9472f346dffc2b03e867e98f",
+      "lines": 106,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/orders/src/coupons.ts"
+    },
+    {
+      "path": "backend/services/orders/src/main.ts",
+      "sha256": "e0f5e6c31ddb148709aca72803749c8fc3fa6ed51e353218ade331e16f3c8b21",
+      "lines": 194,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/orders/src/main.ts"
+    },
+    {
+      "path": "backend/services/ai-assistant/src/main.ts",
+      "sha256": "7e984bec1deea5e73b72f54001ac5dde14e80d6335a31ec8d80fd50a08da05e1",
+      "lines": 209,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/ai-assistant/src/main.ts"
+    },
+    {
+      "path": "backend/services/ai-assistant/src/photos.ts",
+      "sha256": "f0bc3dac2906d8dc131718c8771c7ba15e7709d264020e8d842280cab7bd4d31",
+      "lines": 27,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/services/ai-assistant/src/photos.ts"
+    },
+    {
+      "path": "backend/packages/contracts/src/index.ts",
+      "sha256": "0fe89aa2ffbde489efb499632d4be6cee948647586705af943e41723cbb27ab2",
+      "lines": 58,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/contracts/src/index.ts"
+    },
+    {
+      "path": "backend/packages/framework/src/core.ts",
+      "sha256": "8a836fa36d637900202d8a15448ad0bc71cfd0781eeb4375bef5c25da2d2f37b",
+      "lines": 148,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/framework/src/core.ts"
+    },
+    {
+      "path": "backend/packages/framework/src/dynamic.ts",
+      "sha256": "e9350b5813312edc0c4d372e7dbc4320c19e3f78a7c1f03d0ce0756b48d4594a",
+      "lines": 214,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/framework/src/dynamic.ts"
+    },
+    {
+      "path": "backend/packages/framework/src/index.ts",
+      "sha256": "d5dbc32de9dd2b7422124e64d62e9b328940ea0f3b9f2b3c8a8c3a08a5987a8f",
+      "lines": 2,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/framework/src/index.ts"
+    },
+    {
+      "path": "backend/packages/platform/src/commerce.ts",
+      "sha256": "208daf78b849c1f102619f5012c66c119bb8746cf912988be30fc83c85a8375b",
+      "lines": 95,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/platform/src/commerce.ts"
+    },
+    {
+      "path": "backend/packages/platform/src/database.ts",
+      "sha256": "aa88e7f465f8f2840a96ee6a45c29503cb9bbb5e989f4aa0352fb33bfc4c5a67",
+      "lines": 26,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/platform/src/database.ts"
+    },
+    {
+      "path": "backend/packages/platform/src/index.ts",
+      "sha256": "cf11ee95137bfb187356b0c45789971667e01f3c58ffb39894e1c15c71d474bc",
+      "lines": 76,
+      "delivery": "github",
+      "url": "https://github.com/CaioMascarenhas/gerar-commerce/blob/be534c187ffa2d8baa5f21de7943fb6e406c299b/backend/packages/platform/src/index.ts"
+    }
+  ],
+  "selectedExcerpts": [
+    {
+      "path": "backend/packages/framework/src/core.ts",
+      "startLine": 63,
+      "lines": 39,
+      "sha256": "42bf95ef59bce217b97bca09effe7bc21997211c6ec38bb3e28bd93bedca1869"
+    },
+    {
+      "path": "backend/packages/framework/src/core.ts",
+      "startLine": 103,
+      "lines": 36,
+      "sha256": "d90d3fd9c895c037d506e7cd26afb09c993b5a0c633d62c44046c737b87714b5"
+    },
+    {
+      "path": "backend/packages/framework/src/dynamic.ts",
+      "startLine": 105,
+      "lines": 36,
+      "sha256": "b146823d5ce19b41072f2df3236ae206f8889a52805d3cfe8ecc2c9110e55ada"
+    },
+    {
+      "path": "backend/services/ai-assistant/src/main.ts",
+      "startLine": 175,
+      "lines": 15,
+      "sha256": "d138c54edfdf64e9e05cf5c6b6520234b4522f3abcffa07672941eb8665b89f5"
+    },
+    {
+      "path": "backend/services/ai-assistant/src/main.ts",
+      "startLine": 190,
+      "lines": 8,
+      "sha256": "a3f8558e419130f90fc14f784d634bdc72c6ab09f07e6f18477cfa4018bbb041"
+    }
+  ],
+  "pdf": {
+    "pages": 44,
+    "sha256": "41dd62d46a5d91684c57677816f63c0a11b3e5d04ac498b7190933e60d3ba24b",
+    "figures": 20
+  }
+}

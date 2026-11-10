@@ -1,10 +1,10 @@
 # Product Backlog
 
-Atualizado em 2026-11-09. [Kanban](https://github.com/users/CaioMascarenhas/projects/3/views/2). Estados auditados por critérios de aceite e evidências da [PR #29](https://github.com/CaioMascarenhas/gerar-commerce/pull/29).
+Atualizado localmente em 2026-11-10. [Kanban](https://github.com/users/CaioMascarenhas/projects/3/views/2). Base auditada na [PR #29](https://github.com/CaioMascarenhas/gerar-commerce/pull/29), com evoluções registradas nos snapshots de 10/11. Esta atualização documental não sincroniza o quadro remoto.
 
 Fonte estruturada: [backlog.json](backlog.json).
 
-Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação com Gemini real e correções verificadas de checkout; permanece em revisão. PB-022 recebeu os dados de autoria individual e os requisitos do relatório de Reuso. [Snapshot e evidências](snapshots/2026-11-10-validacao-e2e.md). Os estados auditados abaixo não foram encerrados automaticamente pelos testes.
+Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação com Gemini real e correções verificadas de checkout; permanece em revisão. PB-022 passou de preparação para relatório produzido, com PDF e fonte editável, e está em revisão. [Testes e evidências](snapshots/2026-11-10-validacao-e2e.md) e [entrega do relatório](snapshots/2026-11-10-relatorio-reuso.md). Os demais estados não foram encerrados automaticamente pelos testes.
 
 | ID                                                                    | Item                                                                 | Prioridade | Ciclo  | Estado atual | Dependências                           |
 | --------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------- | ------ | ------------ | -------------------------------------- |
@@ -28,8 +28,8 @@ Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação
 | [PB-018](https://github.com/CaioMascarenhas/gerar-commerce/issues/18) | Documentar contratos HTTP e APIs de cada serviço                     | P0         | I3     | Pronto       | PB-012                                 |
 | [PB-019](https://github.com/CaioMascarenhas/gerar-commerce/issues/19) | Validar as duas aplicações de ponta a ponta                          | P0         | I3     | Em revisão   | PB-014, PB-015, PB-016, PB-017         |
 | [PB-020](https://github.com/CaioMascarenhas/gerar-commerce/issues/20) | Validar Docker Compose e capturar serviços com portas                | P0         | I1     | Concluído    | PB-005                                 |
-| [PB-021](https://github.com/CaioMascarenhas/gerar-commerce/issues/21) | Redigir relatório da LPS e reunir evidências                         | P0         | I3     | Pronto       | PB-018, PB-019, PB-020                 |
-| [PB-022](https://github.com/CaioMascarenhas/gerar-commerce/issues/22) | Redigir relatório de reuso e documentar duas aplicações              | P0         | I3     | Pronto       | PB-018, PB-019, PB-020                 |
+| [PB-021](https://github.com/CaioMascarenhas/gerar-commerce/issues/21) | Redigir relatório da LPS e reunir evidências                         | P0         | I3     | Em revisão   | PB-018, PB-019, PB-020                 |
+| [PB-022](https://github.com/CaioMascarenhas/gerar-commerce/issues/22) | Redigir relatório de reuso e documentar duas aplicações              | P0         | I3     | Em revisão   | PB-018, PB-019, PB-020                 |
 | [PB-023](https://github.com/CaioMascarenhas/gerar-commerce/issues/23) | Congelar demonstração e ensaiar apresentação de 11/11                | P0         | I3     | Pronto       | PB-021, PB-022                         |
 | [PB-024](https://github.com/CaioMascarenhas/gerar-commerce/issues/24) | Adicionar cupons como componente opcional                            | P1         | I2     | Concluído    | PB-012                                 |
 | [PB-025](https://github.com/CaioMascarenhas/gerar-commerce/issues/25) | Adicionar variações de produto como feature opcional                 | P2         | Futuro | Backlog      | PB-009, PB-010                         |
@@ -51,7 +51,7 @@ Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação
 | [PB-041](https://github.com/CaioMascarenhas/gerar-commerce/issues/43) | Padronizar tipografia com Inter nos textos e Exo nos títulos         | P1         | I3     | Concluído    | PB-006                                 |
 | [PB-042](https://github.com/CaioMascarenhas/gerar-commerce/issues/44) | Criar ícones originais para as três categorias de loja               | P1         | I3     | Concluído    | PB-030                                 |
 
-32 itens concluídos, seis em revisão, quatro prontos e um no backlog (43 no total, com PB-043). A revisão visual geral, Swagger completo, relatórios e ensaio continuam pendentes. [Auditoria e evidências](snapshots/2026-11-09-sincronizacao-e-merge.md).
+Incluindo PB-043, são 32 itens concluídos, oito em revisão, dois prontos e um no backlog. PB-021 e PB-022 têm PDF e fontes entregues para revisão acadêmica. Swagger completo, revisão dos itens abertos e ensaio mantêm seus próprios estados. [Auditoria original](snapshots/2026-11-09-sincronizacao-e-merge.md), [relatório de Reuso](snapshots/2026-11-10-relatorio-reuso.md) e [relatório de LPS](snapshots/2026-11-10-relatorio-lps.md).
 
 [Planejamento dos ciclos e regras de Kanban](ciclos.md).
 

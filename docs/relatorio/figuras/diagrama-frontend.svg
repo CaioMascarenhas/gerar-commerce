@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="270" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 270" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="270"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-270)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="110" y="180" width="233.54330708661422" height="90" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="199.7300519808071" y="258" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,516) scale(1,-1)">«componentes»</text>
+			<text x="191.2638410433071" y="245" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,490) scale(1,-1)">Páginas Angular</text>
+			<path d="M 110,237 L 343.543307,237 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="118" y="224" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,448) scale(1,-1)">HomePage / BuilderPage</text>
+			<text x="118" y="213" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,426) scale(1,-1)">StorePage / AdminPage</text>
+			<rect x="0" y="0" width="216.7716535433071" height="120" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="85.56541661540356" y="108" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,216) scale(1,-1)">«standalone»</text>
+			<text x="52.12923497477855" y="95" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,190) scale(1,-1)">Componentes reutilizados</text>
+			<path d="M 0,87 L 216.771654,87 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="74" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,148) scale(1,-1)">FeaturePicker / CategoryIcon</text>
+			<text x="8" y="63" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">ImageEditor / CommerceImage</text>
+			<text x="8" y="52" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,104) scale(1,-1)">BuyerAccount / ShoppingChat</text>
+			<rect x="236.7716535433071" y="0" width="216.7716535433071" height="120" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="312.84078109621066" y="108" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,216) scale(1,-1)">«serviços Angular»</text>
+			<text x="302.89527328371065" y="95" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,190) scale(1,-1)">Api / StoreSessions</text>
+			<path d="M 236.771654,87 L 453.543307,87 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="74" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,148) scale(1,-1)">get(), post(), put(), delete()</text>
+			<text x="244.7716535433071" y="63" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">Estado de perfis por loja</text>
+			<text x="244.7716535433071" y="52" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,104) scale(1,-1)">HTTP para gateway</text>
+			<path d="M 196.771654,180 L 113.385827,120 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="113.3858 120, 120.9952 121.4098, 117.1404 126.7671" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 256.771654,180 L 340.15748,120 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="340.1575 120, 336.4029 126.7671, 332.5481 121.4098" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

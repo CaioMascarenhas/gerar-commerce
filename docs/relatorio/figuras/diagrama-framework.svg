@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="405" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 405" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="405"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-405)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="100" y="265" width="253.54330708661422" height="140" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.0278058870571" y="393" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,786) scale(1,-1)">«abstract»</text>
+			<text x="179.0118879183071" y="380" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,760) scale(1,-1)">CommerceApplication</text>
+			<path d="M 100,372 L 353.543307,372 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="108" y="359" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,718) scale(1,-1)">+build(): ApplicationBlueprint</text>
+			<text x="108" y="348" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,696) scale(1,-1)">#configure(): ProductConfiguration</text>
+			<text x="108" y="337" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,674) scale(1,-1)">#shippingPolicy(): ShippingPolicy</text>
+			<text x="108" y="326" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">#registerExtensions(registry, config)</text>
+			<text x="108" y="315" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">-registerCore(registry)</text>
+			<rect x="0.0" y="100" width="144.51443569553808" height="110" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="59.37284284776904" y="198" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">«class»</text>
+			<text x="40.99452253526904" y="185" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,370) scale(1,-1)">EssentialStore</text>
+			<path d="M 0,177 L 144.514436,177 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8.0" y="164" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,328) scale(1,-1)">#configure()</text>
+			<text x="8.0" y="153" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,306) scale(1,-1)">#shippingPolicy()</text>
+			<path d="M 72.257218,210 L 226.771654,265 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 265, 219.0703 265.7615, 221.2836 259.5437" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="154.51443569553808" y="100" width="144.51443569553808" height="110" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="213.88727854330713" y="198" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">«class»</text>
+			<text x="196.51091135580714" y="185" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,370) scale(1,-1)">AssistedStore</text>
+			<path d="M 154.514436,177 L 299.028871,177 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="162.51443569553808" y="164" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,328) scale(1,-1)">#configure()</text>
+			<text x="162.51443569553808" y="153" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,306) scale(1,-1)">#shippingPolicy()</text>
+			<text x="162.51443569553808" y="142" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,284) scale(1,-1)">#registerExtensions()</text>
+			<path d="M 226.771654,210 L 226.771654,265 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 265, 223.4717 258, 230.0717 258" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="309.02887139107617" y="100" width="144.5144356955381" height="110" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="368.4017142388452" y="198" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">«class»</text>
+			<text x="345.7870658013452" y="185" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,370) scale(1,-1)">ConfiguredStore</text>
+			<path d="M 309.028871,177 L 453.543307,177 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="317.02887139107617" y="164" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,328) scale(1,-1)">-store: StoreDefinition</text>
+			<text x="317.02887139107617" y="153" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,306) scale(1,-1)">#configure() /</text>
+			<text x="317.02887139107617" y="142" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,284) scale(1,-1)">#shippingPolicy()</text>
+			<text x="317.02887139107617" y="131" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,262) scale(1,-1)">#registerExtensions()</text>
+			<path d="M 381.286089,210 L 226.771654,265 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="226.7717 265, 232.2597 259.5437, 234.473 265.7615" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="0" y="0" width="216.7716535433071" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="95.50145177165355" y="63" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">«class»</text>
+			<text x="65.38314122477854" y="50" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,100) scale(1,-1)">ComponentRegistry</text>
+			<path d="M 0,42 L 216.771654,42 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="29" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,58) scale(1,-1)">+register(ComponentDescriptor)</text>
+			<text x="8" y="18" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,36) scale(1,-1)">+list(): ComponentDescriptor[]</text>
+			<rect x="236.7716535433071" y="0" width="216.7716535433071" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="326.35601547121064" y="63" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">«interface»</text>
+			<text x="312.65552718996065" y="50" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,100) scale(1,-1)">ShippingPolicy</text>
+			<path d="M 236.771654,42 L 453.543307,42 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="29" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,58) scale(1,-1)">+quoteInCents(): number</text>
+		</g>
+	</g>
+</svg>

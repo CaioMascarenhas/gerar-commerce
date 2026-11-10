@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="280" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 280" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="280"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-280)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="190" width="216.7716535433071" height="87" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="89.58436192790356" y="265" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,530) scale(1,-1)">«interface»</text>
+			<text x="75.88387364665354" y="252" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,504) scale(1,-1)">ShippingPolicy</text>
+			<path d="M 0,244 L 216.771654,244 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="231" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,462) scale(1,-1)">+quoteInCents(): number</text>
+			<rect x="236.7716535433071" y="190" width="216.7716535433071" height="87" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="332.2731053149607" y="265" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,530) scale(1,-1)">«class»</text>
+			<text x="309.89356429933565" y="252" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,504) scale(1,-1)">Implementações</text>
+			<path d="M 236.771654,244 L 453.543307,244 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="231" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,462) scale(1,-1)">PickupShipping</text>
+			<text x="244.7716535433071" y="220" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,440) scale(1,-1)">FlatRateShipping</text>
+			<path d="M 236.771654,233 L 216.771654,233 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="216.7717 233, 223.7717 229.7, 223.7717 236.3" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="0" y="96" width="216.7716535433071" height="87" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="89.58436192790356" y="171" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,342) scale(1,-1)">«interface»</text>
+			<text x="75.87947911540354" y="158" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,316) scale(1,-1)">DiscountPolicy</text>
+			<path d="M 0,150 L 216.771654,150 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="137" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,274) scale(1,-1)">+discount(subtotal): number</text>
+			<rect x="236.7716535433071" y="96" width="216.7716535433071" height="87" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="332.2731053149607" y="171" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,342) scale(1,-1)">«class»</text>
+			<text x="309.89356429933565" y="158" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,316) scale(1,-1)">Implementações</text>
+			<path d="M 236.771654,150 L 453.543307,150 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="137" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,274) scale(1,-1)">PercentageDiscount</text>
+			<text x="244.7716535433071" y="126" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,252) scale(1,-1)">WelcomeDiscount</text>
+			<path d="M 236.771654,139 L 216.771654,139 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="216.7717 139, 223.7717 135.7, 223.7717 142.3" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<rect x="0" y="2" width="216.7716535433071" height="87" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="89.58436192790356" y="77" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,154) scale(1,-1)">«interface»</text>
+			<text x="71.37069005290354" y="64" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,128) scale(1,-1)">PaymentProvider</text>
+			<path d="M 0,56 L 216.771654,56 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="43" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,86) scale(1,-1)">+authorize(result): status</text>
+			<rect x="236.7716535433071" y="2" width="216.7716535433071" height="87" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="332.2731053149607" y="77" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,154) scale(1,-1)">«class»</text>
+			<text x="309.89356429933565" y="64" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,128) scale(1,-1)">Implementações</text>
+			<path d="M 236.771654,56 L 453.543307,56 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="43" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,86) scale(1,-1)">SimulatedPayment</text>
+			<path d="M 236.771654,45 L 216.771654,45 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="216.7717 45, 223.7717 41.7, 223.7717 48.3" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>

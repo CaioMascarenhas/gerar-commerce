@@ -1,0 +1,97 @@
+import { test, expect, json, photo, adminPassword, buyerPassword } from './fixtures';
+import { writeFileSync } from 'node:fs';
+
+test('evidências da linha de produtos e recomendações restauradas', async ({ page, playwright }) => {
+  test.setTimeout(120000);
+  const baseURL=process.env.E2E_BASE_URL!;
+  const admin=await playwright.request.newContext({baseURL});
+  const buyer=await playwright.request.newContext({baseURL});
+  const other=await playwright.request.newContext({baseURL});
+  const cover='data:image/png;base64,'+photo().toString('base64');
+  const slug='aurora-eletronicos';
+  await json(admin,'/stores','POST',{
+    slug,name:'Aurora Eletrônicos',description:'Tecnologia para o cotidiano. Loja fictícia da demonstração acadêmica.',
+    category:'eletronicos',options:[],password:adminPassword,cover,
+    products:[
+      ['Sensor Alpha',10000,20],['Hub Beta',12000,20],['Fone Sigma',8000,20],['Cabo Delta',3000,20],['Módulo esgotado',4000,0],
+    ].map(([name,priceInCents,stock])=>({name,priceInCents,stock,description:'Produto fictício para validar a linha de produtos.',image:''})),
+  });
+  const products=await json(admin,'/stores/'+slug+'/products');
+  const id=(name:string)=>products.find((p:any)=>p.name===name).id;
+  const customer=await json(buyer,'/stores/'+slug+'/customers','POST',{name:'Comprador de demonstração',email:'comprador@example.test',password:buyerPassword});
+  await json(other,'/stores/'+slug+'/customers','POST',{name:'Outra pessoa fictícia',email:'outra@example.test',password:buyerPassword});
+  const checkout=(client:any,reference:string,names:string[],payment='approved')=>json(client,'/stores/'+slug+'/checkout','POST',{reference,items:names.map(name=>({productId:id(name),quantity:1})),payment,fulfillment:'pickup',coupon:''});
+  await checkout(buyer,'lps-compra-principal',['Sensor Alpha']);
+  await checkout(other,'lps-cesta-combinada',['Sensor Alpha','Hub Beta']);
+  await checkout(other,'lps-compra-fone',['Fone Sigma']);
+  await checkout(other,'lps-compra-recusada',['Cabo Delta'],'declined');
+  const personal=await json(buyer,'/stores/'+slug+'/recommendations');
+  expect(personal.strategy).toBe('history-category');
+  expect(personal.products[0].name).toBe('Hub Beta');
+  expect(personal.products.map((p:any)=>p.name)).not.toContain('Sensor Alpha');
+  expect(personal.products.map((p:any)=>p.name)).not.toContain('Módulo esgotado');
+  expect(personal.products[0].reason).toContain('também levou');
+  const visitor=await json(page.request,'/stores/'+slug+'/recommendations');
+  expect(visitor.strategy).toBe('store-popularity');
+  expect(visitor.products[0].name).toBe('Sensor Alpha');
+  await page.goto('/loja/'+slug);
+  await expect(page.locator('.recommendation-section')).toBeVisible();
+  await expect(page.locator('.recommendation-section')).toContainText('Os mais comprados');
+  await page.screenshot({path:test.info().outputPath('loja-essencial.png')});
+  await page.locator('.recommendation-section').screenshot({path:test.info().outputPath('recomendacao-visitante.png')});
+  await page.context().addCookies((await buyer.storageState()).cookies);
+  await page.reload();
+  await expect(page.locator('.recommendation-section')).toContainText('Quem comprou Sensor Alpha');
+  await page.locator('.recommendation-section').screenshot({path:test.info().outputPath('recomendacao-comprador.png')});
+  const foreign=await buyer.get('/api/stores/'+slug+'/recommendations/nao-e-minha-conta');
+  expect(foreign.status()).toBe(403);
+  await json(admin,'/stores/'+slug+'/login','POST',{password:adminPassword});
+  await page.context().addCookies((await admin.storageState()).cookies);
+  await page.goto('/admin/'+slug);
+  await expect(page.locator('.admin-stats')).toBeVisible();
+  await page.screenshot({path:test.info().outputPath('painel-produto.png')});
+  await json(admin,'/stores','POST',{slug:'casa-nova-construcao',name:'Casa Nova Construção',description:'Materiais para pequenos projetos. Loja fictícia.',category:'construcao',options:['coupons','delivery'],password:adminPassword,cover,products:[{name:'Kit de ferramentas',description:'Kit fictício para demonstração.',priceInCents:12990,stock:12,image:''}]});
+  await page.goto('/');
+  await expect(page.locator('.store-card')).toHaveCount(2);
+  await page.screenshot({path:test.info().outputPath('plataforma-lps.png')});
+  await page.goto('/criar');
+  await page.getByLabel('Nome da loja').fill('Ateliê Horizonte');
+  await page.locator('input[name="slug"]').fill('atelie-horizonte');
+  await page.getByLabel('Descrição',{exact:true}).fill('Roupas para o cotidiano. Produto da linha criado pela interface.');
+  await page.getByRole('button',{name:/Roupas/}).click();
+  await page.locator('image-editor input[type=file]').setInputFiles({name:'capa.png',mimeType:'image/png',buffer:photo()});
+  await page.getByLabel('Senha de administração').fill(adminPassword);
+  await page.screenshot({path:test.info().outputPath('cadastro-identidade.png')});
+  await page.getByRole('button',{name:'Continuar →',exact:true}).click();
+  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(7);
+  for(const label of [/Cupons de desconto/,/Avaliações/,/Agente de IA/]) await page.getByRole('checkbox',{name:label}).check();
+  await page.locator('feature-picker').screenshot({path:test.info().outputPath('seletor-lps.png')});
+  await page.getByRole('button',{name:'Continuar →',exact:true}).click();
+  await page.getByLabel('Nome',{exact:true}).fill('Camiseta Horizonte');
+  await page.getByLabel('Descrição',{exact:true}).fill('Peça fictícia criada no cadastro da loja.');
+  await page.getByLabel('Preço (R$)').fill('69.90');
+  await page.getByLabel('Estoque inicial').fill('10');
+  await page.screenshot({path:test.info().outputPath('cadastro-produto.png')});
+  await page.getByRole('button',{name:'Criar minha loja ↗',exact:true}).click();
+  await expect(page.getByRole('heading',{name:/Ateliê Horizonte.*está de portas abertas/})).toBeVisible();
+  await page.screenshot({path:test.info().outputPath('produto-publicado.png')});
+  const derived=await json(page.request,'/stores/atelie-horizonte');
+  expect(derived.blueprint.configuration.features).toHaveLength(10);
+  expect(derived.blueprint.plan.monthlyInCents).toBe(9990);
+  await page.goto('/loja/atelie-horizonte');
+  await expect(page.getByRole('button',{name:'Abrir chat de produtos com IA'})).toBeVisible();
+  await page.screenshot({path:test.info().outputPath('loja-inteligente.png')});
+  const services=await json(page.request,'/services');
+  expect(services).toHaveLength(6);
+  for(const service of services)expect(service.status).toBe('ok');
+  const gateway=await json(page.request,'/health');
+  await page.setViewportSize({width:720,height:880});
+  await page.goto('/api/services');
+  await page.locator('body').evaluate(body=>{const pre=body.querySelector('pre')!;pre.textContent=JSON.stringify(JSON.parse(pre.textContent!),null,2);pre.style.font='16px/1.35 monospace';body.style.margin='16px';});
+  await page.screenshot({path:test.info().outputPath('servicos-lps.png')});
+  await page.goto('/api/health');
+  await page.locator('body').evaluate(body=>{const pre=body.querySelector('pre')!;pre.textContent=JSON.stringify(JSON.parse(pre.textContent!),null,2);pre.style.font='18px/1.5 monospace';body.style.margin='16px';});
+  await page.screenshot({path:test.info().outputPath('gateway-lps.png')});
+  writeFileSync(test.info().outputPath('evidencia-lps.json'),JSON.stringify({revision:'5435ce33c7c0cb0f5cd226938793e771464b64a9',services,gateway,personal,visitor,foreignHistoryStatus:foreign.status(),derived:{slug:derived.slug,options:derived.options,blueprint:derived.blueprint},checks:['Composição core de 7 features','Cadastro completo pela interface','Plano recalculado para 9990 centavos','Recomendação personalizada por cesta','Exclusão de comprado e esgotado','Popularidade para visitante','Histórico alheio bloqueado','Seis serviços internos e gateway saudáveis'],liveGemini:false},null,2));
+  await Promise.all([admin.dispose(),buyer.dispose(),other.dispose()]);
+});

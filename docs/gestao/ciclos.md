@@ -1,5 +1,9 @@
 # Kanban e snapshots de entrega
 
+Entrega de LPS de 10/11: PB-021 passa localmente a **Em revisão**, com relatório de Caio Mascarenhas Soares e Laura Marques Costa baseado na revisão do GitHub com recomendações restauradas. [Snapshot da entrega](snapshots/2026-11-10-relatorio-lps.md).
+
+Entrega de 10/11: o relatório de Reuso PB-022 foi produzido com PDF, fontes e evidências e passa localmente a **Em revisão**. [Snapshot da entrega](snapshots/2026-11-10-relatorio-reuso.md). Os demais itens mantêm seus próprios critérios de aceite.
+
 > Atualização de 05/11: o cadastro dinâmico substitui o perfil fixo por implantação. O escopo, itens antecipados, evidências e revisão pendente estão no [snapshot de lojas dinâmicas](snapshots/2026-11-05-lojas-dinamicas.md). O cronograma abaixo preserva o planejamento inicial; o Product Backlog reflete o estado atual.
 
 Equipe: Caio Mascarenhas Soares e Laura Marques Costa. Laura será adicionada ao GitHub posteriormente pelo Caio; não há convite automático. A divisão das issues entre a dupla será combinada, sem inventar responsáveis.

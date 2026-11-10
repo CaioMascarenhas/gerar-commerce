@@ -1,0 +1,116 @@
+{
+  "revision": "5435ce33c7c0cb0f5cd226938793e771464b64a9",
+  "authors": [
+    "Caio Mascarenhas Soares",
+    "Laura Marques Costa"
+  ],
+  "date": "2026-11-10",
+  "sourceFiles": [
+    {
+      "path": "backend/packages/contracts/src/index.ts",
+      "sha256": "f411dfe661194b467c9e9757dab93b78626fd012c65ee485a6a27cd60ebf5a52",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/packages/framework/src/core.ts",
+      "sha256": "f47e3489a6833784b65d82d95cc7e4946dd850797b4cac2c5a67675cf9cd04de",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/packages/framework/src/dynamic.ts",
+      "sha256": "469f7b3624bef3022ea8a4797063fa80bc9f3fce87e05681f8e23c97e3eda075",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/packages/framework/src/index.ts",
+      "sha256": "d5dbc32de9dd2b7422124e64d62e9b328940ea0f3b9f2b3c8a8c3a08a5987a8f",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/packages/platform/src/commerce.ts",
+      "sha256": "6eed0827fd0cb0b5b97e484c9dc2ad0c39fc0f26b3314c4a867bffcc8858fc3a",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/packages/platform/src/database.ts",
+      "sha256": "aa88e7f465f8f2840a96ee6a45c29503cb9bbb5e989f4aa0352fb33bfc4c5a67",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/packages/platform/src/index.ts",
+      "sha256": "cf11ee95137bfb187356b0c45789971667e01f3c58ffb39894e1c15c71d474bc",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/ai-assistant/src/main.ts",
+      "sha256": "7e984bec1deea5e73b72f54001ac5dde14e80d6335a31ec8d80fd50a08da05e1",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/ai-assistant/src/photos.ts",
+      "sha256": "f0bc3dac2906d8dc131718c8771c7ba15e7709d264020e8d842280cab7bd4d31",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/catalog/src/main.ts",
+      "sha256": "f659f4b4b9c920ff6cdacec73892c50ff2894acd465b82cdcc4f40fdd387e024",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/gateway/src/main.ts",
+      "sha256": "02c15c92f4b483d42d2c615e9a1c7263c86dbe1165e4322ea59d273d1d2382f8",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/inventory/src/main.ts",
+      "sha256": "acedf71d90d783f91f607762868e64bd5d4a9b3bf4c6b5235fa7ffc577c2c64e",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/orders/src/coupons.ts",
+      "sha256": "8395b306d0cba6145e22cc0a982f33ac710ac70e9472f346dffc2b03e867e98f",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/orders/src/main.ts",
+      "sha256": "6b84e6d9bc1d523475f0856e30f00b23d671c47de41180700a6ac09efc1f0d56",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/recommendations/src/main.ts",
+      "sha256": "8b31fd117fc3d77949bdcdd180f5c72f5215ffe0646b8bd6ac9072c5fe985bae",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/stores/src/customers.ts",
+      "sha256": "59792cc0d88f044e5683f3a9779a4b91f9677a11cc4b0e12bf9cc736ee137847",
+      "delivery": "github"
+    },
+    {
+      "path": "backend/services/stores/src/main.ts",
+      "sha256": "3e06d393fb93ee972679e831ac2152462f054aa38efed042df31bd7cbaa73878",
+      "delivery": "github"
+    }
+  ],
+  "selectedExcerpts": [
+    {
+      "path": "backend/services/recommendations/src/main.ts",
+      "startLine": 38,
+      "lines": 5,
+      "sha256": "381a31f6f68292c00425fe40546a5819bbd12e6b5a642b678bdc571408ed554b"
+    },
+    {
+      "path": "backend/services/gateway/src/main.ts",
+      "startLine": 138,
+      "lines": 15,
+      "sha256": "255cd7ab3f7f85959bbd4e195c048b3e2da5dacad1b64c504f614be214e2e46f"
+    }
+  ],
+  "githubEvidence": "github.json",
+  "runtimeEvidence": "evidencia-lps.json",
+  "pdf": {
+    "pages": 37,
+    "sha256": "8c671415b78e3250a3f10e2315dce73d08164ef9115d04e37e082c2daec2380b",
+    "figures": 18
+  }
+}

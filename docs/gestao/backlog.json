@@ -303,7 +303,7 @@
       "cycle": "I3",
       "priority": "P0",
       "area": "docs",
-      "status": "todo",
+      "status": "review",
       "dependencies": ["PB-018", "PB-019", "PB-020"],
       "acceptance": [
         "Cobrir todos os itens do modelo de LPS em projeto_docs.",
@@ -317,7 +317,7 @@
       "cycle": "I3",
       "priority": "P0",
       "area": "docs",
-      "status": "todo",
+      "status": "review",
       "dependencies": ["PB-018", "PB-019", "PB-020"],
       "acceptance": [
         "Cobrir todos os itens do modelo de Reuso em projeto_docs.",

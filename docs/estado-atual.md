@@ -42,7 +42,7 @@ A tentativa anterior de inspeção com controle do navegador foi bloqueada pela 
 ## Limites e pendências reais
 
 - A aprovação final da experiência permanece em revisão, agora apoiada por E2E em três navegadores, capturas e chamadas reais ao Gemini. Dispositivos móveis físicos não foram testados.
-- Relatórios acadêmicos finais, capturas de tela e ensaio da apresentação ainda estão no backlog.
+- Os relatórios de [Reuso](relatorio/relatorio-reuso.pdf) e [LPS](relatorio-lps/relatorio-lps.pdf) estão produzidos, com fontes editáveis e capturas; PB-022 e PB-021 estão em revisão. O ensaio e os demais itens mantêm critérios próprios. O relatório de LPS referencia a versão posterior do GitHub com recomendações restauradas, descrita no [snapshot](gestao/snapshots/2026-11-10-relatorio-lps.md).
 - Schemas são separados por domínio, mas compartilham usuário PostgreSQL local. Não existe isolamento por credenciais de banco.
 - Se uma tentativa de compra for abandonada após uma falha distribuída, sua retomada depende de repetir a mesma referência; não há worker periódico de reconciliação/expiração.
 - O provisionamento tenta compensar falhas de cadastro; um processo interrompido durante a criação pode deixar cadastro inativo para inspeção manual.

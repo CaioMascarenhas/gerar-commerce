@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="453.5433070866142" height="405" preserveAspectRatio="xMinYMin meet" viewBox="0 0 453 405" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="453.5433070866142" height="405"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-405)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="110" y="315" width="233.54330708661422" height="85" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="209.87389963705712" y="388" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,776) scale(1,-1)">«registro»</text>
+			<text x="183.7689679964321" y="375" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">ComponentRegistry</text>
+			<path d="M 110,367 L 343.543307,367 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="118" y="354" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,708) scale(1,-1)">ComponentDescriptor: id, feature, service</text>
+			<rect x="0" y="100" width="216.7716535433071" height="155" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="92.96131505290356" y="243" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,486) scale(1,-1)">«núcleo»</text>
+			<text x="50.88338536540355" y="230" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">Componentes obrigatórios</text>
+			<path d="M 0,222 L 216.771654,222 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="209" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,418) scale(1,-1)">catalog -&gt; Catálogo</text>
+			<text x="8" y="198" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">inventory -&gt; Estoque</text>
+			<text x="8" y="187" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">orders / checkout -&gt; Pedidos</text>
+			<text x="8" y="176" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,352) scale(1,-1)">recommendations -&gt; Recomendações</text>
+			<text x="8" y="165" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,330) scale(1,-1)">cart / administration -&gt; Angular</text>
+			<rect x="236.7716535433071" y="100" width="216.7716535433071" height="155" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="325.51177718996064" y="243" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,486) scale(1,-1)">«variantes»</text>
+			<text x="292.90210922121065" y="230" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">Componentes opcionais</text>
+			<path d="M 236.771654,222 L 453.543307,222 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="244.7716535433071" y="209" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,418) scale(1,-1)">coupons / delivery -&gt; Pedidos</text>
+			<text x="244.7716535433071" y="198" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">reviews -&gt; Catálogo</text>
+			<text x="244.7716535433071" y="187" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">aiAssistant -&gt; IA</text>
+			<text x="244.7716535433071" y="176" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,352) scale(1,-1)">Ausência bloqueia uso da variante</text>
+			<path d="M 191.771654,315 L 113.385827,255 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="113.3858 255, 120.9502 256.6343, 116.9385 261.8752" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 261.771654,315 L 340.15748,255 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="340.1575 255, 336.6048 261.8752, 332.5932 256.6343" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<rect x="0" y="0" width="453.5433070866142" height="75" style="stroke: rgb(20%,20%,20%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="204.80846994955712" y="63" style="font-family: Sans; font-size: 7.6px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,126) scale(1,-1)">«framework»</text>
+			<text x="173.5055402620571" y="50" style="font-family: Sans-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,100) scale(1,-1)">Construção da aplicação</text>
+			<path d="M 0,42 L 453.543307,42 Z" style="stroke: rgb(50%,50%,50%); stroke-linecap: butt; stroke-width: 0.5;"/>
+			<text x="8" y="29" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,58) scale(1,-1)">CommerceApplication.build(): núcleo + extensões validadas</text>
+			<text x="8" y="18" style="font-family: Sans; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,36) scale(1,-1)">ConfiguredStore: definição da loja -&gt; blueprint, plano e tema</text>
+			<path d="M 113.385827,100 L 113.385827,75 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7;"/>
+			<polygon points="113.3858 75, 116.6858 82, 110.0858 82" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+			<path d="M 340.15748,100 L 340.15748,75 Z" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.7; stroke-dasharray: 3, 2;"/>
+			<polygon points="340.1575 75, 343.4575 82, 336.8575 82" style="stroke: rgb(26%,26%,26%); stroke-linecap: butt; stroke-width: 0.65; fill: rgb(26%,26%,26%); fill-rule: evenodd;"/>
+		</g>
+	</g>
+</svg>
