@@ -50,6 +50,31 @@ classDiagram
 
 `build()` controla a sequência: configurar, validar, registrar core, registrar extensões, verificar correspondência entre componentes e features e calcular entrega. `ConfiguredStore` adapta os hotspots usando a definição cadastrada; não sobrescreve o fluxo comum nem copia os serviços.
 
+## Componentes e variabilidade
+
+```mermaid
+flowchart LR
+  subgraph CORE[Componentes core, sempre registrados]
+    K1[catalog] --> SC[Catálogo 3001]
+    K2[inventory] --> SI[Estoque 3002]
+    K3[orders] --> SO[Pedidos 3003]
+    K4[checkout] --> SO
+    K5[recommendations] --> SR[Recomendações 3004]
+    K6[cart] --> SF[Angular]
+    K7[administration] --> SF
+  end
+  subgraph OPT[Componentes opcionais, registrados pela loja]
+    X1[coupons] -.-> SO
+    X2[delivery] -.-> SO
+    X3[reviews] -.-> SC
+    X4[aiAssistant] -.-> SA[IA 3005]
+  end
+  REG[ComponentRegistry] --> CORE
+  REG --> OPT
+```
+
+O `ComponentRegistry` guarda cada componente com a feature que o justifica e o serviço que o implementa. Os sete componentes core são registrados por `registerCore()`, na classe base. Os opcionais entram em `registerExtensions()`, o hotspot que `ConfiguredStore` preenche a partir das opções da loja. As linhas tracejadas indicam variantes: sem a opção, o componente não é registrado e o backend recusa o seu uso. `cart` e `administration` pertencem à interface Angular; os demais ficam em microsserviços.
+
 ## Derivação em tempo de execução
 
 ```typescript

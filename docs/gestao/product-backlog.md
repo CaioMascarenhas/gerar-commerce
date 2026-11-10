@@ -51,7 +51,7 @@ Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação
 | [PB-041](https://github.com/CaioMascarenhas/gerar-commerce/issues/43) | Padronizar tipografia com Inter nos textos e Exo nos títulos         | P1         | I3     | Concluído    | PB-006                                 |
 | [PB-042](https://github.com/CaioMascarenhas/gerar-commerce/issues/44) | Criar ícones originais para as três categorias de loja               | P1         | I3     | Concluído    | PB-030                                 |
 
-31 itens concluídos, seis em revisão, quatro prontos e um no backlog. A revisão visual geral, Swagger completo, relatórios e ensaio continuam pendentes. [Auditoria e evidências](snapshots/2026-11-09-sincronizacao-e-merge.md).
+32 itens concluídos, seis em revisão, quatro prontos e um no backlog (43 no total, com PB-043). A revisão visual geral, Swagger completo, relatórios e ensaio continuam pendentes. [Auditoria e evidências](snapshots/2026-11-09-sincronizacao-e-merge.md).
 
 [Planejamento dos ciclos e regras de Kanban](ciclos.md).
 
