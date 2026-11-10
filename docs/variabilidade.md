@@ -2,7 +2,7 @@
 
 ## Core obrigatório
 
-Catálogo, estoque, carrinho, checkout, pedidos e administração são obrigatórios e aparecem marcados e bloqueados no cadastro. As operações de compra são simuladas; as entidades e os saldos são persistidos no PostgreSQL.
+Catálogo, estoque, carrinho, checkout, pedidos, recomendações e administração são obrigatórios e aparecem marcados e bloqueados no cadastro. As operações de compra são simuladas; as entidades e os saldos são persistidos no PostgreSQL.
 
 ## Opcionais implementados
 
@@ -25,6 +25,7 @@ flowchart TB
   CORE --> CART[Carrinho]
   CORE --> CHECK[Checkout]
   CORE --> O[Pedidos]
+  CORE --> R[Recomendações]
   CORE --> A[Administração]
   L --> CAT[Exatamente uma categoria]
   CAT --> EL[Eletrônicos / azul]
@@ -35,6 +36,29 @@ flowchart TB
   L -.-> DEL[Entrega local]
   L -.-> AI[Agente de IA]
 ```
+
+## Pontos de variação e variantes
+
+```mermaid
+flowchart LR
+  VP1{{Ponto de variação: categoria}} --> V11[Eletrônicos]
+  VP1 --> V12[Construção]
+  VP1 --> V13[Roupas]
+  VP2{{Ponto de variação: descontos}} --> V21[Sem cupons]
+  VP2 --> V22[Cupons da loja]
+  VP3{{Ponto de variação: avaliações}} --> V31[Sem avaliações]
+  VP3 --> V32[Avaliações de compradores]
+  VP4{{Ponto de variação: recebimento}} --> V41[Retirada gratuita]
+  VP4 --> V42[Entrega local R$ 15,00]
+  VP5{{Ponto de variação: inteligência}} --> V51[Sem agente]
+  VP5 --> V52[Agente e chat com Gemini]
+  VP2 -.-> PLAN[Plano derivado: Essencial, Completo ou Inteligente]
+  VP3 -.-> PLAN
+  VP4 -.-> PLAN
+  VP5 -.-> PLAN
+```
+
+A categoria é obrigatória e exclusiva, e escolhe só o tema visual. Os demais pontos são opcionais e independentes: cada um tem uma variante ausente (padrão) e uma presente. O plano não é escolhido pelo cliente; resulta das variantes selecionadas, conforme a tabela abaixo. O vínculo ocorre em tempo de execução, no cadastro e nas alterações de configurações. As variantes presentes também ativam ou bloqueiam o comportamento correspondente no backend.
 
 ## Identidade e plano
 

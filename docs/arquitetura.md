@@ -16,6 +16,7 @@ flowchart LR
   G --> C[Catálogo e avaliações 3001]
   G --> I[Estoque e reservas 3002]
   G --> O[Pedidos e checkout 3003]
+  G --> R[Recomendações 3004]
   G --> AI[IA 3005]
   S --> F[Framework de composição]
   S -->|provisionar produtos| C
@@ -24,6 +25,9 @@ flowchart LR
   O -->|composição| S
   O -->|reservar / confirmar / liberar| I
   O --> F
+  R -->|produtos| C
+  R -->|saldos| I
+  R -->|histórico e cestas| O
   AI --> I
   AI --> O
   AI --> C
@@ -36,6 +40,68 @@ flowchart LR
 ```
 
 Cada domínio acessa apenas seu próprio schema. Não há consultas SQL entre schemas de domínio. Para a demonstração, uma instância PostgreSQL e um usuário são compartilhados; a separação é arquitetural, sem ACL de banco por serviço. Gateway e IA não armazenam entidades próprias de domínio. O pacote `platform` compartilha somente infraestrutura e validação.
+
+## Arquitetura em camadas
+
+```mermaid
+flowchart TB
+  subgraph APRESENTACAO[Camada de apresentação]
+    UI[Angular + Nginx 4200: plataforma, cadastro, vitrine e painel]
+  end
+  subgraph ENTRADA[Camada de entrada]
+    GW[Gateway 3000: rotas /api, sessões por loja e autorização]
+  end
+  subgraph NEGOCIO[Camada de serviços de domínio]
+    S[Lojas 3006]
+    C[Catálogo 3001]
+    I[Estoque 3002]
+    O[Pedidos 3003]
+    R[Recomendações 3004]
+    AI[IA 3005]
+  end
+  subgraph REUSO[Camada de reuso, usada como biblioteca]
+    FW[framework: Template Method, features, planos e políticas]
+    CT[contracts: tipos compartilhados]
+    PL[platform: NestJS, HTTP e PostgreSQL]
+  end
+  subgraph DADOS[Camada de dados]
+    PG[(PostgreSQL: schemas stores, catalog, inventory e orders)]
+  end
+  GEM[Gemini via Mastra]
+  UI -->|HTTP| GW
+  GW --> S & C & I & O & R & AI
+  S & O --> FW
+  S & C & I & O & R & AI --> PL
+  FW --> CT
+  S & C & I & O --> PG
+  AI --> GEM
+```
+
+Cada camada só conversa com a vizinha: a interface fala apenas com o gateway, e o gateway é o único ponto de entrada para os serviços. O framework e os pacotes de apoio não rodam como serviços; são compilados dentro de cada serviço que os usa. Recomendações e IA não têm schema próprio. A variabilidade de cada camada está em [variabilidade.md](variabilidade.md).
+
+## Recomendações
+
+```mermaid
+sequenceDiagram
+  actor B as Comprador ou visitante
+  participant UI as Angular /loja/:slug
+  participant GW as Gateway
+  participant R as Recomendações 3004
+  participant C as Catálogo
+  participant I as Estoque
+  participant O as Pedidos
+  B->>UI: Abre a vitrine
+  UI->>GW: GET /api/stores/:slug/recommendations
+  GW->>GW: Identifica o comprador pela sessão (ou visitante)
+  GW->>R: Pedir sugestões
+  R->>C: Produtos da loja
+  R->>I: Saldos
+  R->>O: Histórico do comprador e cestas aprovadas da loja
+  R->>R: Pontuar por categoria, cestas, popularidade e preço
+  R-->>UI: Até 3 produtos com o motivo de cada um
+```
+
+O serviço não tem banco próprio: deriva tudo dos dados de catálogo, estoque e pedidos. Detalhes do ranking e da migração das lojas antigas estão no ADR-011.
 
 ## Cadastro e composição
 
