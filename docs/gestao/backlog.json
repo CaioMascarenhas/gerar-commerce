@@ -319,6 +319,7 @@
       "dependencies": ["PB-018", "PB-019", "PB-020"],
       "acceptance": [
         "Cobrir todos os itens do modelo de Reuso em projeto_docs.",
+        "Identificar UFAL e Instituto de Computação, usar a marca oficial da UFAL e apresentar somente Caio Mascarenhas Soares, matrícula 22111481, como autor; seguir docs/relatorio-reuso.md.",
         "Explicar Template Method e hotspots com código das duas subclasses.",
         "Incluir classes/interfaces por componente, passo a passo de extensão e referências."
       ]
