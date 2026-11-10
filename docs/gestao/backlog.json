@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05",
+  "updatedAt": "2026-11-09",
   "presentation": "2026-11-11",
   "targetCompletion": "2026-11-10",
   "team": ["Caio Mascarenhas Soares", "Laura Marques Costa"],
@@ -475,6 +475,156 @@
       ],
       "githubPending": true,
       "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
+    },
+    {
+      "id": "PB-033",
+      "title": "Criar contas de compradores e exigir login no checkout",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "backend",
+      "status": "done",
+      "dependencies": ["PB-017", "PB-012"],
+      "acceptance": [
+        "Cadastro e login por loja com scrypt, sessão persistida e cookie separado do administrador.",
+        "Compra exige conta e usa identidade validada no servidor; comprador consulta somente seus pedidos."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-compradores-e-experiencia.md"
+    },
+    {
+      "id": "PB-034",
+      "title": "Cadastrar e administrar cupons próprios da loja",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "opcional",
+      "status": "review",
+      "dependencies": ["PB-024"],
+      "acceptance": [
+        "Administrador define código, percentual, compra mínima, validade e ativação.",
+        "Backend aplica regras do cupom da loja e rejeita códigos expirados, desativados ou de outra loja."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-compradores-e-experiencia.md"
+    },
+    {
+      "id": "PB-035",
+      "title": "Disponibilizar chat Gemini e links individuais de produtos",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "ia",
+      "status": "review",
+      "dependencies": ["PB-015", "PB-016"],
+      "acceptance": [
+        "Chat público de dicas usa somente catálogo e estoque da loja quando aiAssistant está ativo.",
+        "IDs sugeridos são filtrados pelo servidor e produzem links internos de produtos; administrador recebe acesso destacado ao agente."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-compradores-e-experiencia.md"
+    },
+    {
+      "id": "PB-036",
+      "title": "Criar sacola flutuante animada e acesso à própria loja",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "review",
+      "dependencies": ["PB-011", "PB-029"],
+      "acceptance": [
+        "Sacola tem botão flutuante, contador, animação ao abrir e fechar e respeito a movimento reduzido.",
+        "Menu Acessar minha loja guarda somente último endereço; navegação por teclado preserva foco nos diálogos."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-compradores-e-experiencia.md"
+    },
+    {
+      "id": "PB-037",
+      "title": "Adicionar fotos e ajuste de enquadramento de capas e produtos",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "review",
+      "dependencies": ["PB-009", "PB-031"],
+      "acceptance": [
+        "Upload e URL HTTPS com prévia, encaixe, zoom e posição persistidos nas entidades.",
+        "Geração sugere fotos ilustrativas identificadas; links quebrados exibem fallback e não são apresentados como fotos reais."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-compradores-e-experiencia.md"
+    },
+    {
+      "id": "PB-038",
+      "title": "Validar contas, cupons e experiência ampliada",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "testes",
+      "status": "review",
+      "dependencies": ["PB-033", "PB-034", "PB-035", "PB-036", "PB-037"],
+      "acceptance": [
+        "Smoke PostgreSQL comprova autorização, isolamento, persistência e descontos cadastrados.",
+        "Builds, Docker e chamada real ao chat Gemini verificados; registrar separadamente bloqueio da inspeção visual."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-compradores-e-experiencia.md"
+    },
+    {
+      "id": "PB-039",
+      "title": "Identificar perfis conectados e permitir logout independente",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "review",
+      "dependencies": ["PB-033", "PB-017"],
+      "acceptance": [
+        "Cabeçalho oferece Entrar para comprar/Minha conta e identifica loja e comprador conectados, com nome e botão de sair para cada perfil.",
+        "Logout atualiza vitrine e painel preservando a outra sessão; respostas antigas não restauram autenticação."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-sessoes-e-foco.md"
+    },
+    {
+      "id": "PB-040",
+      "title": "Corrigir sobreposição e foco do login ao finalizar a compra",
+      "cycle": "I3",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "review",
+      "dependencies": ["PB-033", "PB-036"],
+      "acceptance": [
+        "Formulário de conta aparece acima do próprio fundo; o foco permanece no diálogo ativo durante animações.",
+        "Login pausa a sacola e a retoma com os itens preservados; testes cobrem camadas, foco e retomada."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-09-sessoes-e-foco.md"
+    },
+    {
+      "id": "PB-041",
+      "title": "Padronizar tipografia com Inter nos textos e Exo nos títulos",
+      "cycle": "I3",
+      "priority": "P1",
+      "area": "frontend",
+      "status": "done",
+      "dependencies": ["PB-006"],
+      "acceptance": [
+        "Textos e controles usam Inter; títulos h1–h6 e headings acessíveis usam Exo.",
+        "Fontes variáveis e licenças OFL são servidas localmente e incluídas no build Docker."
+      ],
+      "githubPending": true,
+      "evidence": "frontend/README.md"
+    },
+    {
+      "id": "PB-042",
+      "title": "Criar ícones originais para as três categorias de loja",
+      "cycle": "I3",
+      "priority": "P1",
+      "area": "frontend",
+      "status": "done",
+      "dependencies": ["PB-030"],
+      "acceptance": [
+        "Eletrônicos, Construção e Roupas usam SVGs próprios, com traço consistente e cor da categoria.",
+        "Componente reutilizável aplica os ícones na plataforma, cadastro e vitrine sem alterar dados das lojas existentes."
+      ],
+      "githubPending": true,
+      "evidence": "frontend/README.md"
     }
   ]
 }

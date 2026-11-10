@@ -1,8 +1,8 @@
 # Product Backlog
 
-Atualizado em 05/11/2026. A solicitação de cadastro dinâmico substitui o modelo de um perfil por implantação. O Kanban continua sendo o método de trabalho; os ciclos registram snapshots para o relatório.
+Atualizado em 09/11/2026. A solicitação de cadastro dinâmico substitui o modelo de um perfil por implantação. O Kanban continua sendo o método de trabalho; os ciclos registram snapshots para o relatório.
 
-Itens PB-028 a PB-032 foram registrados localmente. Ainda não possuem issues remotas; nenhuma sincronização com GitHub foi executada nesta alteração.
+Itens PB-028 a PB-042 foram registrados localmente. Ainda não possuem issues remotas; nenhuma sincronização com GitHub foi executada nesta alteração.
 
 | ID                                                                    | Item                                                                 | Prioridade | Ciclo  | Estado atual | Dependências                   |
 | --------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------- | ------ | ------------ | ------------------------------ |
@@ -42,3 +42,22 @@ Itens PB-028 a PB-032 foram registrados localmente. Ainda não possuem issues re
 PB-016 e PB-019 permanecem em revisão porque falta evidência de Gemini real e inspeção manual no navegador. O bloqueio da automação visual está registrado no snapshot. Os critérios detalhados estão em `backlog.json`.
 
 [Snapshot da mudança](snapshots/2026-11-05-lojas-dinamicas.md).
+
+## Evolução de compradores e experiência — 09/11/2026
+
+**PB-041 — Concluído:** Inter nos textos e controles e Exo nos títulos, com fontes variáveis e licenças OFL servidas pela aplicação. Registrado no ciclo I3; build e arquivos públicos conferidos.
+
+**PB-042 — Concluído:** ícones SVG originais para as três categorias, com componente reutilizável aplicado à plataforma, ao cadastro e à vitrine. Os desenhos foram inspecionados em prévia rasterizada em três tamanhos; build e publicação do sprite conferidos.
+
+Correção posterior: **PB-039**, perfis conectados e logout independente, e **PB-040**, camadas e foco do login na finalização, implementados e em revisão visual. Seis testes de frontend e 75 verificações de integração aprovados. [Snapshot da correção](snapshots/2026-11-09-sessoes-e-foco.md).
+
+| ID     | Item                                                | Ciclo | Estado     |
+| ------ | --------------------------------------------------- | ----- | ---------- |
+| PB-033 | Contas de compradores e checkout autenticado        | I3    | Concluído  |
+| PB-034 | Cupons cadastrados pela loja                        | I3    | Em revisão |
+| PB-035 | Chat Gemini e links individuais dos produtos        | I3    | Em revisão |
+| PB-036 | Sacola flutuante, animações e acesso à própria loja | I3    | Em revisão |
+| PB-037 | Fotos e ajuste de enquadramento                     | I3    | Em revisão |
+| PB-038 | Validação da experiência ampliada                   | I3    | Em revisão |
+
+Implementação e verificações automatizadas concluídas; itens com interface aguardam inspeção visual. Chat Gemini teve resposta real com link válido; o agente administrativo ainda não teve sua chamada real validada. [Evidências e limites](snapshots/2026-11-09-compradores-e-experiencia.md). Os registros históricos de PB-024 descrevem o cupom fixo inicial; PB-034 o substitui por códigos cadastrados. Nenhuma sincronização remota foi realizada.

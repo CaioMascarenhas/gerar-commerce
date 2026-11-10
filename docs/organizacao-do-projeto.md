@@ -3,19 +3,19 @@
 ```text
 frontend/
   src/app/pages/          Plataforma, cadastro, loja e administração
-  src/app/components/     Seletor reutilizável de funcionalidades
+  src/app/components/     Features, imagens, contas, foco e chat reutilizáveis
   src/app/models/         Contratos HTTP do frontend
-  src/app/api.ts          Cliente HTTP e leitura da capa
-  src/app/routes.ts      /, /criar, /loja/:slug e /admin/:slug
+  src/app/api.ts          Cliente HTTP e mensagens de erro
+  src/app/routes.ts      Plataforma, acesso à loja, vitrine, produto e painel
   src/styles.css         Estilo e adaptação a telas menores
   Dockerfile             Angular compilado, servido por Nginx
 backend/
-  services/stores/       Cadastro, configurações, senhas e sessões
+  services/stores/       Lojas, compradores, senhas e sessões
   services/catalog/      Produtos e avaliações
   services/inventory/    Saldos e reservas
-  services/orders/       Compra simulada e pedidos
+  services/orders/       Cupons, compra simulada e pedidos
   services/recommendations/ Recomendações por histórico
-  services/ai-assistant/  Geração inicial e agente administrativo
+  services/ai-assistant/  Geração, chat público e agente administrativo
   services/gateway/      Entrada HTTP e autorização por loja
   packages/framework/    Template Method, features, temas, planos e políticas
   packages/contracts/    Contratos públicos compartilhados pelo backend
