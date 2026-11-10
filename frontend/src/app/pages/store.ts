@@ -250,6 +250,39 @@ import { checkoutReference } from '../checkout-reference';
               <div class="empty">Nenhum produto encontrado.</div>
             }
           </section>
+          @if (recommendations().length) {
+            <section class="container recommendation-section">
+              <div>
+                <span class="eyebrow">ESCOLHAS QUE COMBINAM COM VOCÊ</span>
+                <h2>Vale conhecer também.</h2>
+                <p>
+                  {{
+                    recommendationStrategy() === 'history-category'
+                      ? 'Sugestões a partir das suas compras e das de outros clientes desta loja.'
+                      : recommendationStrategy() === 'store-popularity'
+                        ? 'Os mais comprados da nossa coleção.'
+                        : 'Algumas escolhas da nossa coleção para começar.'
+                  }}
+                </p>
+              </div>
+              <div class="recommendation-items">
+                @for (product of recommendations(); track product.id) {
+                  <button
+                    (click)="add(product)"
+                    [disabled]="available(product.id) <= quantity(product.id) || paying()"
+                  >
+                    <span
+                      >{{ product.name
+                      }}<small>{{ product.priceInCents / 100 | currency: 'BRL' }}</small>
+                      @if (product.reason) {
+                        <small>{{ product.reason }}</small>
+                      }</span
+                    ><b>＋</b>
+                  </button>
+                }
+              </div>
+            </section>
+          }
         }
         <div class="container shop-signature">
           <span>{{ store.name }}</span>
@@ -560,6 +593,8 @@ export class StorePage {
   stock = signal<{ productId: string; available: number }[]>([]);
   loading = signal(true);
   error = signal('');
+  recommendations = signal<Product[]>([]);
+  recommendationStrategy = signal('');
   query = '';
   cart = signal<Record<string, number>>({});
   cartOpen = signal(false);
@@ -641,6 +676,7 @@ export class StorePage {
           if (pending.couponQuote) this.couponQuote.set(pending.couponQuote);
         }
       } catch {}
+      await this.loadRecommendations();
     } catch (e) {
       this.error.set(errorMessage(e));
     } finally {
@@ -653,6 +689,15 @@ export class StorePage {
       }
     }
   }
+  async loadRecommendations() {
+    try {
+      const result = await this.api.get('/stores/' + this.slug + '/recommendations');
+      this.recommendations.set(result.products);
+      this.recommendationStrategy.set(result.strategy);
+    } catch {
+      this.recommendations.set([]);
+    }
+  }
   selectedProduct() {
     return this.products().find((product) => product.id === this.productId);
   }
@@ -661,6 +706,7 @@ export class StorePage {
     this.reference = '';
     this.checkoutError.set('');
     localStorage.removeItem('gerar-checkout-' + this.slug);
+    void this.loadRecommendations();
   }
   openAccount() {
     if (this.paying()) return;
@@ -802,6 +848,7 @@ export class StorePage {
       } catch {
         this.error.set('Pedido registrado. Atualize a página para conferir os saldos atuais.');
       }
+      await this.loadRecommendations();
     } catch (e: any) {
       if (e.status === 401) {
         this.sessions.setBuyer(this.slug, null);

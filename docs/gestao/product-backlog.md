@@ -57,6 +57,6 @@ Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação
 
 ## Ajuste de escopo de 10/11
 
-PB-043 — Concluído: corrigir navegação para coleção e menus duplicados; exigir compra aprovada e identidade da conta nas avaliações; retirar recomendações automáticas. Registro local, sem issue remota criada. PB-014 permanece no histórico como implementação anterior, retirada nesta revisão.
+PB-043 — Concluído: corrigir navegação para coleção e menus duplicados; exigir compra aprovada e identidade da conta nas avaliações; retirar recomendações automáticas, decisão revertida depois (ADR-011). Registro local, sem issue remota criada. PB-014 volta a valer com o serviço restaurado e ampliado.
 
 [Snapshot desta revisão](snapshots/2026-11-10-navegacao-avaliacoes.md).

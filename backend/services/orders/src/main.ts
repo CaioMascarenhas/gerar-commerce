@@ -100,6 +100,26 @@ class OrdersController {
       )
     ).rows.map((row) => row.data);
   }
+  @Get('internal/stores/:slug/history/:customerId') async history(
+    @Param('slug') slug: string,
+    @Param('customerId') customerId: string,
+  ) {
+    return (
+      await database.query(
+        "SELECT data FROM orders.purchases WHERE store_slug=$1 AND data->>'customerId'=$2 AND data->>'status'='paid' ORDER BY created_at DESC LIMIT 100",
+        [slug, customerId],
+      )
+    ).rows.map((row) => row.data);
+  }
+  // Cestas aprovadas da loja sem dados de compradores, usadas para "quem comprou X também comprou Y".
+  @Get('internal/stores/:slug/baskets') async baskets(@Param('slug') slug: string) {
+    return (
+      await database.query(
+        "SELECT data->'items' AS items FROM orders.purchases WHERE store_slug=$1 AND data->>'status'='paid' ORDER BY created_at DESC LIMIT 300",
+        [slug],
+      )
+    ).rows.map((row) => (row.items as any[]).map((item) => item.productId as string));
+  }
   @Get('internal/stores/:slug/purchases/:customerId/:productId') async purchased(
     @Param('slug') slug: string,
     @Param('customerId') customerId: string,

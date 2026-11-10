@@ -57,4 +57,4 @@ Os modelos citam o artigo de framework de pagamentos e relatórios de referênci
 
 ## Revisão de escopo — 10/11
 
-O usuário solicitou retirar as recomendações automáticas. As referências ao item 6.1 e PB-014 acima preservam a rastreabilidade do requisito inicial, mas esse recurso já não faz parte da versão atual. O relatório deve registrar essa diferença de escopo, sem declarar atendimento atual ao requisito de recomendação por histórico. O chat opcional com Gemini permanece distinto desse algoritmo.
+As recomendações foram retiradas em 10/11 e restauradas com melhorias (ADR-011). O item 6.1 e PB-014 voltam a ser atendidos pelo serviço `recommendations`, que usa o histórico do comprador e as cestas da loja. O chat opcional com Gemini permanece distinto desse algoritmo.

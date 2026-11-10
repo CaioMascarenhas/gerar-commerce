@@ -127,7 +127,7 @@ O estoque é descontado na reserva com atualização condicional e transação; 
 
 ## Implantação e desenvolvimento
 
-O Compose inicia PostgreSQL, seis processos NestJS e Nginx com Angular, em oito contêineres. O banco é publicado na porta **5433** do host (5432 interna), para evitar conflito comum com outros projetos. As portas padrão da interface e gateway são 4200 e 3000. `FRONTEND_PORT`, `GATEWAY_PORT` e `POSTGRES_PORT` permitem ajustar o host. No desenvolvimento local, os serviços usam 3000–3003 e 3005–3006. A porta 3004 está livre.
+O Compose inicia PostgreSQL, sete processos NestJS e Nginx com Angular, em nove contêineres. O banco é publicado na porta **5433** do host (5432 interna), para evitar conflito comum com outros projetos. As portas padrão da interface e gateway são 4200 e 3000. `FRONTEND_PORT`, `GATEWAY_PORT` e `POSTGRES_PORT` permitem ajustar o host. No desenvolvimento local, os serviços usam 3000–3006.
 
 As credenciais de banco no Compose são exclusivamente locais e educacionais. Valores de planos, vendas e pagamentos são fictícios. Configuração de produção, armazenamento de mídia dedicado e autorização distribuída por credenciais de banco não fazem parte desta entrega.
 
@@ -138,3 +138,5 @@ Na vitrine, somente o menu da própria loja é mostrado. O cabeçalho e o resumo
 ADR-010: as recomendações automáticas foram retiradas por solicitação do usuário. O core passa a ter seis funcionalidades. O serviço e as rotas de recomendações são removidos, e os blueprints antigos são atualizados preservando os cadastros. O chat opcional Gemini é um recurso distinto e permanece disponível.
 
 O catálogo valida a sessão do comprador pela API de lojas e consulta a API de pedidos para confirmar compra aprovada do produto, loja e comprador, sem limitar a consulta aos últimos 100 pedidos. Nome e identidade enviados pelo navegador não autorizam a publicação. O nome público vem da conta. Avaliações anteriores à regra são preservadas sem selo de compra verificada.
+
+ADR-011: o serviço de recomendações volta como funcionalidade core (sete no total), porque o modelo da disciplina exige um microsserviço de recomendação por histórico. A versão anterior sugeria produtos da mesma categoria; a atual (`services/recommendations`) pontua cada produto em estoque e ainda não comprado por: categorias já compradas (peso 3), "quem comprou X também comprou Y" nas cestas aprovadas da loja (peso 2), popularidade na loja (0,5) e proximidade com o preço médio pago (0,5). Cada sugestão traz o motivo exibido na vitrine. O serviço consulta catálogo, estoque e pedidos por HTTP; pedidos expõe, sem dados de compradores, apenas as cestas (`/internal/stores/:slug/baskets`). Lojas cadastradas durante a retirada são recompostas na inicialização do serviço de lojas, sem perder dados. O ADR-010 fica como registro histórico, substituído por este.

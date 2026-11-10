@@ -187,7 +187,7 @@ export class HomePage {
       label: 'PARA TIRAR DO PAPEL',
       price: 59.9,
       description: 'Tudo que sua loja precisa para começar.',
-      items: ['Catálogo, carrinho e checkout', 'Estoque e pedidos', 'Painel administrativo'],
+      items: ['Catálogo, carrinho e checkout', 'Estoque e pedidos', 'Painel e recomendações'],
     },
     {
       name: 'Completo',

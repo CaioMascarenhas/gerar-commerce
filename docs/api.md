@@ -51,7 +51,7 @@ Settings recebe os mesmos campos de identidade do cadastro, sem alterar slug ou 
 
 ## Vitrine e compra simulada
 
-`GET /stores/:slug/products` retorna os produtos ativos da loja; `GET /stores/:slug/products/:id` consulta um produto e retorna 404 se não pertence à loja. A página é `/loja/:slug/produto/:id`. `GET /stores/:slug/stock` retorna `{ productId, available }[]`. As rotas de recomendações automáticas foram removidas e retornam 404.
+`GET /stores/:slug/products` retorna os produtos ativos da loja; `GET /stores/:slug/products/:id` consulta um produto e retorna 404 se não pertence à loja. A página é `/loja/:slug/produto/:id`. `GET /stores/:slug/stock` retorna `{ productId, available }[]`. `GET /stores/:slug/recommendations` retorna `{ strategy, products }` com até três produtos em estoque, cada um com `reason`. Visitantes recebem os mais comprados da loja ou, sem vendas, uma seleção da coleção; compradores conectados recebem sugestões pelo histórico. `GET /stores/:slug/recommendations/:customerId` exige a sessão do próprio comprador (403 para outro).
 
 `POST /stores/:slug/checkout`:
 

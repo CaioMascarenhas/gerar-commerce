@@ -21,7 +21,7 @@
 - Cupons, avaliações, entrega local e agente de IA como opcionais com guarda no servidor.
 - Geração de três produtos no cadastro via Gemini; sem configuração, retorna exemplos editáveis com origem identificada.
 - Agente Mastra + Gemini com ferramentas de leitura limitadas ao estoque e vendas da loja autenticada.
-- Compose com oito contêineres; frontend e backend com builds e instalações independentes; CI com PostgreSQL.
+- Compose com nove contêineres; frontend e backend com builds e instalações independentes; CI com PostgreSQL.
 
 ## Verificação realizada
 
@@ -58,3 +58,7 @@ Os registros de gestão distinguem implementação, evidência automatizada e re
 A vitrine usa somente o menu da loja. O link da coleção mantém a rota e a âncora corretas. Avaliar exige sessão de comprador e compra aprovada, usando o nome confirmado pelo servidor. Recomendações automáticas foram retiradas do core, das APIs e do Compose. Blueprints antigos são atualizados sem apagar os dados da loja.
 
 Verificação desta revisão: 8 testes de frontend, 15 de backend, 83 verificações PostgreSQL e 15 E2E aprovados, com um cenário de Gemini real ignorado por não usar chave nesta rodada. Capturas em desktop e celular foram inspecionadas. Consulte o [snapshot](gestao/snapshots/2026-11-10-navegacao-avaliacoes.md).
+
+## Recomendações restauradas
+
+O microsserviço de recomendações (porta 3004) voltou ao core, com ranking por categoria, cestas da loja, popularidade e faixa de preço, e motivo exibido em cada sugestão. Build, 16 testes do backend, smoke PostgreSQL e testes do frontend passaram; a revisão visual da vitrine e a suíte E2E em navegador ainda precisam ser reexecutadas. Ver ADR-011 em [arquitetura](arquitetura.md).

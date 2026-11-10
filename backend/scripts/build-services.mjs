@@ -1,5 +1,13 @@
 import { spawnSync } from 'node:child_process';
-const apps = ['catalog', 'inventory', 'orders', 'stores', 'gateway', 'ai-assistant'];
+const apps = [
+  'catalog',
+  'inventory',
+  'orders',
+  'recommendations',
+  'stores',
+  'gateway',
+  'ai-assistant',
+];
 for (const app of apps) {
   const result = spawnSync(
     process.execPath,
