@@ -20,3 +20,7 @@ Não foram criadas issues remotas nem alterados os snapshots das validações an
 A migração de um blueprint antigo com recomendações foi simulada no banco temporário e aprovada após reinício. Capturas de desktop e celular foram inspecionadas, confirmando um único cabeçalho da loja e ausência do resumo duplicado de perfis. As telas do teste exibem dados fictícios.
 
 [Resumo de evidências](../evidencias/2026-11-10-navegacao-avaliacoes.json).
+
+## Revisão no GitHub — PR #46
+
+A primeira rodada de CI aprovou frontend, backend e documentação, mas identificou um seletor ambíguo no E2E de logout: o botão de sair também aparece no próprio painel administrativo. O teste passou a localizar explicitamente os controles dos perfis administrativo e comprador, mantendo a verificação de independência das sessões. O cenário passou em três repetições locais consecutivas, sem falhas. A PR só deve ser integrada após a aprovação da nova rodada completa de CI.

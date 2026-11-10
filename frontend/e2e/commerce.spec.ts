@@ -177,11 +177,17 @@ test('login pelo cabeçalho mantém o produto e os perfis têm logout independen
   await page.goto('/admin/' + store.slug);
   await expect(page.locator('.customer-profile')).toContainText('Comprador E2E');
   await expect(page.locator('.owner-profile')).toBeVisible();
-  await page.getByRole('button', { name: 'Sair da loja', exact: true }).click();
+  await page
+    .locator('.owner-profile')
+    .getByRole('button', { name: 'Sair da loja', exact: true })
+    .click();
   await expect(page.locator('.owner-profile')).toHaveCount(0);
   await expect(page.locator('.customer-profile')).toBeVisible();
   expect((await page.request.get('/api/stores/' + store.slug + '/orders')).status()).toBe(401);
-  await page.getByRole('button', { name: 'Sair do comprador', exact: true }).click();
+  await page
+    .locator('.customer-profile')
+    .getByRole('button', { name: 'Sair do comprador', exact: true })
+    .click();
   await expect(page.locator('.customer-profile')).toHaveCount(0);
   expect((await page.request.get('/api/stores/' + store.slug + '/customer-session')).status()).toBe(
     401,
