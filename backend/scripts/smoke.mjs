@@ -76,7 +76,10 @@ function start() {
     children.push(child);
   }
 }
+const buyerCookies = new Map();
 async function request(path, method = 'GET', body, cookie) {
+  if (cookie === undefined && path.endsWith('/checkout'))
+    cookie = buyerCookies.get(path.split('/')[2]);
   const response = await fetch('http://127.0.0.1:' + ports.gateway + '/api' + path, {
     method,
     headers: { 'Content-Type': 'application/json', ...(cookie ? { Cookie: cookie } : {}) },
@@ -88,6 +91,7 @@ async function request(path, method = 'GET', body, cookie) {
     status: response.status,
     data,
     cookie: response.headers.get('set-cookie')?.split(';')[0],
+    cookieHeader: response.headers.get('set-cookie'),
   };
 }
 async function ok(path, method = 'GET', body, cookie) {
@@ -199,6 +203,190 @@ try {
   const products = await ok('/stores/smoke-tech/products'),
     otherProducts = await ok('/stores/smoke-obra/products');
   const product = products.find((p) => p.name === 'Produto principal');
+  check(
+    (await request('/stores/smoke-tech/checkout', 'POST', {}, '')).status === 401,
+    'Compra anônima exige conta.',
+  );
+  check(
+    (await request('/stores/smoke-tech/checkout', 'POST', {}, cookie)).status === 401,
+    'Sessão administrativa não é conta de comprador.',
+  );
+  check(
+    (
+      await request('/stores/smoke-tech/customers', 'POST', {
+        name: 'Teste',
+        email: 'invalido',
+        password: 'senha-teste',
+      })
+    ).status === 400,
+    'E-mail inválido rejeitado.',
+  );
+  check(
+    (
+      await request('/stores/smoke-tech/customers', 'POST', {
+        name: 'Teste',
+        email: 'cliente@example.test',
+        password: 'curta',
+      })
+    ).status === 400,
+    'Senha curta rejeitada.',
+  );
+  const buyers = {};
+  for (const slug of ['smoke-tech', 'smoke-obra', 'smoke-moda']) {
+    const registered = await request('/stores/' + slug + '/customers', 'POST', {
+      name: 'Comprador fictício',
+      email: 'CLIENTE@example.test',
+      password: 'senha-cliente',
+    });
+    check(
+      registered.status === 201 &&
+        registered.cookieHeader.includes('HttpOnly') &&
+        registered.cookieHeader.includes('SameSite=Strict'),
+      'Cadastro com cookie seguro por loja.',
+    );
+    check(
+      !JSON.stringify(registered.data).includes('password'),
+      'Cadastro não expõe hash de senha.',
+    );
+    buyerCookies.set(slug, registered.cookie);
+    buyers[slug] = registered.data;
+  }
+  const buyerCookie = buyerCookies.get('smoke-tech');
+  check(
+    (
+      await request('/stores/smoke-tech/customers', 'POST', {
+        name: 'Outro',
+        email: 'cliente@example.test',
+        password: 'senha-cliente',
+      })
+    ).status === 409,
+    'E-mail único na mesma loja.',
+  );
+  check(
+    (
+      await request('/stores/smoke-tech/customer-login', 'POST', {
+        email: 'cliente@example.test',
+        password: 'incorreta123',
+      })
+    ).status === 401,
+    'Senha de comprador incorreta.',
+  );
+  check(
+    (await request('/stores/smoke-tech/orders', 'GET', undefined, buyerCookie)).status === 401,
+    'Comprador não administra.',
+  );
+  check(
+    (await request('/stores/smoke-obra/customer-session', 'GET', undefined, buyerCookie)).status ===
+      401,
+    'Conta e sessão isoladas por loja.',
+  );
+  check(
+    (
+      await request(
+        '/stores/smoke-tech/recommendations/' + buyers['smoke-obra'].id,
+        'GET',
+        undefined,
+        buyerCookie,
+      )
+    ).status === 403,
+    'Histórico de outro comprador bloqueado.',
+  );
+  const completeLogin = await request('/stores/smoke-obra/login', 'POST', {
+    password: 'senha-teste',
+  });
+  check(
+    (
+      await request('/stores/smoke-obra/coupons/BOASVINDAS10', 'PUT', {
+        percentage: 10,
+        minimumInCents: 0,
+        active: true,
+        expiresAt: null,
+      })
+    ).status === 401,
+    'Criar cupom exige administração.',
+  );
+  await ok(
+    '/stores/smoke-obra/coupons/BOASVINDAS10',
+    'PUT',
+    { percentage: 10, minimumInCents: 0, active: true, expiresAt: null },
+    completeLogin.cookie,
+  );
+  await ok(
+    '/stores/smoke-obra/coupons/VERAO25',
+    'PUT',
+    { percentage: 25, minimumInCents: 5000, active: true, expiresAt: null },
+    completeLogin.cookie,
+  );
+  check(
+    (
+      await ok('/stores/smoke-obra/coupon-quote', 'POST', {
+        coupon: 'verao25',
+        subtotalInCents: 10000,
+      })
+    ).totalInCents === 7500,
+    'Cupom próprio aplicado pelo servidor.',
+  );
+  check(
+    (
+      await request('/stores/smoke-tech/coupon-quote', 'POST', {
+        coupon: 'VERAO25',
+        subtotalInCents: 10000,
+      })
+    ).status === 403,
+    'Cupom não atravessa loja sem feature.',
+  );
+  check(
+    (
+      await request('/stores/smoke-obra/coupon-quote', 'POST', {
+        coupon: 'VERAO25',
+        subtotalInCents: 1000,
+      })
+    ).status === 400,
+    'Compra mínima validada.',
+  );
+  await ok(
+    '/stores/smoke-obra/coupons/EXPIRADO',
+    'PUT',
+    { percentage: 20, minimumInCents: 0, active: true, expiresAt: '2020-01-01T00:00:00Z' },
+    completeLogin.cookie,
+  );
+  check(
+    (
+      await request('/stores/smoke-obra/coupon-quote', 'POST', {
+        coupon: 'EXPIRADO',
+        subtotalInCents: 10000,
+      })
+    ).status === 400,
+    'Cupom expirado rejeitado.',
+  );
+  await ok(
+    '/stores/smoke-obra/coupons/VERAO25',
+    'PUT',
+    { percentage: 25, minimumInCents: 5000, active: false, expiresAt: null },
+    completeLogin.cookie,
+  );
+  check(
+    (
+      await request('/stores/smoke-obra/coupon-quote', 'POST', {
+        coupon: 'VERAO25',
+        subtotalInCents: 10000,
+      })
+    ).status === 400,
+    'Cupom desativado rejeitado.',
+  );
+  await ok('/stores/smoke-obra/coupons/EXPIRADO', 'DELETE', undefined, completeLogin.cookie);
+  check(
+    (await ok('/stores/smoke-obra/coupons', 'GET', undefined, completeLogin.cookie)).length === 2,
+    'Listagem e exclusão de cupons.',
+  );
+  check(
+    (await request('/stores/smoke-tech/chat', 'POST', { message: 'Dicas' })).status === 403,
+    'Chat bloqueado sem opcional.',
+  );
+  check(
+    (await request('/stores/smoke-moda/chat', 'POST', { message: 'Dicas' })).status === 503,
+    'Chat sem Gemini informa configuração ausente.',
+  );
   const purchase = {
     reference: randomUUID(),
     customerId: 'cliente-smoke',
@@ -209,6 +397,33 @@ try {
     totalInCents: 1,
   };
   const paid = await ok('/stores/smoke-tech/checkout', 'POST', purchase);
+  check(
+    paid.customerId === buyers['smoke-tech'].id,
+    'Cliente vem da sessão, ignorando identificador enviado.',
+  );
+  check(
+    (await ok('/stores/smoke-tech/customer-orders', 'GET', undefined, buyerCookie)).length === 1,
+    'Comprador acessa seus pedidos.',
+  );
+  check(
+    (
+      await ok(
+        '/stores/smoke-obra/customer-orders',
+        'GET',
+        undefined,
+        buyerCookies.get('smoke-obra'),
+      )
+    ).length === 0,
+    'Pedidos não atravessam lojas.',
+  );
+  check(
+    (await ok('/stores/smoke-tech/products/' + product.id)).id === product.id,
+    'Produto possui endpoint próprio.',
+  );
+  check(
+    (await request('/stores/smoke-obra/products/' + product.id)).status === 404,
+    'Link de produto não atravessa lojas.',
+  );
   check(paid.totalInCents === 10000 && paid.status === 'paid', 'Preço oficial no checkout.');
   const repeated = await ok('/stores/smoke-tech/checkout', 'POST', purchase);
   check(repeated.id === paid.id, 'Repetição não duplica pedido.');
@@ -282,7 +497,12 @@ try {
     (await ok('/stores/smoke-obra/reviews/' + completeProduct.id)).length === 1,
     'Avaliação persistida.',
   );
-  const recommendations = await ok('/stores/smoke-tech/recommendations/cliente-smoke');
+  const recommendations = await ok(
+    '/stores/smoke-tech/recommendations',
+    'GET',
+    undefined,
+    buyerCookie,
+  );
   check(
     recommendations.products.every((p) => p.id !== product.id),
     'Recomendação exclui produtos comprados.',
@@ -290,10 +510,33 @@ try {
   const updated = await ok(
     '/stores/smoke-tech/settings',
     'PUT',
-    { ...essential, name: 'Tech atualizada', options: ['aiAssistant', 'reviews'] },
+    {
+      ...essential,
+      name: 'Tech atualizada',
+      options: ['aiAssistant', 'reviews', 'coupons'],
+      coverFrame: { fit: 'contain', x: 35, y: 60, zoom: 1.2 },
+    },
     cookie,
   );
   check(updated.blueprint.plan.monthlyInCents === 9990, 'Settings recompõe plano.');
+  check(
+    updated.coverFrame.x === 35 && updated.coverFrame.zoom === 1.2,
+    'Enquadramento da capa persistido.',
+  );
+  const aiStatus = await ok('/stores/smoke-tech/assistant-status', 'GET', undefined, cookie);
+  check(
+    aiStatus.configured === false && !('key' in aiStatus),
+    'Estado da configuração de IA sem expor chave.',
+  );
+  check(
+    (
+      await request('/stores/smoke-tech/coupon-quote', 'POST', {
+        coupon: 'BOASVINDAS10',
+        subtotalInCents: 10000,
+      })
+    ).status === 400,
+    'Cupom de outra loja rejeitado mesmo com feature ativa.',
+  );
   check(
     (
       await request(
@@ -308,7 +551,12 @@ try {
   for (const category of ['eletronicos', 'construcao', 'roupas']) {
     const generated = await ok('/generate-products', 'POST', { category, name: 'Loja de teste' });
     check(
-      generated.products.length === 3 && generated.source === 'examples',
+      generated.products.length === 3 &&
+        generated.source === 'examples' &&
+        generated.products.every(
+          (p) =>
+            p.image.startsWith('https://images.unsplash.com/') && p.imageSource === 'illustrative',
+        ),
       'Três exemplos identificados sem Gemini.',
     );
   }
@@ -338,11 +586,42 @@ try {
     (await ok('/stores/smoke-tech/stock')).find((s) => s.productId === product.id).available === 0,
     'Saldo persiste após reiniciar.',
   );
+  check(
+    (await ok('/stores/smoke-tech/customer-session', 'GET', undefined, buyerCookie)).id ===
+      buyers['smoke-tech'].id,
+    'Conta e sessão persistem após reinício.',
+  );
+  check(
+    (await ok('/stores/smoke-obra/coupons', 'GET', undefined, completeLogin.cookie)).length === 2,
+    'Cupons persistem após reinício.',
+  );
   const added = await ok(
     '/stores/smoke-tech/products',
     'POST',
-    { name: 'Produto novo', description: 'Novo item.', priceInCents: 990, stock: 3, image: '' },
+    {
+      name: 'Produto novo',
+      description: 'Novo item.',
+      priceInCents: 990,
+      stock: 3,
+      image: cover,
+      imageFrame: { fit: 'cover', x: 25, y: 75, zoom: 1.5 },
+    },
     cookie,
+  );
+  check(
+    added.image === cover && added.imageFrame.x === 25 && added.imageFrame.zoom === 1.5,
+    'Foto e enquadramento do produto persistidos.',
+  );
+  check(
+    (
+      await request(
+        '/stores/smoke-tech/products/' + added.id,
+        'PUT',
+        { ...added, stock: 3, imageFrame: { fit: 'cover', x: 150, y: 50, zoom: 1 } },
+        cookie,
+      )
+    ).status === 400,
+    'Enquadramento inválido é rejeitado.',
   );
   await ok('/stores/smoke-tech/products/' + added.id, 'DELETE', undefined, cookie);
   check((await ok('/stores/smoke-tech/products')).length === 2, 'CRUD de produto.');
@@ -353,7 +632,29 @@ try {
       .status === 400,
     'Último produto não pode ser removido.',
   );
+  await ok('/stores/smoke-tech/customer-logout', 'POST', {}, buyerCookie);
+  check(
+    (await request('/stores/smoke-tech/session', 'GET', undefined, cookie)).status === 200,
+    'Sair do comprador preserva a sessão da loja.',
+  );
+  check(
+    (await request('/stores/smoke-tech/checkout', 'POST', purchase, buyerCookie)).status === 401,
+    'Logout do comprador revoga compra.',
+  );
+  const buyerLogin = await request('/stores/smoke-tech/customer-login', 'POST', {
+    email: 'cliente@example.test',
+    password: 'senha-cliente',
+  });
+  check(
+    buyerLogin.status === 201 && buyerLogin.data.id === buyers['smoke-tech'].id,
+    'Login restaura a mesma conta.',
+  );
   await ok('/stores/smoke-tech/logout', 'POST', {}, cookie);
+  check(
+    (await ok('/stores/smoke-tech/customer-session', 'GET', undefined, buyerLogin.cookie)).id ===
+      buyers['smoke-tech'].id,
+    'Sair da loja preserva a sessão do comprador.',
+  );
   check(
     (await request('/stores/smoke-tech/orders', 'GET', undefined, cookie)).status === 401,
     'Logout revoga sessão.',

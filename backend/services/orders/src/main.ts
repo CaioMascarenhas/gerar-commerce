@@ -12,6 +12,7 @@ import {
   text,
 } from '@gerar/platform';
 import { quoteCheckout, SimulatedPayment } from '@gerar/framework';
+import { CouponsController, couponDefinition } from './coupons.js';
 
 await migrate(
   'CREATE SCHEMA IF NOT EXISTS orders; CREATE TABLE IF NOT EXISTS orders.purchases (store_slug text NOT NULL, reference text NOT NULL, data jsonb NOT NULL, request_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(store_slug,reference)); CREATE TABLE IF NOT EXISTS orders.attempts (store_slug text NOT NULL, reference text NOT NULL, data jsonb NOT NULL, request_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(store_slug,reference));',
@@ -56,6 +57,7 @@ async function prepare(
       lines.reduce((sum, item) => sum + item.priceInCents * item.quantity, 0),
       body.coupon,
       body.fulfillment,
+      await couponDefinition(slug, body.coupon),
     );
   } catch (error) {
     throw new BadRequestException((error as Error).message);
@@ -79,6 +81,17 @@ async function prepare(
 
 @Controller()
 class OrdersController {
+  @Get('internal/stores/:slug/customer-orders/:customerId') async customerOrders(
+    @Param('slug') slug: string,
+    @Param('customerId') id: string,
+  ) {
+    return (
+      await database.query(
+        "SELECT data FROM orders.purchases WHERE store_slug=$1 AND data->>'customerId'=$2 ORDER BY created_at DESC LIMIT 100",
+        [slug, id],
+      )
+    ).rows.map((row) => row.data);
+  }
   @Get('internal/stores/:slug/orders') async list(@Param('slug') slug: string) {
     return (
       await database.query(
@@ -102,8 +115,14 @@ class OrdersController {
     @Param('slug') slug: string,
     @Body() body: any,
   ) {
+    const customer = await callService(
+      'stores',
+      '/internal/stores/' + slug + '/customer-session',
+      'POST',
+      { token: body?.customerToken },
+    );
+    const customerId = customer.id;
     const reference = text(body?.reference, 'Referência', 80);
-    const customerId = text(body?.customerId, 'Cliente', 80);
     if (!Array.isArray(body.items) || body.items.length < 1 || body.items.length > 30)
       throw new BadRequestException('Carrinho inválido.');
     const items = body.items.map((item: any) => ({
@@ -168,6 +187,8 @@ class OrdersController {
     });
   }
 }
-@Module({ controllers: [OrdersController, healthController('orders', 3003, 'postgres')] })
+@Module({
+  controllers: [OrdersController, CouponsController, healthController('orders', 3003, 'postgres')],
+})
 class OrdersModule {}
 await bootstrap(OrdersModule, 'Pedidos e checkout simulado', 3003);

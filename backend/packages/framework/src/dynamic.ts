@@ -54,7 +54,7 @@ export const featureCatalog = [
   {
     id: 'coupons',
     name: 'Cupons de desconto',
-    description: 'Cupom BOASVINDAS10 com 10% de desconto.',
+    description: 'Cadastre cupons e percentuais de desconto para sua loja.',
     core: false,
   },
   {
@@ -72,7 +72,7 @@ export const featureCatalog = [
   {
     id: 'aiAssistant',
     name: 'Agente de IA',
-    description: 'Consulte estoque e vendas com Mastra + Gemini.',
+    description: 'Chat de produtos para compradores e agente de gestão com Gemini.',
     core: false,
   },
 ] as const;
@@ -153,6 +153,22 @@ export class WelcomeDiscount implements DiscountPolicy {
     return Math.round(subtotalInCents * 0.1);
   }
 }
+export interface CouponDefinition {
+  code: string;
+  percentage: number;
+  minimumInCents: number;
+  active: boolean;
+  expiresAt: string | null;
+}
+export class PercentageDiscount implements DiscountPolicy {
+  constructor(private readonly percentage: number) {
+    if (!Number.isInteger(percentage) || percentage < 1 || percentage > 100)
+      throw new Error('Percentual de desconto inválido.');
+  }
+  discount(subtotalInCents: number) {
+    return Math.round((subtotalInCents * this.percentage) / 100);
+  }
+}
 export interface PaymentProvider {
   authorize(result: string): 'paid' | 'declined';
 }
@@ -168,17 +184,32 @@ export function quoteCheckout(
   subtotalInCents: number,
   coupon: unknown,
   fulfillment: string,
+  definition?: CouponDefinition,
 ) {
   if (!Number.isSafeInteger(subtotalInCents) || subtotalInCents < 1 || subtotalInCents > 1000000000)
     throw new Error('Valor do carrinho inválido.');
   if (!['pickup', 'delivery'].includes(fulfillment))
     throw new Error('Modalidade de entrega inválida.');
   const features = blueprint.configuration.features;
-  if (coupon && (!features.includes('coupons') || coupon !== 'BOASVINDAS10'))
-    throw new Error('Cupom inválido ou indisponível nesta loja.');
+  if (
+    coupon &&
+    (!features.includes('coupons') ||
+      !definition ||
+      typeof coupon !== 'string' ||
+      definition.code !== coupon.trim().toUpperCase() ||
+      !definition.active ||
+      (definition.expiresAt !== null &&
+        (!Number.isFinite(Date.parse(definition.expiresAt)) ||
+          Date.parse(definition.expiresAt) <= Date.now())))
+  )
+    throw new Error('Cupom inválido, expirado ou indisponível nesta loja.');
+  if (coupon && subtotalInCents < definition!.minimumInCents)
+    throw new Error('O subtotal não atingiu o valor mínimo deste cupom.');
   if (fulfillment === 'delivery' && !features.includes('delivery'))
     throw new Error('Esta loja oferece apenas retirada.');
-  const discountInCents = coupon ? new WelcomeDiscount().discount(subtotalInCents) : 0;
+  const discountInCents = coupon
+    ? new PercentageDiscount(definition!.percentage).discount(subtotalInCents)
+    : 0;
   const shippingInCents = fulfillment === 'delivery' ? blueprint.shippingInCents : 0;
   return {
     subtotalInCents,

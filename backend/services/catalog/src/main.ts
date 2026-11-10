@@ -35,6 +35,9 @@ async function find(slug: string, id: string) {
 }
 @Controller()
 class CatalogController {
+  @Get('stores/:slug/products/:id') product(@Param('slug') slug: string, @Param('id') id: string) {
+    return find(slug, id);
+  }
   @Get('stores/:slug/products') async list(@Param('slug') slug: string) {
     return (
       await database.query(

@@ -68,7 +68,24 @@ export function productInput(body: any) {
     priceInCents: integer(body.priceInCents, 'Preço', 1),
     stock: integer(body.stock, 'Estoque', 0, 1000000),
     image: image(body.image),
+    imageFrame: imageFrame(body.imageFrame),
+    imageSource: body.imageSource === 'illustrative' ? 'illustrative' : 'owner',
   };
+}
+export function imageFrame(value: any) {
+  if (value === undefined || value === null) return { fit: 'contain', x: 50, y: 50, zoom: 1 };
+  if (
+    !['contain', 'cover'].includes(value.fit) ||
+    ![value.x, value.y, value.zoom].every(Number.isFinite) ||
+    value.x < 0 ||
+    value.x > 100 ||
+    value.y < 0 ||
+    value.y > 100 ||
+    value.zoom < 1 ||
+    value.zoom > 3
+  )
+    throw new BadRequestException('Enquadramento da imagem inválido.');
+  return { fit: value.fit, x: value.x, y: value.y, zoom: value.zoom };
 }
 export function slugInput(value: unknown) {
   if (typeof value !== 'string' || !/^[a-z][a-z0-9-]{1,49}$/.test(value))

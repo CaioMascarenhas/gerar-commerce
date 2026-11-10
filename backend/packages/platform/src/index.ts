@@ -13,7 +13,7 @@ export async function bootstrap(
   defaultPort: number,
 ): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(module);
-  app.useBodyParser('json', { limit: '6mb' });
+  app.useBodyParser('json', { limit: '32mb' });
   app.use((req: any, res: any, next: () => void) => {
     if (
       req.url.startsWith('/api/internal') &&
