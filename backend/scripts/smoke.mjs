@@ -100,14 +100,22 @@ async function ok(path, method = 'GET', body, cookie) {
   return result.data;
 }
 async function ready() {
-  for (let attempt = 0; attempt < 60; attempt++) {
+  const deadline = Date.now() + Number(process.env.SMOKE_STARTUP_TIMEOUT_MS ?? 60000);
+  let lastHealth;
+  while (Date.now() < deadline) {
     try {
       const result = await ok('/services');
+      lastHealth = result;
       if (result.length === 6 && result.every((s) => s.status === 'ok')) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 300));
   }
-  throw new Error('Serviços não ficaram prontos. ' + logs.slice(-12).join('\n'));
+  throw new Error(
+    'Serviços não ficaram prontos. Última saúde: ' +
+      JSON.stringify(lastHealth) +
+      '\n' +
+      logs.slice(-12).join('\n'),
+  );
 }
 const cover =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a4X0AAAAASUVORK5CYII=';

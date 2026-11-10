@@ -1,5 +1,7 @@
 node_modules
 .test-build
+.e2e-artifacts
+artifacts
 dist
 output
 .npm-cache

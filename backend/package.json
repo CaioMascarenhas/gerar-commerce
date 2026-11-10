@@ -18,7 +18,7 @@
     "predev": "npm run build",
     "dev": "node scripts/dev.mjs",
     "start": "node scripts/dev.mjs",
-    "test": "npm run build:libs && tsx --test packages/framework/test/*.test.ts",
+    "test": "npm run build:libs && tsx --test packages/framework/test/*.test.ts packages/platform/test/*.test.ts",
     "smoke": "node scripts/smoke.mjs",
     "derive": "npm run build:libs && tsx scripts/derive.ts",
     "seed": "node scripts/seed.mjs"

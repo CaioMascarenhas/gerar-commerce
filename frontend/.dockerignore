@@ -2,4 +2,6 @@ node_modules
 dist
 .angular
 .test-build
+.e2e-artifacts
+artifacts
 *.log
