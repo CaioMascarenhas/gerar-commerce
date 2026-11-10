@@ -1,5 +1,7 @@
 # Snapshot I3 — perfis conectados e foco do login
 
+> Os estados abaixo registram a revisão anterior à integração. PB-039 e PB-040 foram concluídos na [auditoria da PR #29](2026-11-09-sincronizacao-e-merge.md), com as regressões automatizadas; a inspeção visual geral permanece em PB-019.
+
 Data de referência: 09/11/2026, America/Fortaleza. Correção solicitada a partir de captura da tela de finalização: o login aparecia desfocado por baixo da camada de fundo.
 
 ## PB-039 — perfis conectados

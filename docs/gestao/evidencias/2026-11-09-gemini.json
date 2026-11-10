@@ -1,0 +1,44 @@
+{
+  "referenceDate": "2026-11-09",
+  "verifiedAtUtc": "2026-11-10T02:41:00.254Z",
+  "fixture": "Dados exclusivamente fictícios em banco temporário, removido após a verificação.",
+  "administrativeAgent": {
+    "source": "gemini",
+    "result": {
+      "estoque": [
+        {
+          "nome": "Sensor Horizonte",
+          "disponivel": 3
+        },
+        {
+          "nome": "Módulo Aurora",
+          "disponivel": 8
+        }
+      ],
+      "pedidosAprovados": 1,
+      "totalAprovadoEmCentavos": 12345
+    },
+    "expectedStock": [
+      {
+        "nome": "Módulo Aurora",
+        "disponivel": 8
+      },
+      {
+        "nome": "Sensor Horizonte",
+        "disponivel": 3
+      }
+    ],
+    "expectedPaidOrders": 1,
+    "expectedPaidTotalInCents": 12345
+  },
+  "shoppingChat": {
+    "source": "gemini",
+    "validProductLinks": 1,
+    "allLinksBelongToFixture": true
+  },
+  "generation": {
+    "source": "gemini",
+    "count": 3,
+    "illustrationsIdentified": true
+  }
+}

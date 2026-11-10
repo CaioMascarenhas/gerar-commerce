@@ -1,5 +1,7 @@
 # Snapshot I3 — compradores e experiência de compra
 
+> Registro histórico anterior à auditoria de integração. O agente administrativo foi posteriormente validado com Gemini real e o GitHub foi sincronizado; consulte o [snapshot da PR #29](2026-11-09-sincronizacao-e-merge.md) para os estados atuais.
+
 Data de referência: 09/11/2026, America/Fortaleza. Solicitação registrada durante a evolução da plataforma dinâmica, após o merge de PB-028.
 
 ## Escopo solicitado e implementado
