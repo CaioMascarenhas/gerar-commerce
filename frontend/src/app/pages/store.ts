@@ -11,6 +11,7 @@ import { ShoppingChat } from '../components/shopping-chat';
 import { Store, Product, Order, Customer } from '../models/commerce';
 import { StoreSessions } from '../sessions';
 import { CategoryIcon } from '../components/category-icon';
+import { checkoutReference } from '../checkout-reference';
 @Component({
   standalone: true,
   imports: [
@@ -71,6 +72,30 @@ import { CategoryIcon } from '../components/category-icon';
               Sacola <span class="count">{{ cartCount() }}</span>
             </button>
           </nav>
+        </div>
+        <div class="container">
+          @if (error()) {
+            <div class="notice error" role="alert">{{ error() }}</div>
+          }
+          @if (receipt(); as order) {
+            <div class="notice success" role="status">
+              <strong>{{
+                order.status === 'paid'
+                  ? 'Compra simulada confirmada!'
+                  : 'Pagamento simulado recusado.'
+              }}</strong>
+              <p>
+                Pedido {{ order.id.slice(0, 8) }} ·
+                {{ order.totalInCents / 100 | currency: 'BRL' }} ·
+                {{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+              </p>
+              <span>{{
+                order.status === 'paid'
+                  ? 'Seu pedido foi registrado e o estoque foi atualizado.'
+                  : 'Seu estoque foi liberado. Você pode tentar uma nova compra.'
+              }}</span>
+            </div>
+          }
         </div>
         @if (productId) {
           <section class="container product-detail">
@@ -157,28 +182,6 @@ import { CategoryIcon } from '../components/category-icon';
                 placeholder="⌕  Buscar produto…"
               />
             </div>
-            @if (error()) {
-              <div class="notice error" role="alert">{{ error() }}</div>
-            }
-            @if (receipt(); as order) {
-              <div class="notice success" role="status">
-                <strong>{{
-                  order.status === 'paid'
-                    ? 'Compra simulada confirmada!'
-                    : 'Pagamento simulado recusado.'
-                }}</strong>
-                <p>
-                  Pedido {{ order.id.slice(0, 8) }} ·
-                  {{ order.totalInCents / 100 | currency: 'BRL' }} ·
-                  {{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}
-                </p>
-                <span>{{
-                  order.status === 'paid'
-                    ? 'Seu pedido foi registrado e o estoque foi atualizado.'
-                    : 'Seu estoque foi liberado. Você pode tentar uma nova compra.'
-                }}</span>
-              </div>
-            }
             <div class="product-grid">
               @for (product of filtered(); track product.id) {
                 <article class="product-card">
@@ -276,7 +279,9 @@ import { CategoryIcon } from '../components/category-icon';
           (click)="cartOpen.set(true)"
           [attr.aria-expanded]="cartOpen()"
           aria-controls="cart-drawer"
-          [attr.aria-label]="'Abrir sacola com ' + cartCount() + ' itens'"
+          [attr.aria-label]="
+            'Abrir sacola com ' + cartCount() + (cartCount() === 1 ? ' item' : ' itens')
+          "
         >
           <span aria-hidden="true">▱</span> Sacola
           <b class="cart-badge" aria-live="polite">{{ cartCount() }}</b>
@@ -774,8 +779,8 @@ export class StorePage {
     if (this.coupon.trim() && !this.reference && !(await this.applyCoupon())) return;
     this.paying.set(true);
     this.checkoutError.set('');
-    this.reference ||= crypto.randomUUID();
     try {
+      this.reference ||= checkoutReference();
       const attempt = {
         reference: this.reference,
         customerId: this.customer()!.id,

@@ -10,7 +10,10 @@
     "start": "ng serve storefront --host 127.0.0.1",
     "dev": "npm start",
     "build": "ng build storefront",
-    "test": "ngc -p tsconfig.test.json && tsx --import ./test/setup.mjs --test .test-build/test/*.test.js"
+    "test": "ngc -p tsconfig.test.json && tsx --import ./test/setup.mjs --test .test-build/test/*.test.js",
+    "test:e2e": "node ../.github/scripts/e2e.mjs",
+    "test:e2e:browser": "playwright test",
+    "test:e2e:types": "tsc -p tsconfig.e2e.json"
   },
   "dependencies": {
     "@angular/common": "22.2.4",
@@ -26,6 +29,7 @@
     "@angular/build": "22.2.6",
     "@angular/cli": "22.2.6",
     "@angular/compiler-cli": "22.2.4",
+    "@playwright/test": "1.65.0",
     "happy-dom": "^21.0.4",
     "tsx": "^4.23.15",
     "typescript": "6.0.3"

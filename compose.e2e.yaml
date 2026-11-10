@@ -1,0 +1,52 @@
+# Sobreposição exclusiva para testes. O executor usa um projeto Docker único por rodada.
+services:
+  postgres:
+    ports: !reset []
+  gateway:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    ports: !reset []
+  catalog:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    build: !reset null
+  inventory:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    build: !reset null
+  orders:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    build: !reset null
+  recommendations:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    build: !reset null
+  stores:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    build: !reset null
+  ai-assistant:
+    image: ${E2E_PROJECT_NAME:?}-backend
+    build: !reset null
+    env_file: !reset []
+    environment:
+      GOOGLE_API_KEY: ${E2E_GOOGLE_API_KEY:-}
+      GEMINI_MODEL: ${E2E_GEMINI_MODEL:-}
+  storefront:
+    image: ${E2E_PROJECT_NAME:?}-storefront
+    ports: !reset []
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1/]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  e2e:
+    image: ${E2E_PROJECT_NAME:?}-browser
+    build: { context: ./frontend, dockerfile: Dockerfile.e2e }
+    profiles: [tests]
+    init: true
+    shm_size: 1gb
+    environment:
+      E2E_BASE_URL: http://storefront
+      E2E_REAL_AI: ${E2E_REAL_AI:-0}
+      E2E_ISOLATED: '1'
+      CI: 'true'
+    volumes:
+      - type: bind
+        source: ${E2E_ARTIFACT_DIR:?}
+        target: /tests/artifacts

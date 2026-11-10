@@ -34,6 +34,19 @@ A saída fica em `dist/browser/`. O Dockerfile compila Angular e usa Nginx com f
 
 Execute `npm.cmd test` para os testes de regressão de sessões, camadas e foco dos diálogos. Eles compilam componentes com o Angular e usam DOM simulado; não substituem a revisão visual em navegador. O CI executa os mesmos testes.
 
+## Testes de ponta a ponta
+
+Com o Docker em execução, rode nesta pasta:
+
+```powershell
+npm.cmd run test:e2e:types
+npm.cmd run test:e2e
+```
+
+O executor compila o projeto e abre Chromium, Firefox e WebKit móvel em um ambiente Docker exclusivo por rodada, sem publicar portas e sem acessar as lojas existentes. Ele cria lojas e compradores fictícios, testa o cadastro de loja, uploads, enquadramento, catálogo, sessões, checkout, cupons, avaliações e sacola. Ao terminar, remove apenas os contêineres, o volume e as imagens daquela rodada. Os relatórios HTML/JSON/JUnit, capturas e rastros de falhas ficam em `.e2e-artifacts/`; `latest.json` identifica a última execução. O CI publica essas evidências por sete dias.
+
+A execução padrão verifica a mensagem de indisponibilidade da IA sem usar uma chave. Para incluir chamadas reais ao Gemini com os dados fictícios, configure `GOOGLE_API_KEY` e `GEMINI_MODEL` em `backend/.env` e use `npm.cmd run test:e2e -- --ai`. Essa opção pode consumir a cota do provedor. Não execute `test:e2e:browser` diretamente contra a sua loja: a massa de teste exige o ambiente isolado.
+
 O cabeçalho identifica separadamente a loja e o comprador conectados, com logout próprio para cada perfil. Ao solicitar login na finalização, a sacola é pausada e retomada depois de fechar a conta, preservando os itens.
 
 **Entrar para comprar** fica no cabeçalho principal e abre a conta de comprador na loja atual sem sair da página de produto. O parâmetro `conta=1` abre o diálogo e é removido ao fechar, permitindo novo acesso pelo mesmo botão. Sem contexto de loja, `/entrar` oferece seleção por nome ou endereço. Quando o comprador está autenticado, o botão exibe **Minha conta**.

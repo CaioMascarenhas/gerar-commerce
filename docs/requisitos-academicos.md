@@ -23,6 +23,8 @@ Fontes locais: `projeto_docs/atividade.txt`, `projeto_docs/atividadereuso.txt` e
 
 ## Reuso de Software e Metodologias Ágeis
 
+Identificação específica desta entrega: Universidade Federal de Alagoas (UFAL), Instituto de Computação, **Caio Mascarenhas Soares**, matrícula **22111481**, como único autor. A capa deve incluir a marca oficial da UFAL. A estrutura completa e os critérios de geração estão em [Preparação do relatório de Reuso](relatorio-reuso.md). A autoria individual deste relatório não altera o histórico da equipe no projeto.
+
 | Item do modelo                                      | Evidência planejada / caminho                                               | Backlog        |
 | --------------------------------------------------- | --------------------------------------------------------------------------- | -------------- |
 | 1–5: enunciado, método, reuso e backlogs            | Mesmo histórico de projeto com explicação do framework                      | PB-001, PB-022 |

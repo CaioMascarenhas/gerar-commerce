@@ -4,6 +4,8 @@ Atualizado em 2026-11-09. [Kanban](https://github.com/users/CaioMascarenhas/proj
 
 Fonte estruturada: [backlog.json](backlog.json).
 
+Evolução de 10/11: PB-019 recebeu testes E2E em três navegadores, validação com Gemini real e correções verificadas de checkout; permanece em revisão. PB-022 recebeu os dados de autoria individual e os requisitos do relatório de Reuso. [Snapshot e evidências](snapshots/2026-11-10-validacao-e2e.md). Os estados auditados abaixo não foram encerrados automaticamente pelos testes.
+
 | ID                                                                    | Item                                                                 | Prioridade | Ciclo  | Estado atual | Dependências                           |
 | --------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------- | ------ | ------------ | -------------------------------------- |
 | [PB-001](https://github.com/CaioMascarenhas/gerar-commerce/issues/1)  | Preparar monorepo, repositório, Kanban e backlogs                    | P0         | I1     | Concluído    | —                                      |
