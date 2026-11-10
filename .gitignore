@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .angular/
+.test-build/
 coverage/
 .env
 .env.*

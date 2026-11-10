@@ -10,6 +10,8 @@ export interface ProductDraft {
   priceInCents: number;
   stock: number;
   image: string;
+  imageFrame?: ImageFrame;
+  imageSource?: 'owner' | 'illustrative';
 }
 export interface Product extends Omit<ProductDraft, 'stock'> {
   id: string;
@@ -20,10 +22,29 @@ export interface StoreDraft {
   slug: string;
   description: string;
   cover: string;
+  coverFrame?: ImageFrame;
   category: string;
   options: string[];
   password: string;
   products: ProductDraft[];
+}
+export interface ImageFrame {
+  fit: 'cover' | 'contain';
+  x: number;
+  y: number;
+  zoom: number;
+}
+export interface Customer {
+  id: string;
+  name: string;
+  email: string;
+}
+export interface Coupon {
+  code: string;
+  percentage: number;
+  minimumInCents: number;
+  active: boolean;
+  expiresAt: string | null;
 }
 export interface Store extends Omit<StoreDraft, 'password' | 'products'> {
   blueprint: {
@@ -44,9 +65,9 @@ export interface Order {
   items: { productId: string; name: string; quantity: number; priceInCents: number }[];
 }
 export const categoryList = [
-  { id: 'eletronicos', name: 'Eletrônicos', icon: '⌘', color: '#2563eb' },
-  { id: 'construcao', name: 'Construção', icon: '▧', color: '#b45309' },
-  { id: 'roupas', name: 'Roupas', icon: '✳', color: '#a33265' },
+  { id: 'eletronicos', name: 'Eletrônicos', color: '#2563eb' },
+  { id: 'construcao', name: 'Construção', color: '#b45309' },
+  { id: 'roupas', name: 'Roupas', color: '#a33265' },
 ];
 export function newProduct(): ProductDraft {
   return { name: '', description: '', priceInCents: 1000, stock: 10, image: '' };

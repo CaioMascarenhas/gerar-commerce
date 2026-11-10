@@ -1,9 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { DialogFocus } from '../components/dialog-focus';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Api, errorMessage, readImage } from '../api';
+import { Api, errorMessage } from '../api';
+import { StoreSessions } from '../sessions';
 import {
   Store,
   Product,
@@ -15,11 +17,21 @@ import {
   newProduct,
   newStore,
   plan,
+  Coupon,
 } from '../models/commerce';
 import { FeaturePicker } from '../components/features';
+import { ImageEditor } from '../components/images';
 @Component({
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, FormsModule, RouterLink, FeaturePicker],
+  imports: [
+    DialogFocus,
+    CurrencyPipe,
+    DatePipe,
+    FormsModule,
+    RouterLink,
+    FeaturePicker,
+    ImageEditor,
+  ],
   template: `
     <main class="container admin-page">
       @if (loading()) {
@@ -74,7 +86,7 @@ import { FeaturePicker } from '../components/features';
           </div>
           <div class="hero-actions">
             <a class="button secondary" [routerLink]="['/loja', slug]">Visitar loja ↗</a
-            ><button class="text-link" (click)="logout()">Sair</button>
+            ><button class="text-link" (click)="logout()">Sair da loja</button>
           </div>
         </div>
         <div class="admin-stats">
@@ -100,7 +112,10 @@ import { FeaturePicker } from '../components/features';
         </div>
         <nav class="admin-tabs" aria-label="Seções administrativas">
           @for (item of tabs; track item.id) {
-            @if (item.id !== 'assistant' || has('aiAssistant')) {
+            @if (
+              (item.id !== 'assistant' || has('aiAssistant')) &&
+              (item.id !== 'coupons' || has('coupons'))
+            ) {
               <button [class.active]="tab() === item.id" (click)="switchTab(item.id)">
                 {{ item.label }}
               </button>
@@ -112,6 +127,125 @@ import { FeaturePicker } from '../components/features';
         }
         @if (message()) {
           <div class="notice success" role="status">{{ message() }}</div>
+        }
+        @if (has('aiAssistant')) {
+          <div class="notice agent-entry">
+            <div>
+              <strong>✦ Seu agente de IA está ativado</strong>
+              <p>
+                {{ aiStatus()?.message || 'Acesse seu agente para consultar estoque e vendas.' }}
+              </p>
+              <small>O chat de dicas de produtos também está disponível na vitrine.</small>
+            </div>
+            <button class="button small" type="button" (click)="switchTab('assistant')">
+              Abrir agente
+            </button>
+          </div>
+        }
+        @if (tab() === 'coupons' && has('coupons')) {
+          <section class="panel">
+            <h2>Cupons da sua loja.</h2>
+            <p>
+              Cadastre um código, o desconto e as condições. Compartilhe o código com seus clientes.
+            </p>
+            <form class="coupon-form" (ngSubmit)="saveCoupon()">
+              <div class="form-row">
+                <label
+                  >Código<input
+                    name="coupon-code"
+                    [(ngModel)]="couponDraft.code"
+                    required
+                    minlength="3"
+                    maxlength="40"
+                    pattern="[A-Za-z0-9_-]+"
+                    placeholder="BEMVINDO15" /></label
+                ><label
+                  >Desconto (%)<input
+                    name="coupon-percentage"
+                    type="number"
+                    [(ngModel)]="couponDraft.percentage"
+                    min="1"
+                    max="100"
+                    step="1"
+                    required
+                /></label>
+              </div>
+              <div class="form-row">
+                <label
+                  >Compra mínima (R$)<input
+                    name="coupon-minimum"
+                    type="number"
+                    [ngModel]="couponDraft.minimumInCents / 100"
+                    (ngModelChange)="couponDraft.minimumInCents = cents($event)"
+                    min="0"
+                    step="0.01"
+                    required /></label
+                ><label
+                  >Válido até (opcional)<input
+                    name="coupon-expiry"
+                    type="datetime-local"
+                    [(ngModel)]="couponExpiry"
+                /></label>
+              </div>
+              <label class="checkbox-label"
+                ><input name="coupon-active" type="checkbox" [(ngModel)]="couponDraft.active" />
+                Cupom ativo</label
+              >
+              <div class="hero-actions">
+                <button class="button" [disabled]="busy()">
+                  {{ busy() ? 'Salvando…' : 'Salvar cupom' }}</button
+                ><button class="button secondary" type="button" (click)="resetCoupon()">
+                  Novo cupom
+                </button>
+              </div>
+            </form>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Desconto</th>
+                    <th>Mínimo</th>
+                    <th>Validade</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (coupon of coupons(); track coupon.code) {
+                    <tr>
+                      <td>
+                        <strong>{{ coupon.code }}</strong
+                        ><small>{{ coupon.active ? 'Ativo' : 'Desativado' }}</small>
+                      </td>
+                      <td>{{ coupon.percentage }}%</td>
+                      <td>{{ coupon.minimumInCents / 100 | currency: 'BRL' }}</td>
+                      <td>
+                        {{
+                          coupon.expiresAt
+                            ? (coupon.expiresAt | date: 'dd/MM/yyyy HH:mm')
+                            : 'Sem prazo'
+                        }}
+                      </td>
+                      <td class="table-actions">
+                        <button class="text-link" (click)="editCoupon(coupon)">Editar</button
+                        ><button
+                          class="text-link danger"
+                          (click)="removeCoupon(coupon)"
+                          [disabled]="busy()"
+                        >
+                          Excluir
+                        </button>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="5">Nenhum cupom cadastrado. Crie seu primeiro código acima.</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
         }
         @if (tab() === 'products') {
           <section class="panel">
@@ -136,7 +270,8 @@ import { FeaturePicker } from '../components/features';
                   @for (product of products(); track product.id) {
                     <tr>
                       <td>
-                        <strong>{{ product.name }}</strong
+                        <a [routerLink]="['/loja', slug, 'produto', product.id]"
+                          ><strong>{{ product.name }}</strong></a
                         ><small>{{ product.description }}</small>
                       </td>
                       <td>{{ product.priceInCents / 100 | currency: 'BRL' }}</td>
@@ -251,22 +386,14 @@ import { FeaturePicker } from '../components/features';
                     <option [value]="category.id">{{ category.name }}</option>
                   }
                 </select></label
-              ><label>Foto de capa</label
-              ><label class="upload-area" for="settings-cover"
-                ><img [src]="settings.cover" alt="Capa atual da loja" /><span>Trocar imagem ↗</span
-                ><input
-                  class="file-input"
-                  id="settings-cover"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  (change)="upload($event)" /></label
-              ><label
-                >Ou use uma imagem por URL<input
-                  name="coverUrl"
-                  [ngModel]="settings.cover.startsWith('https://') ? settings.cover : ''"
-                  (ngModelChange)="settings.cover = $event"
-                  placeholder="https://…" /></label
-              ><feature-picker [features]="features()" [options]="settings.options" /><button
+              ><label>Foto de capa</label>
+              <image-editor
+                [(value)]="settings.cover"
+                [(frame)]="settings.coverFrame"
+                [cover]="true"
+                label="Capa da loja"
+              />
+              <feature-picker [features]="features()" [options]="settings.options" /><button
                 class="button"
                 [disabled]="busy()"
               >
@@ -320,7 +447,13 @@ import { FeaturePicker } from '../components/features';
         }
         @if (editing()) {
           <div class="modal-backdrop" (click)="!busy() && editing.set(false)"></div>
-          <section class="dialog" role="dialog" aria-modal="true" aria-label="Editar produto">
+          <section
+            class="dialog"
+            dialogFocus
+            role="dialog"
+            aria-modal="true"
+            aria-label="Editar produto"
+          >
             <div class="drawer-header">
               <h2>{{ editingId ? 'Editar produto' : 'Novo produto' }}</h2>
               <button
@@ -369,14 +502,13 @@ import { FeaturePicker } from '../components/features';
                     required
                 /></label>
               </div>
-              <label
-                >Imagem <small>URL HTTPS, opcional</small
-                ><input
-                  type="url"
-                  name="image"
-                  [(ngModel)]="productDraft.image"
-                  placeholder="https://…"
-              /></label>
+              <label>Foto do produto</label>
+              <image-editor
+                [(value)]="productDraft.image"
+                [(frame)]="productDraft.imageFrame"
+                (valueChange)="productDraft.imageSource = 'owner'"
+                [label]="productDraft.name || 'Foto do produto'"
+              />
               @if (productError()) {
                 <div class="notice error" role="alert">{{ productError() }}</div>
               }
@@ -390,6 +522,7 @@ import { FeaturePicker } from '../components/features';
           <div class="modal-backdrop" (click)="deleteCandidate.set(null)"></div>
           <section
             class="dialog compact"
+            dialogFocus
             role="dialog"
             aria-modal="true"
             aria-label="Excluir produto"
@@ -420,10 +553,11 @@ import { FeaturePicker } from '../components/features';
 export class AdminPage {
   api = inject(Api);
   route = inject(ActivatedRoute);
+  sessions = inject(StoreSessions);
   slug = '';
   loading = signal(true);
   shop = signal<Store | null>(null);
-  authenticated = signal(false);
+  authenticated = computed(() => this.sessions.profile(this.slug).admin);
   error = signal('');
   message = signal('');
   busy = signal(false);
@@ -438,6 +572,7 @@ export class AdminPage {
   tabs = [
     { id: 'products', label: 'Produtos e estoque' },
     { id: 'orders', label: 'Pedidos' },
+    { id: 'coupons', label: 'Cupons' },
     { id: 'settings', label: 'Configurações' },
     { id: 'assistant', label: '✦ Agente de IA' },
   ];
@@ -448,6 +583,16 @@ export class AdminPage {
   deleteCandidate = signal<Product | null>(null);
   question = '';
   answer = signal('');
+  aiStatus = signal<{ configured: boolean; message: string } | null>(null);
+  coupons = signal<Coupon[]>([]);
+  couponDraft: Coupon = {
+    code: '',
+    percentage: 10,
+    minimumInCents: 0,
+    active: true,
+    expiresAt: null,
+  };
+  couponExpiry = '';
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
       this.slug = params.get('slug')!;
@@ -457,17 +602,13 @@ export class AdminPage {
   async load() {
     this.loading.set(true);
     this.shop.set(null);
-    this.authenticated.set(false);
     this.error.set('');
     this.tab.set('products');
     try {
       this.shop.set(await this.api.get('/stores/' + this.slug));
-      try {
-        await this.api.get('/stores/' + this.slug + '/session');
-        this.authenticated.set(true);
+      if ((await this.sessions.refresh(this.slug)).admin) {
+        localStorage.setItem('gerar-my-store', this.slug);
         await this.loadData();
-      } catch (e: any) {
-        if (e.status !== 401) throw e;
       }
     } catch (e) {
       this.error.set(errorMessage(e));
@@ -482,7 +623,8 @@ export class AdminPage {
     try {
       await this.api.post('/stores/' + this.slug + '/login', { password: this.password });
       this.password = '';
-      this.authenticated.set(true);
+      this.sessions.setAdmin(this.slug, true);
+      localStorage.setItem('gerar-my-store', this.slug);
       await this.loadData();
     } catch (e) {
       this.error.set(errorMessage(e));
@@ -492,8 +634,7 @@ export class AdminPage {
   }
   async logout() {
     try {
-      await this.api.post('/stores/' + this.slug + '/logout', {});
-      this.authenticated.set(false);
+      await this.sessions.logoutAdmin(this.slug);
       this.products.set([]);
       this.orders.set([]);
     } catch (e) {
@@ -513,9 +654,10 @@ export class AdminPage {
       this.orders.set(orders);
       this.features.set(features.features);
       this.resetSettings();
+      await this.loadExtras();
     } catch (e: any) {
       this.error.set(errorMessage(e));
-      if (e.status === 401) this.authenticated.set(false);
+      if (e.status === 401) this.sessions.setAdmin(this.slug, false);
     }
   }
   resetSettings() {
@@ -544,19 +686,82 @@ export class AdminPage {
     this.error.set('');
     this.message.set('');
   }
+  async loadExtras() {
+    this.coupons.set(
+      this.has('coupons') ? await this.api.get('/stores/' + this.slug + '/coupons') : [],
+    );
+    if (this.has('aiAssistant')) {
+      try {
+        this.aiStatus.set(await this.api.get('/stores/' + this.slug + '/assistant-status'));
+      } catch (e) {
+        this.aiStatus.set({ configured: false, message: errorMessage(e) });
+      }
+    } else this.aiStatus.set(null);
+  }
+  resetCoupon() {
+    this.couponDraft = {
+      code: '',
+      percentage: 10,
+      minimumInCents: 0,
+      active: true,
+      expiresAt: null,
+    };
+    this.couponExpiry = '';
+  }
+  editCoupon(coupon: Coupon) {
+    this.couponDraft = { ...coupon };
+    if (coupon.expiresAt) {
+      const date = new Date(coupon.expiresAt);
+      this.couponExpiry = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
+    } else this.couponExpiry = '';
+  }
+  async saveCoupon() {
+    if (this.busy()) return;
+    this.busy.set(true);
+    this.error.set('');
+    this.message.set('');
+    try {
+      await this.api.put(
+        '/stores/' +
+          this.slug +
+          '/coupons/' +
+          encodeURIComponent(this.couponDraft.code.trim().toUpperCase()),
+        {
+          ...this.couponDraft,
+          expiresAt: this.couponExpiry ? new Date(this.couponExpiry).toISOString() : null,
+        },
+      );
+      await this.loadExtras();
+      this.resetCoupon();
+      this.message.set('Cupom salvo. Compartilhe o código com seus clientes.');
+    } catch (e) {
+      this.error.set(errorMessage(e));
+    } finally {
+      this.busy.set(false);
+    }
+  }
+  async removeCoupon(coupon: Coupon) {
+    if (this.busy()) return;
+    this.busy.set(true);
+    this.error.set('');
+    this.message.set('');
+    try {
+      await this.api.delete('/stores/' + this.slug + '/coupons/' + encodeURIComponent(coupon.code));
+      await this.loadExtras();
+      this.message.set('Cupom excluído.');
+    } catch (e) {
+      this.error.set(errorMessage(e));
+    } finally {
+      this.busy.set(false);
+    }
+  }
   settingsPlan() {
     return plan(this.settings.options);
   }
   cents(value: number) {
     return Math.round(Number(value) * 100);
-  }
-  async upload(event: Event) {
-    try {
-      const value = await readImage(event);
-      if (value) this.settings.cover = value;
-    } catch (e) {
-      this.error.set((e as Error).message);
-    }
   }
   async saveSettings() {
     if (this.busy()) return;
@@ -565,8 +770,10 @@ export class AdminPage {
     this.message.set('');
     try {
       this.shop.set(await this.api.put('/stores/' + this.slug + '/settings', this.settings));
+      this.sessions.setName(this.slug, this.shop()!.name);
       this.resetSettings();
       this.message.set('Configurações salvas. Sua loja já está com a nova composição.');
+      await this.loadExtras();
     } catch (e) {
       this.error.set(errorMessage(e));
     } finally {

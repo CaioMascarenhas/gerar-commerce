@@ -3,10 +3,12 @@ import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Api, errorMessage } from '../api';
+import { CommerceImage } from '../components/images';
+import { CategoryIcon } from '../components/category-icon';
 import { Store, categoryList } from '../models/commerce';
 @Component({
   standalone: true,
-  imports: [RouterLink, CurrencyPipe, FormsModule],
+  imports: [RouterLink, CurrencyPipe, FormsModule, CommerceImage, CategoryIcon],
   template: `
     <main class="container">
       <section class="landing-hero">
@@ -41,9 +43,20 @@ import { Store, categoryList } from '../models/commerce';
                 <div class="mock-shape">✳</div>
               </div>
               <div class="mock-products">
-                <div><span class="sample-object">◉</span><small>Seu produto</small></div>
-                <div><span class="sample-object">▱</span><small>Sua coleção</small></div>
-                <div><span class="sample-object">⌘</span><small>Seu estilo</small></div>
+                <div>
+                  <span class="sample-object"
+                    ><category-icon category="eletronicos" [size]="34" /></span
+                  ><small>Seu produto</small>
+                </div>
+                <div>
+                  <span class="sample-object"
+                    ><category-icon category="construcao" [size]="34" /></span
+                  ><small>Sua coleção</small>
+                </div>
+                <div>
+                  <span class="sample-object"><category-icon category="roupas" [size]="34" /></span
+                  ><small>Seu estilo</small>
+                </div>
               </div>
             </div>
           </div>
@@ -58,8 +71,8 @@ import { Store, categoryList } from '../models/commerce';
         <span>UM COMEÇO PARA CADA NEGÓCIO</span>
         @for (category of categories; track category.id) {
           <button (click)="filter.set(category.id)" [style.--accent]="category.color">
-            <b>{{ category.icon }}</b
-            >{{ category.name }}<span>↗</span>
+            <b><category-icon [category]="category.id" [size]="38" /></b>{{ category.name
+            }}<span>↗</span>
           </button>
         }
       </section>
@@ -103,9 +116,11 @@ import { Store, categoryList } from '../models/commerce';
                 [routerLink]="['/loja', store.slug]"
                 [style.--accent]="store.blueprint.theme.accent"
                 ><div class="store-cover">
-                  <img [src]="store.cover" [alt]="store.name" loading="lazy" /><span class="pill">{{
-                    store.blueprint.theme.name
-                  }}</span>
+                  <commerce-image
+                    [src]="store.cover"
+                    [frame]="store.coverFrame"
+                    [alt]="store.name"
+                  /><span class="pill">{{ store.blueprint.theme.name }}</span>
                 </div>
                 <div class="store-card-body">
                   <span class="store-avatar">{{ store.name.slice(0, 1) }}</span>
