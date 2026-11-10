@@ -1,8 +1,19 @@
 # Framework e componentes de software
 
-## Estrutura implementada
+## Código reutilizável
 
-O framework está em `backend/packages/framework/src/index.ts`. Ele controla a construção de aplicações com o padrão **Template Method**. `CommerceApplication.build()` mantém a sequência comum; `configure`, `shippingPolicy` e `registerExtensions` são os hotspots.
+O pacote `backend/packages/framework/` não inicia NestJS, não acessa PostgreSQL e não conhece componentes Angular. Ele fornece o fluxo de construção dos produtos, as restrições de composição e políticas reutilizáveis.
+
+| Arquivo                  | Responsabilidade                                                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `src/core.ts`            | `CommerceApplication`, Template Method, registro de componentes e validação comum; exemplos EssentialStore/AssistedStore |
+| `src/dynamic.ts`         | Catálogo de features, categorias, `ConfiguredStore`, composição dinâmica, plano, desconto e pagamento simulado           |
+| `src/index.ts`           | API pública do pacote                                                                                                    |
+| `test/framework.test.ts` | Restrições, reuso, categorias, preços e políticas                                                                        |
+
+`backend/packages/contracts/src/index.ts` define `Feature`, `ProductConfiguration`, `ComponentDescriptor` e `ApplicationBlueprint`. `platform` é infraestrutura, não o framework de negócio.
+
+## Template Method e hotspots
 
 ```mermaid
 classDiagram
@@ -14,17 +25,13 @@ classDiagram
     #registerExtensions(registry, configuration)
     -registerCore(registry)
   }
-  class EssentialStore {
-    #configure() ProductConfiguration
-    #shippingPolicy() ShippingPolicy
-  }
-  class AssistedStore {
+  class ConfiguredStore {
+    -store StoreDefinition
     #configure() ProductConfiguration
     #shippingPolicy() ShippingPolicy
     #registerExtensions(registry)
   }
   class ComponentRegistry {
-    -components Map
     +register(component)
     +list() ComponentDescriptor[]
   }
@@ -32,134 +39,61 @@ classDiagram
     <<interface>>
     +quoteInCents() number
   }
-  class PickupShipping {
-    +quoteInCents() number
-  }
-  class FlatRateShipping {
-    +quoteInCents() number
-  }
-  CommerceApplication <|-- EssentialStore
-  CommerceApplication <|-- AssistedStore
+  class PickupShipping
+  class FlatRateShipping
+  CommerceApplication <|-- ConfiguredStore
   CommerceApplication --> ComponentRegistry
   CommerceApplication --> ShippingPolicy
   ShippingPolicy <|.. PickupShipping
   ShippingPolicy <|.. FlatRateShipping
 ```
 
-As variantes de entrega já são executáveis e verificadas no blueprint. O uso do valor na compra depende do checkout do ciclo I2. O método `build` não deve ser sobrescrito pelas aplicações: a extensão ocorre pelos métodos protegidos.
+`build()` controla a sequência: configurar, validar, registrar core, registrar extensões, verificar correspondência entre componentes e features e calcular entrega. `ConfiguredStore` adapta os hotspots usando a definição cadastrada; não sobrescreve o fluxo comum nem copia os serviços.
 
-## Componentes e contratos
+## Derivação em tempo de execução
 
-```mermaid
-flowchart LR
-  ANG[Componentes Angular] --> HTTP[Contratos HTTP do Gateway]
-  HTTP --> CAT[CatalogComponent · /products]
-  HTTP --> INV[InventoryComponent · /stock]
-  HTTP --> ORD[OrdersComponent · /orders]
-  HTTP --> REC[RecommendationComponent · /recommendations]
-  HTTP -. opcional .-> AI[AssistantComponent · /assistant/query]
-  ORD --> SHIP[ShippingPolicy]
-  ORD -. ciclo I2 .-> PAY[PaymentProvider]
-  FW[Framework de composição] --> REG[Registry de componentes]
-  REG --> CAT
-  REG --> INV
-  REG --> ORD
-  REG --> REC
-  REG -. opcional .-> AI
+```typescript
+import { composeStore } from '@gerar/framework';
+
+const blueprint = composeStore({
+  slug: 'aurora-studio',
+  name: 'Aurora Studio',
+  category: 'roupas',
+  options: ['reviews', 'coupons'],
+});
+// Core obrigatório + avaliações + cupons; tema de roupas; plano R$ 79,90.
 ```
 
-Os nomes `CatalogComponent`, `InventoryComponent` etc. identificam os componentes arquiteturais e seus contratos; não são classes já implementadas com esses nomes. Os controladores reais estão em `backend/services/<serviço>/src/main.ts`. O registro de composição não substitui testes funcionais.
+O serviço de lojas chama essa função ao cadastrar e alterar configurações, persiste a definição e o blueprint e disponibiliza o produto por `/loja/:slug`. O Angular renderiza tema e componentes a partir dessa resposta. O gateway usa a composição para permitir opcionais. O checkout também consulta a composição atual e aplica `quoteCheckout()`.
 
-## Classes por componente — desenho de destino para I2
+O registry descreve a composição; as implementações dos componentes executam nos serviços. Por exemplo, avaliações são registradas para `catalog`, agente para `ai-assistant` e cupons/entrega para `orders`. As políticas efetivas são aplicadas pelos componentes, não apenas exibidas como rótulos.
+
+## Políticas de negócio
 
 ```mermaid
 classDiagram
-  class CatalogRepository {
+  class DiscountPolicy {
     <<interface>>
-    +list() Product[]
-    +findById(id) Product
-    +save(product)
+    +discount(subtotalInCents) number
   }
-  class CatalogService {
-    +listProducts() Product[]
-    +changeProduct(product)
-  }
-  class InventoryRepository {
-    <<interface>>
-    +reserve(reference, items)
-    +release(reference)
-    +confirm(reference)
-  }
-  class InventoryService {
-    +getStock()
-    +reserveStock(reference, items)
-    +releaseStock(reference)
-  }
-  class OrderRepository {
-    <<interface>>
-    +save(order)
-    +history(customerId)
-  }
-  class CheckoutService {
-    +checkout(cart, customerId)
-  }
+  class WelcomeDiscount
   class PaymentProvider {
     <<interface>>
-    +authorize(order) PaymentResult
+    +authorize(result) status
   }
-  class SimulatedPayment {
-    +authorize(order) PaymentResult
-  }
-  class RecommendationStrategy {
-    <<interface>>
-    +recommend(history, products) Product[]
-  }
-  class HistoryCategoryRecommendation {
-    +recommend(history, products) Product[]
-  }
-  class AdministrativeAssistant {
-    +query(message)
-  }
-  class ReadOnlyCommerceTools {
-    +stock()
-    +salesSummary()
-  }
-  CatalogService --> CatalogRepository
-  InventoryService --> InventoryRepository
-  CheckoutService --> OrderRepository
-  CheckoutService --> PaymentProvider
-  CheckoutService --> ShippingPolicy
+  class SimulatedPayment
+  DiscountPolicy <|.. WelcomeDiscount
   PaymentProvider <|.. SimulatedPayment
-  RecommendationStrategy <|.. HistoryCategoryRecommendation
-  AdministrativeAssistant --> ReadOnlyCommerceTools
 ```
 
-Essas interfaces de persistência/pagamento ainda devem ser materializadas durante a implementação transacional. O diagrama deve ser atualizado com os nomes finais antes do relatório. As interfaces e as classes implementadas de entrega estão no diagrama anterior.
+- `calculatePlan`: R$ 59,90 sem opcionais; R$ 79,90 com opcionais sem agente; R$ 99,90 com agente, independentemente dos outros adicionais.
+- `quoteCheckout`: valida disponibilidade de cupom/entrega, aplica desconto de 10% e política de entrega de R$ 15,00; retirada gratuita.
+- `SimulatedPayment`: aprovação/recusa explícitas, sem dados financeiros reais.
 
-## Criar uma nova aplicação
+## Extensão da família
 
-1. Identifique as features e variantes; mantenha o core obrigatório.
-2. Adicione uma classe que reutilize o framework. Exemplo de adaptação de marca:
+Para uma nova feature, adicione o contrato, a descrição no catálogo, a validação de opções, o registro do componente, o comportamento no serviço responsável e a renderização da interface. Acrescente testes que comprovem habilitação e bloqueio. Uma nova categoria adiciona um tema sem duplicar a aplicação. Hotspots adicionais podem ser implementados por subclasses de `CommerceApplication` ou novas políticas.
 
-```typescript
-import { EssentialStore } from '@gerar/framework';
-import type { ProductConfiguration } from '@gerar/contracts';
+Os exemplos `EssentialStore` e `AssistedStore` preservam a demonstração original de herança e reuso. Os produtos operacionais atuais são as definições persistidas de `ConfiguredStore`; não exigem alteração de código para cada lojista.
 
-export class CampusStore extends EssentialStore {
-  protected override configure(): ProductConfiguration {
-    return {
-      ...super.configure(),
-      id: 'campus',
-      name: 'Gerar Campus',
-      accentColor: '#385c80',
-    };
-  }
-}
-```
-
-3. Registre `campus` em `deriveProduct` e na lista de perfis de `backend/scripts/dev.mjs`.
-4. Para uma nova feature, primeiro defina o contrato, suas dependências e o componente. Amplie a lista permitida e a validação. Registre o componente pelo hotspot `registerExtensions` somente quando a feature estiver selecionada.
-5. Execute testes de composição, faça o build e gere os artefatos com `npm run derive -- campus`.
-6. Execute a nova aplicação com `PRODUCT_PROFILE=campus`, seguindo o README gerado. Não copie `catalog`, `inventory`, `orders` ou o frontend para criar outra loja.
-
-O exemplo de Campus é uma orientação de extensão, não um terceiro perfil já registrado no projeto.
+`npm run derive -- <slug>` exporta um snapshot de uma loja já cadastrada para `backend/output/products/<slug>/`. O cadastro na plataforma é quem efetivamente cria a loja.

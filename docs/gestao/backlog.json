@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04",
+  "updatedAt": "2026-11-05",
   "presentation": "2026-11-11",
   "targetCompletion": "2026-11-10",
   "team": ["Caio Mascarenhas Soares", "Laura Marques Costa"],
@@ -108,13 +108,14 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "backend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-005"],
       "acceptance": [
-        "Migrações e seed reproduzíveis.",
-        "Catálogo, estoque e pedidos têm propriedade de dados separada.",
-        "Reiniciar serviços mantém pedidos e saldos; nenhum serviço consulta tabelas de outro domínio."
-      ]
+        "Tabelas criadas idempotentemente por domínio e banco com volume persistente.",
+        "Catálogo, estoque, pedidos, lojas e sessões persistem após reiniciar os serviços.",
+        "Serviços acessam apenas o próprio schema; integrações de domínio por HTTP."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-009",
@@ -122,13 +123,14 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "backend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-008"],
       "acceptance": [
-        "Administrador de demonstração cria e edita produtos.",
-        "Preço em centavos, nome obrigatório e identificação estável.",
-        "Loja exibe alterações pela API."
-      ]
+        "Lojista autenticado cria, edita e remove produtos da sua loja.",
+        "Nome, descrição, preço em centavos e estoque inicial são validados.",
+        "Último produto ativo não pode ser removido; histórico preservado."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-010",
@@ -136,13 +138,14 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "backend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-008"],
       "acceptance": [
         "Reserva rejeita quantidade inválida e saldo insuficiente.",
         "Duas reservas concorrentes não deixam saldo negativo.",
         "Liberação por referência de pedido não duplica saldo."
-      ]
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-011",
@@ -150,13 +153,14 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "frontend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-006"],
       "acceptance": [
         "Cliente adiciona, remove e altera quantidades.",
         "Resumo calcula valores em centavos e mostra modalidade de entrega.",
         "Carrinho não aceita quantidades menores que um."
-      ]
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-012",
@@ -164,13 +168,14 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "framework",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-010", "PB-011"],
       "acceptance": [
         "Checkout usa preços do catálogo e política de entrega do perfil.",
         "Adapter de pagamento simula aprovação e recusa sem dados financeiros reais.",
         "Pedido confirma ou libera a reserva em caso de falha."
-      ]
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-013",
@@ -178,13 +183,14 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "backend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-012"],
       "acceptance": [
-        "Compra concluída aparece no histórico do cliente demo.",
-        "Administração consulta pedidos e totais persistidos.",
-        "Duplicar a confirmação não cria outra venda."
-      ]
+        "Histórico persistido usado pela recomendação e pedidos listados no painel por loja.",
+        "Totais aprovados e recusas simuladas aparecem separadamente.",
+        "Repetir referência e corpo do checkout devolve o mesmo pedido."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-014",
@@ -192,27 +198,29 @@
       "cycle": "I2",
       "priority": "P0",
       "area": "backend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-013"],
       "acceptance": [
         "Nova compra altera recomendações de forma explicável.",
         "Cliente sem histórico recebe fallback identificado.",
         "Microsserviço próprio utiliza APIs de catálogo/pedidos."
-      ]
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-015",
-      "title": "Concluir seletor de features e derivação pela interface",
+      "title": "Criar lojas pela interface com composição dinâmica e opcionais",
       "cycle": "I3",
       "priority": "P0",
       "area": "frontend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-004", "PB-006"],
       "acceptance": [
-        "Interface permite habilitar/desabilitar IA em uma configuração válida.",
-        "Restrições do modelo de features são exibidas em pt-BR.",
-        "Exportação gera configuração consumida pelo mesmo framework e roteiro demonstra novo produto."
-      ]
+        "Core é obrigatório e aparece selecionado; opcionais são escolhidos no cadastro e nas configurações.",
+        "Cadastro com identidade, capa, categoria e pelo menos um produto gera rota /loja/:slug.",
+        "Composição e preço são calculados no framework e persistidos no PostgreSQL."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-016",
@@ -220,28 +228,28 @@
       "cycle": "I3",
       "priority": "P0",
       "area": "ia",
-      "status": "todo",
+      "status": "review",
       "dependencies": ["PB-013"],
       "acceptance": [
-        "Ferramentas consultam APIs persistidas de estoque e resumo de vendas.",
-        "Sessão administrativa de demonstração consulta Gemini com chave somente no backend.",
-        "IA desligada não inicia serviço nem exige chave; indisponibilidade da IA preserva a loja.",
-        "Registrar evidência de execução real sem expor chave."
+        "Geração inicial retorna três produtos via Gemini ou exemplos com origem explicitamente identificada.",
+        "Agente administrativo exige login e feature da loja, com ferramentas restritas ao seu estoque e vendas.",
+        "Registrar evidência de chamada real ao Gemini sem expor chave; validação com chave permanece pendente."
       ]
     },
     {
       "id": "PB-017",
-      "title": "Concluir administração com sessão simples de demonstração",
+      "title": "Administrar lojas com login simples por senha",
       "cycle": "I2",
       "priority": "P1",
       "area": "frontend",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-009", "PB-013"],
       "acceptance": [
-        "Acesso por persona demo de administrador, sem cadastro complexo.",
-        "Catálogo, saldos e pedidos podem ser inspecionados pela interface.",
-        "Interface distingue loja e administração e não solicita dados pessoais reais."
-      ]
+        "Cadastro define senha com hash scrypt; login cria sessão HttpOnly limitada à loja.",
+        "Painel oferece produtos/estoque, pedidos, configurações e agente opcional.",
+        "Uma sessão de outra loja é rejeitada e logout revoga o token; sem recuperação de senha."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-018",
@@ -263,12 +271,12 @@
       "cycle": "I3",
       "priority": "P0",
       "area": "testes",
-      "status": "todo",
+      "status": "review",
       "dependencies": ["PB-014", "PB-015", "PB-016", "PB-017"],
       "acceptance": [
-        "Executar fluxo catálogo → carrinho → pagamento simulado → histórico nos dois perfis.",
-        "Testar falta de estoque e pagamento recusado.",
-        "Demonstrar IA ausente no Essencial e consultando dados no Assistida."
+        "Smoke com PostgreSQL testa as três categorias, planos, cadastro, compra aprovada e recusada, concorrência, sessões e isolamento.",
+        "Validar manualmente cadastro, vitrine, painel e responsividade no navegador.",
+        "Registrar chamada real de Gemini quando houver credenciais; ausência não impede as demais lojas."
       ]
     },
     {
@@ -277,13 +285,14 @@
       "cycle": "I1",
       "priority": "P0",
       "area": "infra",
-      "status": "todo",
+      "status": "done",
       "dependencies": ["PB-005"],
       "acceptance": [
-        "Subir ambos os perfis com healthchecks pelo Compose.",
-        "Comprovar que Essencial não inicia ai-assistant.",
-        "Capturar docker compose ps com portas para os relatórios."
-      ]
+        "Compose compila Angular e sete aplicações NestJS e inicia PostgreSQL com volume.",
+        "Nove contêineres em execução, saúde dos serviços aprovada e rotas do Nginx respondendo.",
+        "Capturar docker compose ps e registrar portas sem interferir nos processos existentes."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-021",
@@ -330,16 +339,17 @@
     {
       "id": "PB-024",
       "title": "Adicionar cupons como componente opcional",
-      "cycle": "Futuro",
-      "priority": "P2",
+      "cycle": "I2",
+      "priority": "P1",
       "area": "opcional",
-      "status": "backlog",
+      "status": "done",
       "dependencies": ["PB-012"],
       "acceptance": [
-        "Hotspot de preço permite compor política de desconto.",
-        "Feature desabilitada impede aplicação do cupom.",
-        "Não bloquear a apresentação: evolução posterior ao escopo mínimo."
-      ]
+        "Feature coupons é composta pelo framework e ativa BOASVINDAS10 com 10% no subtotal.",
+        "Backend rejeita cupom quando feature está desabilitada.",
+        "Checkout usa preço oficial e registra desconto no pedido."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-025",
@@ -358,16 +368,17 @@
     {
       "id": "PB-026",
       "title": "Adicionar avaliações de produtos como feature opcional",
-      "cycle": "Futuro",
-      "priority": "P2",
+      "cycle": "I2",
+      "priority": "P1",
       "area": "opcional",
-      "status": "backlog",
+      "status": "done",
       "dependencies": ["PB-013"],
       "acceptance": [
-        "Avaliação é componente removível da composição.",
-        "Interface oculta a funcionalidade quando desabilitada.",
-        "Não bloquear a apresentação: evolução posterior ao escopo mínimo."
-      ]
+        "Feature reviews habilita leitura e publicação de notas e comentários por produto.",
+        "Interface oculta e backend bloqueia a funcionalidade quando desabilitada.",
+        "Avaliações são persistidas e segregadas por loja e produto."
+      ],
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     },
     {
       "id": "PB-027",
@@ -384,6 +395,86 @@
         "Builds separados, testes do framework, smoke dos dois perfis e derivação aprovados.",
         "CI usa jobs independentes e documentação explica pastas, comandos e fluxo das requisições."
       ]
+    },
+    {
+      "id": "PB-028",
+      "title": "Compor e persistir lojas dinâmicas por endereço",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "framework",
+      "status": "done",
+      "dependencies": ["PB-003", "PB-008"],
+      "acceptance": [
+        "ConfiguredStore recebe configuração em tempo de execução e mantém o Template Method.",
+        "Produtos coexistem na mesma implantação com dados por store_slug.",
+        "Alterar opções recompõe blueprint sem novo build ou contêiner."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
+    },
+    {
+      "id": "PB-029",
+      "title": "Criar onboarding, rotas de loja e painel administrativo",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "frontend",
+      "status": "review",
+      "dependencies": ["PB-028", "PB-017"],
+      "acceptance": [
+        "Cadastro em três etapas exige identidade, capa, senha e ao menos um produto.",
+        "Rotas /loja/:slug e /admin/:slug usam a configuração cadastrada.",
+        "Layout responsivo com estados de erro, carregamento, vazio e confirmação."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
+    },
+    {
+      "id": "PB-030",
+      "title": "Aplicar temas de categoria e três planos fictícios",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "framework",
+      "status": "done",
+      "dependencies": ["PB-028"],
+      "acceptance": [
+        "Categorias Eletrônicos, Construção e Roupas têm cores diferentes.",
+        "Planos custam R$ 59,90 sem opcionais, R$ 79,90 com adicionais sem IA e R$ 99,90 com IA.",
+        "Servidor calcula e persiste plano; valores não produzem cobrança real."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
+    },
+    {
+      "id": "PB-031",
+      "title": "Gerar três produtos para agilizar o cadastro",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "ia",
+      "status": "done",
+      "dependencies": ["PB-029"],
+      "acceptance": [
+        "Botão de geração cria exatamente três produtos editáveis da categoria.",
+        "Gemini configurado é chamado pelo backend; sem chave a origem examples é exibida.",
+        "Falhas reais do provedor não são apresentadas como geração bem-sucedida."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
+    },
+    {
+      "id": "PB-032",
+      "title": "Testar isolamento, persistência e retentativas de compra",
+      "cycle": "I2",
+      "priority": "P0",
+      "area": "testes",
+      "status": "done",
+      "dependencies": ["PB-028", "PB-012"],
+      "acceptance": [
+        "Smoke cria banco temporário e o remove sem tocar nas lojas cadastradas.",
+        "Verifica sessões entre lojas, produto estrangeiro, concorrência e persistência após reinício.",
+        "Cotação durável e referência idempotente permitem retomar confirmação sem baixa duplicada."
+      ],
+      "githubPending": true,
+      "evidence": "docs/gestao/snapshots/2026-11-05-lojas-dinamicas.md"
     }
   ]
 }

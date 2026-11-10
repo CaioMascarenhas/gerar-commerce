@@ -1,0 +1,17 @@
+{
+  "name": "@gerar/stores",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "@gerar/platform": "*",
+    "@gerar/framework": "*",
+    "@gerar/contracts": "*",
+    "@nestjs/common": "12.3.3",
+    "@nestjs/core": "12.3.3"
+  }
+}

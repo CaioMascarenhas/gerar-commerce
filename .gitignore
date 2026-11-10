@@ -11,3 +11,5 @@ tmp/
 output/
 .DS_Store
 *.log
+/.npm-cache/
+/.qa/

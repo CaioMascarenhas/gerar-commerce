@@ -1,77 +1,52 @@
-# Core, variantes e funcionalidades opcionais
+# Modelo de funcionalidades e variabilidade
 
-## Critério
+## Core obrigatório
 
-O core reúne o que torna toda derivação uma loja e o que é exigido pelos relatórios. Opcionais acrescentam capacidades sem impedir o funcionamento de uma loja básica. Variantes escolhem implementações alternativas de um mesmo ponto de variação.
+Catálogo, estoque, carrinho, checkout, pedidos, recomendações e administração são obrigatórios e aparecem marcados e bloqueados no cadastro. As operações de compra são simuladas; as entidades e os saldos são persistidos no PostgreSQL.
 
-| Capacidade                            | Classificação          | Justificativa / implementação                                        |
-| ------------------------------------- | ---------------------- | -------------------------------------------------------------------- |
-| Catálogo e preços                     | Core                   | Base de qualquer loja; serviço catalog                               |
-| Estoque                               | Core                   | Família inicial de lojas de produtos físicos; serviço inventory      |
-| Carrinho, checkout e pedidos          | Core                   | Fluxo mínimo de compra; interface + orders                           |
-| Pagamento simulado                    | Core / adapter         | Comprovar fluxo sem operação financeira real                         |
-| Entrega                               | Variante exclusiva     | Retirada ou tarifa fixa via ShippingPolicy                           |
-| Recomendação por histórico            | Core                   | Exigência expressa do modelo de relatório de LPS                     |
-| Administração de demonstração         | Core                   | Consultar/manter os dados que sustentam a demonstração               |
-| Configurador e derivação              | Core da plataforma LPS | Selecionar features e construir produtos                             |
-| Agente administrativo Mastra + Gemini | Opcional da loja       | Consultas de estoque e vendas; somente Assistida inicia esse serviço |
-| Cupons                                | Opcional futuro        | Hotspot de preço; P2, fora da data mínima                            |
-| Variações tamanho/cor                 | Opcional futuro        | Depende de catálogo e estoque por SKU; P2                            |
-| Avaliações                            | Opcional futuro        | Componente removível; P2                                             |
+## Opcionais implementados
 
-## Modelo de features
+| Feature       | Componente                     | Comportamento quando selecionada                             |
+| ------------- | ------------------------------ | ------------------------------------------------------------ |
+| `coupons`     | Pedidos / política de desconto | Cupom `BOASVINDAS10` reduz 10% do subtotal                   |
+| `reviews`     | Catálogo                       | Consulta e publicação de avaliações com nota e comentário    |
+| `delivery`    | Pedidos / ShippingPolicy       | Entrega local por R$ 15,00, preservando retirada gratuita    |
+| `aiAssistant` | Mastra + Gemini                | Agente administrativo de leitura do estoque e vendas da loja |
+
+Nenhum opcional permite remover o core. Sem a feature, a interface oculta a funcionalidade e o backend rejeita seu uso. A geração de três produtos no onboarding é uma ajuda da plataforma disponível a qualquer plano; não habilita o agente administrativo da loja.
 
 ```mermaid
-flowchart TD
-  ROOT[Gerar Commerce · família] --> CORE[Obrigatórias]
-  CORE --> CAT[Catálogo]
-  CORE --> EST[Estoque]
-  CORE --> CAR[Carrinho]
-  CORE --> PED[Checkout e pedidos]
-  CORE --> PAG[Pagamento simulado]
-  CORE --> REC[Recomendação por histórico]
-  CORE --> ADM[Administração demo]
-  ROOT --> ENTREGA[Entrega · escolher exatamente uma]
-  ENTREGA --> RET[Retirada]
-  ENTREGA --> TAX[Tarifa fixa]
-  ROOT --> OPT[Opcionais]
-  OPT -.-> IA[Assistente Mastra + Gemini]
-  OPT -. futuro P2 .-> CUP[Cupons]
-  OPT -. futuro P2 .-> SKU[Variações por SKU]
-  OPT -. futuro P2 .-> AV[Avaliações]
-  PLATFORM[Plataforma LPS] --> CONFIG[Seletor e derivação]
-  PLATFORM --> ROOT
+flowchart TB
+  L[Loja Gerar Commerce] --> CORE[Obrigatórios]
+  CORE --> C[Catálogo]
+  CORE --> E[Estoque]
+  CORE --> CART[Carrinho]
+  CORE --> CHECK[Checkout]
+  CORE --> O[Pedidos]
+  CORE --> R[Recomendações]
+  CORE --> A[Administração]
+  L --> CAT[Exatamente uma categoria]
+  CAT --> EL[Eletrônicos / azul]
+  CAT --> CO[Construção / âmbar]
+  CAT --> RO[Roupas / rosa]
+  L -. opcionais independentes .-> CUP[Cupons]
+  L -.-> REV[Avaliações]
+  L -.-> DEL[Entrega local]
+  L -.-> AI[Agente de IA]
 ```
 
-Setas contínuas no grupo obrigatório representam features presentes em todos os produtos; o grupo Entrega é XOR; setas tracejadas representam opcionais. O Mermaid é uma representação visual com semântica explicitada nesta legenda, não uma ferramenta formal de SAT.
+## Identidade e plano
 
-Restrições: `aiAssistant → administration ∧ inventory ∧ orders`; `recommendations → catalog ∧ orders`; `productVariants → catalog ∧ inventory`; exatamente uma modalidade de entrega. Hoje, a validação de core, valores conhecidos, duplicidade e modalidade está no framework; opcionais futuros ainda não são aceitos pelo código.
+Cada produto tem nome, slug único, descrição, capa, categoria e funcionalidades. O preço é derivado da composição, não escolhido livremente pelo cliente:
 
-## Produtos de demonstração
+| Configuração                                 | Plano       | Valor fictício mensal |
+| -------------------------------------------- | ----------- | --------------------: |
+| Nenhum opcional                              | Essencial   |              R$ 59,90 |
+| Qualquer combinação sem `aiAssistant`        | Completo    |              R$ 79,90 |
+| `aiAssistant` com quaisquer outros opcionais | Inteligente |              R$ 99,90 |
 
-| Ponto de variação   | Gerar Essencial                  | Gerar Assistida                                 |
-| ------------------- | -------------------------------- | ----------------------------------------------- |
-| Core                | Mesmo conjunto obrigatório       | Mesmo conjunto obrigatório                      |
-| Entrega             | Retirada, R$ 0,00                | Tarifa fixa, R$ 15,00                           |
-| Assistente          | Ausente; chave Gemini dispensada | Presente; Gemini configurado no backend         |
-| Classe de aplicação | EssentialStore                   | AssistedStore                                   |
-| Hotspots            | configure + shippingPolicy       | configure + shippingPolicy + registerExtensions |
+As opções são independentes: contratar IA não marca automaticamente os outros opcionais. Todos os valores são de demonstração, sem integração de cobrança. Alterar opções no painel recompõe a loja e recalcula o plano. O slug permanece fixo para preservar os links.
 
-Os dois produtos compartilham o mesmo catálogo de demonstração para evidenciar que a diferença está na composição e nos hotspots, sem exigir segmentos comerciais distintos. Cada perfil é executado separadamente na mesma porta de interface; duas execuções simultâneas exigem portas e nomes de projeto diferentes e ficam fora do incremento inicial.
+## Binding e produtos
 
-```mermaid
-flowchart LR
-  CONFIG[ProductConfiguration] --> VALID[Validação de features]
-  VALID --> TM[CommerceApplication.build]
-  TM --> REG[ComponentRegistry]
-  REG --> COMUM[Core compartilhado]
-  REG --> ENTREGA[ShippingPolicy]
-  ENTREGA --> RET[PickupShipping]
-  ENTREGA --> FIX[FlatRateShipping]
-  REG -. aiAssistant .-> AI[Componente Mastra]
-  COMUM --> E[Produto Essencial]
-  COMUM --> A[Produto Assistida]
-  RET --> E
-  FIX --> A
-  AI --> A
-```
+O binding ocorre em tempo de execução, no cadastro e nas alterações de configurações. As lojas coexistem na mesma implantação e usam rotas `/loja/:slug`. Exemplos possíveis: uma loja de eletrônicos só com core, uma de construção com cupons e entrega e uma de roupas com avaliações e IA. Todas usam o mesmo Angular, serviços e framework, com dados segregados por loja.
