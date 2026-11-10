@@ -108,6 +108,14 @@ test('checkout aplica os componentes selecionados e rejeita opcionais ausentes',
   assert.equal(new SimulatedPayment().authorize('declined'), 'declined');
 });
 
+test('configuração que remove recomendação obrigatória é rejeitada', () => {
+  const configuration = structuredClone(deriveProduct('essencial').configuration);
+  configuration.features = configuration.features.filter(
+    (feature) => feature !== 'recommendations',
+  );
+  assert.throws(() => validateConfiguration(configuration), /recommendations/);
+});
+
 test('configuração que remove estoque obrigatório é rejeitada', () => {
   const configuration = structuredClone(deriveProduct('essencial').configuration);
   configuration.features = configuration.features.filter((feature) => feature !== 'inventory');

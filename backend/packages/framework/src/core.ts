@@ -93,6 +93,7 @@ export abstract class CommerceApplication {
       cart: 'storefront',
       orders: 'orders',
       checkout: 'orders',
+      recommendations: 'recommendations',
       administration: 'storefront',
     };
     for (const feature of coreFeatures)

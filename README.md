@@ -52,7 +52,7 @@ O PowerShell pode bloquear `npm.ps1`; `npm.cmd` evita esse problema. Não há `p
 ## Criar e administrar uma loja
 
 1. Acesse `/criar`. Cadastre nome, endereço único, descrição, foto de capa, categoria e senha com pelo menos seis caracteres.
-2. Confira as seis funcionalidades core, sempre selecionadas. Escolha cupons, avaliações, entrega local e/ou agente de IA.
+2. Confira as sete funcionalidades core, sempre selecionadas. Escolha cupons, avaliações, entrega local e/ou agente de IA.
 3. Cadastre pelo menos um produto. O botão **Gerar 3 produtos com IA** usa Gemini quando configurado; sem chave, informa que adicionou exemplos editáveis da categoria.
 4. Crie a loja e abra `/loja/<endereco>`. Cada produto tem um link próprio. A sacola flutuante mostra a quantidade de itens e abre com animação.
 5. Para comprar, o visitante cria uma conta com nome, e-mail e senha de pelo menos oito caracteres. A conta e os pedidos ficam vinculados à loja; a navegação é livre.

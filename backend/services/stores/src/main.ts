@@ -53,10 +53,10 @@ function configuration(body: any, slug: string) {
   };
   return { ...store, blueprint: composeStore(store) };
 }
-// Atualiza apenas a composição antiga, preservando cadastros, senhas, fotos e produtos.
+// Recompõe lojas cuja composição não inclui recomendações (core), preservando cadastros, senhas, fotos e produtos.
 for (const row of (
   await database.query(
-    "SELECT slug,data FROM stores.shops WHERE data#>'{blueprint,configuration,features}' ? 'recommendations'",
+    "SELECT slug,data FROM stores.shops WHERE NOT (data#>'{blueprint,configuration,features}' ? 'recommendations')",
   )
 ).rows) {
   await database.query(

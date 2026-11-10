@@ -16,6 +16,7 @@ export interface ProductDraft {
 export interface Product extends Omit<ProductDraft, 'stock'> {
   id: string;
   category: string;
+  reason?: string;
 }
 export interface StoreDraft {
   name: string;

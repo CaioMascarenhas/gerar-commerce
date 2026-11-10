@@ -62,7 +62,7 @@ test('onboarding cria uma loja pela interface com produto, upload e enquadrament
   await page.getByLabel('Senha de administração').fill(adminPassword);
   await page.getByRole('button', { name: 'Continuar →', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Combine possibilidades.' })).toBeVisible();
-  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(6);
+  await expect(page.locator('.core-grid input:checked:disabled')).toHaveCount(7);
   await page.getByRole('checkbox', { name: /Cupons de desconto/ }).check();
   await page.getByRole('checkbox', { name: /Avaliações/ }).check();
   await page.getByRole('button', { name: 'Continuar →', exact: true }).click();
@@ -384,7 +384,6 @@ test('coleção permanece na loja e a vitrine tem somente um menu de conta', asy
   await expect(page.locator('.session-profiles')).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Acessar minha loja', exact: true })).toHaveCount(1);
   await expect(page.locator('.buyer-account-button')).toHaveCount(1);
-  await expect(page.locator('.recommendation-section')).toHaveCount(0);
   await page.getByRole('link', { name: 'Explorar a coleção ↗', exact: true }).click();
   await expect(page).toHaveURL(new RegExp('/loja/' + store.slug + '#colecao$'));
   await expect(page.getByRole('heading', { name: 'Nossa coleção.' })).toBeInViewport();

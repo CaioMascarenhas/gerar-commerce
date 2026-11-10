@@ -22,7 +22,7 @@ Somente o gateway é exposto pelo Compose. Cada serviço tem `/api/health` e `/d
 
 Configuração opcional: copie `.env.example` para `.env`. `DATABASE_URL` aponta para o PostgreSQL; `INTERNAL_API_KEY` protege mutações entre serviços. `GOOGLE_API_KEY` e `GEMINI_MODEL` habilitam Gemini. `COOKIE_SECURE=true` é destinado a execução com HTTPS; no ambiente HTTP local mantenha `false`.
 
-Para outra faixa de portas local, defina `PORT_BASE` (por exemplo, 3200). O inicializador usa os deslocamentos 0, 1, 2, 3, 5 e 6; o deslocamento 4 está livre desde a retirada das recomendações. Ele configura os URLs internos; ajuste também o proxy do frontend. Variáveis `*_URL` explícitas têm precedência.
+Para outra faixa de portas local, defina `PORT_BASE` (por exemplo, 3200). O inicializador usa os deslocamentos 0 a 6; o 4 é o serviço de recomendações. Ele configura os URLs internos; ajuste também o proxy do frontend. Variáveis `*_URL` explícitas têm precedência.
 
 O pacote `framework` controla composição e políticas. `contracts` define os tipos compartilhados. `platform` fornece HTTP, inicialização, validação e pool PostgreSQL; cada serviço declara e acessa somente as suas tabelas. Uma única instância e usuário de banco são usados na demonstração local, sem isolamento por credenciais de banco.
 
