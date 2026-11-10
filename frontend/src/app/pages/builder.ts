@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Api, errorMessage, readImage } from '../api';
+import { Api, errorMessage } from '../api';
 import {
   Feature,
   Store,
@@ -13,9 +13,19 @@ import {
   slugify,
 } from '../models/commerce';
 import { FeaturePicker } from '../components/features';
+import { CategoryIcon } from '../components/category-icon';
+import { ImageEditor, CommerceImage } from '../components/images';
 @Component({
   standalone: true,
-  imports: [CurrencyPipe, FormsModule, RouterLink, FeaturePicker],
+  imports: [
+    CurrencyPipe,
+    FormsModule,
+    RouterLink,
+    FeaturePicker,
+    ImageEditor,
+    CommerceImage,
+    CategoryIcon,
+  ],
   template: `
     <main class="container builder-page">
       @if (created(); as shop) {
@@ -109,39 +119,21 @@ import { FeaturePicker } from '../components/features';
                         (click)="draft.category = category.id"
                         [style.--accent]="category.color"
                       >
-                        <span>{{ category.icon }}</span
-                        ><strong>{{ category.name }}</strong
+                        <category-icon [category]="category.id" [size]="44" />
+                        <strong>{{ category.name }}</strong
                         ><small>{{
                           draft.category === category.id ? 'Selecionada' : 'Escolher estilo'
                         }}</small>
                       </button>
                     }
                   </div>
-                  <label>Foto de capa</label
-                  ><label class="upload-area" for="cover">
-                    @if (draft.cover) {
-                      <img [src]="draft.cover" alt="Prévia da capa da loja" /><span
-                        >Trocar imagem ↗</span
-                      >
-                    } @else {
-                      <b>↥</b><strong>Uma imagem para dar boas-vindas.</strong
-                      ><span>Clique para escolher · JPG, PNG ou WebP · até 2 MB</span>
-                    }
-                    <input
-                      id="cover"
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp"
-                      (change)="upload($event)"
-                      class="file-input"
-                  /></label>
-                  <label class="muted"
-                    >Ou use o endereço de uma imagem<input
-                      type="url"
-                      name="coverUrl"
-                      [ngModel]="draft.cover.startsWith('https://') ? draft.cover : ''"
-                      (ngModelChange)="draft.cover = $event"
-                      placeholder="https://…"
-                  /></label>
+                  <label>Foto de capa</label>
+                  <image-editor
+                    [(value)]="draft.cover"
+                    [(frame)]="draft.coverFrame"
+                    [cover]="true"
+                    label="Prévia da capa"
+                  />
                   <label
                     >Senha de administração<input
                       type="password"
@@ -250,14 +242,19 @@ import { FeaturePicker } from '../components/features';
                             required
                         /></label>
                       </div>
-                      <label
-                        >Imagem do produto <small>Opcional · URL HTTPS</small
-                        ><input
-                          type="url"
-                          [name]="'product-image-' + i"
-                          [(ngModel)]="product.image"
-                          placeholder="https://…"
-                      /></label>
+                      <label>Foto do produto</label>
+                      <image-editor
+                        [(value)]="product.image"
+                        [(frame)]="product.imageFrame"
+                        (valueChange)="product.imageSource = 'owner'"
+                        [label]="product.name || 'Foto do produto'"
+                      />
+                      @if (product.imageSource === 'illustrative') {
+                        <p class="muted">
+                          Foto ilustrativa do Unsplash. Troque pela foto real do produto antes de
+                          publicar.
+                        </p>
+                      }
                     </div>
                   }
                   <button
@@ -299,9 +296,13 @@ import { FeaturePicker } from '../components/features';
             <div class="preview-card" [style.--accent]="theme().color">
               <div class="preview-cover">
                 @if (draft.cover) {
-                  <img [src]="draft.cover" alt="Prévia da capa" />
+                  <commerce-image
+                    [src]="draft.cover"
+                    [frame]="draft.coverFrame"
+                    alt="Prévia da capa"
+                  />
                 } @else {
-                  <span>{{ theme().icon }}</span>
+                  <category-icon [category]="draft.category" [size]="96" />
                 }
               </div>
               <div class="preview-content">
@@ -371,14 +372,6 @@ export class BuilderPage {
   cents(value: number) {
     return Math.round(Number(value) * 100);
   }
-  async upload(event: Event) {
-    try {
-      const value = await readImage(event);
-      if (value) this.draft.cover = value;
-    } catch (e) {
-      this.error.set((e as Error).message);
-    }
-  }
   validIdentity() {
     if (
       this.draft.name.trim().length < 2 ||
@@ -438,6 +431,7 @@ export class BuilderPage {
     this.saving.set(true);
     try {
       this.created.set(await this.api.post<Store>('/stores', this.draft));
+      localStorage.setItem('gerar-my-store', this.created()!.slug);
       window.scrollTo(0, 0);
     } catch (e) {
       this.error.set(errorMessage(e));

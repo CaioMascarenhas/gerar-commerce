@@ -23,10 +23,12 @@ import {
   healthController,
   text,
   image,
+  imageFrame,
   productInput,
   slugInput,
 } from '@gerar/platform';
 import { categories, composeStore, featureCatalog, validateOptions } from '@gerar/framework';
+import { CustomersController } from './customers.js';
 const scrypt = promisify(scryptCallback);
 await migrate(
   'CREATE SCHEMA IF NOT EXISTS stores; CREATE TABLE IF NOT EXISTS stores.shops (slug text PRIMARY KEY, data jsonb NOT NULL, password_hash text NOT NULL, active boolean NOT NULL DEFAULT false, created_at timestamptz NOT NULL DEFAULT now()); CREATE TABLE IF NOT EXISTS stores.sessions (token_hash text PRIMARY KEY, slug text NOT NULL REFERENCES stores.shops(slug) ON DELETE CASCADE, expires_at timestamptz NOT NULL);',
@@ -45,6 +47,7 @@ function configuration(body: any, slug: string) {
     name: text(body.name, 'Nome da loja', 80, 2),
     description: text(body.description, 'Descrição da loja', 600),
     cover: image(body.cover, true),
+    coverFrame: imageFrame(body.coverFrame ?? { fit: 'cover', x: 50, y: 50, zoom: 1 }),
     category: body.category,
     options,
   };
@@ -173,6 +176,12 @@ class StoresController {
     return { ok: true };
   }
 }
-@Module({ controllers: [StoresController, healthController('stores', 3006, 'postgres')] })
+@Module({
+  controllers: [
+    StoresController,
+    CustomersController,
+    healthController('stores', 3006, 'postgres'),
+  ],
+})
 class StoresModule {}
 await bootstrap(StoresModule, 'Lojas e sessões administrativas', 3006);

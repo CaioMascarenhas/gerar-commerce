@@ -1,6 +1,13 @@
-# Estado da implementação — 05/11/2026
+# Estado da implementação — 09/11/2026
 
 ## Implementado
+
+- Tipografia global com Inter nos textos/controles e Exo nos títulos; fontes variáveis e licenças incluídas na aplicação.
+- Ícones SVG originais das categorias, com componente visual reutilizável e cores por tema; aplicados também às lojas existentes.
+
+- Correção de perfis e login: cabeçalho identifica loja/comprador e oferece logout independente. A conta fica acima do próprio fundo e mantém o foco durante a saída animada da sacola, que é retomada ao fechar o login. [Evidências](gestao/snapshots/2026-11-09-sessoes-e-foco.md).
+
+- Evolução de 09/11: contas de compradores, checkout autenticado, histórico pessoal, cupons cadastrados, chat público com links de produtos, sacola flutuante animada e fotos com enquadramento. Veja o [snapshot atual](gestao/snapshots/2026-11-09-compradores-e-experiencia.md).
 
 - Plataforma Angular com páginas inicial, cadastro, `/loja/:slug` e `/admin/:slug`, temas por categoria e planos fictícios.
 - Cadastro dinâmico com nome, descrição, capa, senha, endereço único e ao menos um produto.
@@ -18,24 +25,28 @@
 
 ## Verificação realizada
 
-Builds Angular e NestJS aprovados. **8 testes do framework e 35 verificações do smoke PostgreSQL aprovados**: cadastro, preços, categorias, login, isolamento, CRUD, compra simulada, idempotência, estoque concorrente, persistência após reinício e guardas dos opcionais. O smoke usa banco temporário e chave Gemini vazia.
+Na evolução de 09/11, o Docker foi reconstruído e executado nas portas 4200/3000/5433, preservando a loja já cadastrada. O chat Gemini retornou resposta real e link válido de um produto do catálogo. As verificações descritas abaixo sobre portas alternativas e capa maior que 1 MB pertencem ao incremento de 05/11.
+
+A auditoria da [PR #29](https://github.com/CaioMascarenhas/gerar-commerce/pull/29) também validou o agente administrativo Gemini com ferramentas reais e dados fictícios em banco temporário. O agente confirmou oito unidades do Módulo Aurora, três do Sensor Horizonte, um pedido aprovado e R$ 123,45 em vendas. Geração de três produtos e chat com link interno também foram aprovados. [Evidência estruturada](gestao/evidencias/2026-11-09-gemini.json).
+
+Builds Angular e NestJS aprovados. **9 testes do framework, 6 testes de frontend e 75 verificações do smoke PostgreSQL aprovados**: cadastro, preços, categorias, login, isolamento, CRUD, compra simulada, idempotência, estoque concorrente, persistência após reinício, guardas dos opcionais, logout independente, camadas e foco dos diálogos. Os testes de frontend usam DOM simulado. O smoke usa banco temporário e chave Gemini vazia.
 
 O Compose foi compilado e executado neste ambiente. As rotas diretas de loja e administração responderam pelo Nginx e as APIs funcionaram entre contêineres. As portas da validação foram 4400 (interface), 3300 (gateway) e 5433 (PostgreSQL), pois 4200, 3000 e 5432 já estavam ocupadas por processos existentes. As portas padrão da aplicação continuam 4200/3000.
 
-Também foram conferidos cookie HttpOnly/SameSite limitado à loja, envio e persistência de capa maior que 1 MB pelo Nginx, as três lojas de demonstração após recriação dos contêineres e a exportação de snapshot de uma loja existente. A documentação foi validada com 32 itens de backlog, sendo 27 vínculos remotos existentes e cinco novos itens locais.
+Também foram conferidos cookie HttpOnly/SameSite limitado à loja, envio e persistência de capa maior que 1 MB pelo Nginx, as três lojas de demonstração após recriação dos contêineres e a exportação de snapshot de uma loja existente. Os 42 itens do backlog possuem vínculos remotos no GitHub: 31 concluídos, seis em revisão, quatro prontos e um no backlog. [Auditoria](gestao/snapshots/2026-11-09-sincronizacao-e-merge.md).
 
 A tentativa de inspeção visual automática terminou porque a ferramenta de controle não conseguiu confirmar a URL do navegador com segurança. A revisão visual de telas e responsividade permanece pendente; compilação e HTTP não substituem essa revisão.
 
 ## Limites e pendências reais
 
-- Não foi realizada chamada real ao Gemini nesta entrega. A integração e os erros sem configuração foram testados; confirmar a resposta do provedor exige chave e modelo disponíveis.
+- A revisão visual geral de cadastro, painel, cupons, chat, sacola e fotos permanece pendente, apesar dos testes automatizados e das chamadas reais ao Gemini aprovados.
 - Relatórios acadêmicos finais, capturas de tela e ensaio da apresentação ainda estão no backlog.
 - Schemas são separados por domínio, mas compartilham usuário PostgreSQL local. Não existe isolamento por credenciais de banco.
 - Se uma tentativa de compra for abandonada após uma falha distribuída, sua retomada depende de repetir a mesma referência; não há worker periódico de reconciliação/expiração.
 - O provisionamento tenta compensar falhas de cadastro; um processo interrompido durante a criação pode deixar cadastro inativo para inspeção manual.
 - Atualização administrativa de produto e saldo usa duas APIs. Não existe transação distribuída entre os serviços.
 - Fotos de capa pequenas ficam como data URL ou endereço HTTPS no cadastro; armazenamento de objetos e processamento de mídia não foram incluídos.
-- Sem recuperação de senha, usuários compradores, assinatura financeira real ou pagamento real, conforme o escopo solicitado.
+- Compradores agora possuem conta por loja. Permanecem ausentes recuperação de senha, confirmação de e-mail, assinatura financeira real e pagamento real.
 - Avaliações são de demonstração, sem comprovação de compra. Variações de SKU permanecem no backlog.
 
 Os registros de gestão distinguem implementação, evidência automatizada e revisão manual pendente; os snapshots antigos preservam o estado histórico anterior.

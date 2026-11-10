@@ -6,14 +6,16 @@ Catálogo, estoque, carrinho, checkout, pedidos, recomendações e administraç�
 
 ## Opcionais implementados
 
-| Feature       | Componente                     | Comportamento quando selecionada                             |
-| ------------- | ------------------------------ | ------------------------------------------------------------ |
-| `coupons`     | Pedidos / política de desconto | Cupom `BOASVINDAS10` reduz 10% do subtotal                   |
-| `reviews`     | Catálogo                       | Consulta e publicação de avaliações com nota e comentário    |
-| `delivery`    | Pedidos / ShippingPolicy       | Entrega local por R$ 15,00, preservando retirada gratuita    |
-| `aiAssistant` | Mastra + Gemini                | Agente administrativo de leitura do estoque e vendas da loja |
+| Feature       | Componente                     | Comportamento quando selecionada                                     |
+| ------------- | ------------------------------ | -------------------------------------------------------------------- |
+| `coupons`     | Pedidos / política de desconto | Cupons cadastrados pela loja, com percentual, mínimo e validade      |
+| `reviews`     | Catálogo                       | Consulta e publicação de avaliações com nota e comentário            |
+| `delivery`    | Pedidos / ShippingPolicy       | Entrega local por R$ 15,00, preservando retirada gratuita            |
+| `aiAssistant` | Mastra + Gemini                | Agente administrativo e chat público de dicas com links dos produtos |
 
 Nenhum opcional permite remover o core. Sem a feature, a interface oculta a funcionalidade e o backend rejeita seu uso. A geração de três produtos no onboarding é uma ajuda da plataforma disponível a qualquer plano; não habilita o agente administrativo da loja.
+
+Contas de compradores são uma regra obrigatória do checkout, sem novo adicional de plano. Cadastro, sessão e histórico pertencem à loja. O chat de produtos é público quando `aiAssistant` está selecionado; dados administrativos continuam restritos ao login do lojista.
 
 ```mermaid
 flowchart TB

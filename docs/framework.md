@@ -87,7 +87,8 @@ classDiagram
 ```
 
 - `calculatePlan`: R$ 59,90 sem opcionais; R$ 79,90 com opcionais sem agente; R$ 99,90 com agente, independentemente dos outros adicionais.
-- `quoteCheckout`: valida disponibilidade de cupom/entrega, aplica desconto de 10% e política de entrega de R$ 15,00; retirada gratuita.
+- `quoteCheckout`: valida disponibilidade de cupom/entrega, aplica o percentual do cupom válido e a política de entrega de R$ 15,00; retirada gratuita.
+- Na evolução de 09/11, o percentual fixo foi substituído por `CouponDefinition` e `PercentageDiscount`. Pedidos fornece o cupom cadastrado na loja; o framework verifica código, ativação, validade, mínimo e percentual. Sem definição válida não há desconto. `WelcomeDiscount` permanece como exemplo didático.
 - `SimulatedPayment`: aprovação/recusa explícitas, sem dados financeiros reais.
 
 ## Extensão da família

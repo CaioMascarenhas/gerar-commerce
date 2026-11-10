@@ -54,3 +54,15 @@ Selecionados: **PB-015, PB-016, PB-018, PB-019, PB-021, PB-022 e PB-023**. Docum
 ## Registro para o relatório
 
 Na abertura/fechamento de cada ciclo, adicionar snapshot datado em `docs/gestao/snapshots/`, com itens selecionados, concluídos, bloqueios e mudanças de escopo. Manter histórico real, links de commits/PRs e evidências; não reconstruir um histórico fictício no final. Se mudar status manualmente no Project, registrar também o fechamento no snapshot para preservar a rastreabilidade.
+
+## Snapshot I3 — evolução de 09/11
+
+Auditoria e sincronização da [PR #29](https://github.com/CaioMascarenhas/gerar-commerce/pull/29): agente administrativo validado com Gemini real em dados fictícios; PB-016, PB-038, PB-039 e PB-040 passam a concluídos. Os 42 itens recebem vínculos no GitHub e estados atualizados no Kanban. [Snapshot de integração](snapshots/2026-11-09-sincronizacao-e-merge.md).
+
+Refinamento visual PB-041: aplicação de Inter nos textos e Exo nos títulos, com fontes locais, licenças e validação do build Docker.
+
+Refinamento visual PB-042: ícones SVG próprios para as três categorias, com prévia inspecionada em tamanhos diferentes e reuso do componente na plataforma, cadastro e vitrine.
+
+Correção da experiência: PB-039 e PB-040 acrescentam identificação das sessões, logout independente e foco do login na finalização. [Snapshot de perfis e foco](snapshots/2026-11-09-sessoes-e-foco.md).
+
+Solicitação adicional: PB-033 a PB-038, contas de compradores, cupons próprios, chat público, links de produtos, sacola animada, acesso à loja e fotos ajustáveis. A execução preserva os microsserviços e o framework. Implementações estão disponíveis para revisão; a inspeção visual foi bloqueada pela ferramenta de navegador. [Snapshot com evidências](snapshots/2026-11-09-compradores-e-experiencia.md).

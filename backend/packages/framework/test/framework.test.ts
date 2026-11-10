@@ -92,7 +92,16 @@ test('checkout aplica os componentes selecionados e rejeita opcionais ausentes',
     category: 'roupas',
     options: ['coupons', 'delivery'],
   });
-  assert.equal(quoteCheckout(complete, 10000, 'BOASVINDAS10', 'delivery').totalInCents, 10500);
+  assert.equal(
+    quoteCheckout(complete, 10000, 'BOASVINDAS10', 'delivery', {
+      code: 'BOASVINDAS10',
+      percentage: 10,
+      minimumInCents: 0,
+      active: true,
+      expiresAt: null,
+    }).totalInCents,
+    10500,
+  );
   assert.equal(quoteCheckout(essential, 10000, '', 'pickup').totalInCents, 10000);
   assert.throws(() => quoteCheckout(essential, 10000, 'BOASVINDAS10', 'pickup'), /Cupom/);
   assert.throws(() => quoteCheckout(essential, 10000, '', 'delivery'), /retirada/);
@@ -131,4 +140,38 @@ test('registry impede substituição silenciosa de componentes', () => {
   const component = { id: 'catalog', feature: 'catalog' as const, service: 'catalog' };
   registry.register(component);
   assert.throws(() => registry.register(component), /duplicado/);
+});
+test('cupons cadastrados respeitam percentual, mínimo, validade e ativação', () => {
+  const store = composeStore({
+    slug: 'loja',
+    name: 'Loja',
+    category: 'roupas',
+    options: ['coupons'],
+  });
+  const coupon = {
+    code: 'VERAO25',
+    percentage: 25,
+    minimumInCents: 5000,
+    active: true,
+    expiresAt: null,
+  };
+  assert.equal(quoteCheckout(store, 10000, 'verao25', 'pickup', coupon).totalInCents, 7500);
+  assert.throws(() => quoteCheckout(store, 1000, 'VERAO25', 'pickup', coupon), /mínimo/);
+  assert.throws(
+    () => quoteCheckout(store, 10000, 'VERAO25', 'pickup', { ...coupon, active: false }),
+    /Cupom/,
+  );
+  assert.throws(
+    () =>
+      quoteCheckout(store, 10000, 'VERAO25', 'pickup', {
+        ...coupon,
+        expiresAt: '2020-01-01T00:00:00Z',
+      }),
+    /Cupom/,
+  );
+  assert.throws(
+    () => quoteCheckout(store, 10000, 'VERAO25', 'pickup', { ...coupon, percentage: 101 }),
+    /Percentual/,
+  );
+  assert.throws(() => quoteCheckout(store, 10000, 'INVENTADO', 'pickup', coupon), /Cupom/);
 });

@@ -32,10 +32,10 @@ flowchart LR
   AI --> C
   AI --> S
   AI --> GEM[Mastra / Gemini]
-  S --> SD[(PostgreSQL: stores)]
+  S --> SD[(PostgreSQL: stores / lojas, compradores e sessões)]
   C --> CD[(PostgreSQL: catalog)]
   I --> ID[(PostgreSQL: inventory)]
-  O --> OD[(PostgreSQL: orders)]
+  O --> OD[(PostgreSQL: orders / pedidos, tentativas e cupons)]
 ```
 
 Cada domínio acessa apenas seu próprio schema. Não há consultas SQL entre schemas de domínio. Para a demonstração, uma instância PostgreSQL e um usuário são compartilhados; a separação é arquitetural, sem ACL de banco por serviço. Recomendações, gateway e IA não armazenam entidades próprias de domínio. O pacote `platform` compartilha somente infraestrutura e validação.
@@ -71,7 +71,36 @@ O acesso é feito por `/admin/:slug` com a senha da loja. O serviço de lojas us
 
 Toda mutação administrativa verifica a associação entre sessão e loja. Endpoints internos exigem `INTERNAL_API_KEY`. No Docker, somente frontend, gateway e a porta local do PostgreSQL são publicados. O uso direto dos serviços locais é restrito a `127.0.0.1` por padrão. O gateway limita tentativas de login, geração, cadastro, checkout e avaliações por IP em memória.
 
-O painel oferece produtos/estoque, pedidos, configurações e agente opcional. Nome, descrição, capa, categoria e opções podem mudar; o endereço permanece fixo. Não há recuperação de senha, cadastro de usuários finais ou gateway financeiro externo.
+No Angular, `StoreSessions` compartilha o estado confirmado pelas APIs entre cabeçalho, vitrine e painel. O cabeçalho distingue o comprador do administrador e chama os endpoints de logout separadamente; encerrar uma sessão não encerra a outra. O estado visual não substitui a autorização dos serviços. O login da finalização pausa a sacola e os diálogos coordenam foco e rolagem durante a transição.
+
+O painel oferece produtos/estoque, pedidos, cupons, configurações e agente opcional. Nome, descrição, capa, categoria e opções podem mudar; o endereço permanece fixo. Não há recuperação de senha ou gateway financeiro externo.
+
+**Evolução de 09/11/2026:** compradores possuem contas por loja, com nome, e-mail normalizado e senha scrypt. O schema `stores` mantém `customers` e `customer_sessions`; contas administrativas e de compradores têm cookies e sessões separados. A navegação é pública e a finalização exige comprador autenticado. O serviço de pedidos valida a sessão pela API de lojas e usa o ID retornado, sem confiar no ID do navegador. Histórico pessoal e recomendações usam essa identidade.
+
+```mermaid
+sequenceDiagram
+  actor B as Comprador
+  participant UI as Angular / loja
+  participant GW as Gateway
+  participant S as Lojas e compradores
+  participant O as Pedidos
+  B->>UI: Criar conta / entrar
+  UI->>GW: Nome, e-mail e senha / login
+  GW->>S: Validar e criar sessão da loja
+  S-->>GW: Perfil e token
+  GW-->>UI: Cookie HttpOnly de comprador
+  B->>UI: Finalizar sacola
+  UI->>GW: Itens, referência e cookie
+  GW->>O: Compra e token do cookie
+  O->>S: Validar sessão e obter ID
+  S-->>O: Comprador autenticado da loja
+  O->>O: Cotar, reservar e confirmar
+  O-->>UI: Pedido vinculado à conta, via gateway
+```
+
+Cupons pertencem ao schema `orders`, com código por loja, percentual, compra mínima, validade e ativação. O painel exige autorização administrativa para mutações. O checkout resolve o cupom persistido e o framework aplica a política `PercentageDiscount`; uma prévia no navegador não autoriza desconto.
+
+O opcional `aiAssistant` disponibiliza agente administrativo e chat público de produtos. O público recebe somente catálogo e disponibilidade; não reutiliza ferramentas de vendas do administrador. Após Gemini sugerir IDs, o backend os filtra contra o catálogo da loja e constrói links locais `/loja/:slug/produto/:id`. Fotos sugeridas vêm de URLs ilustrativas conhecidas, identificadas como tal. Enquadramento e origem da imagem são persistidos junto da entidade; upload é otimizado no navegador.
 
 ## Checkout e retentativas
 

@@ -32,8 +32,8 @@ function throttle(key: string, limit: number) {
   }
   if (++entry.count > limit) throw new HttpException('Muitas tentativas. Aguarde um minuto.', 429);
 }
-function token(req: any, slug: string) {
-  const name = 'gerar_' + slug + '=';
+function token(req: any, slug: string, buyer = false) {
+  const name = (buyer ? 'gerar_buyer_' : 'gerar_') + slug + '=';
   return (
     (req.headers.cookie || '')
       .split(';')
@@ -55,9 +55,9 @@ async function store(slug: string) {
 function path(slug: string, tail = '') {
   return '/stores/' + slugInput(slug) + tail;
 }
-function cookie(slug: string, value: string, maxAge: number) {
+function cookie(slug: string, value: string, maxAge: number, buyer = false) {
   return (
-    'gerar_' +
+    (buyer ? 'gerar_buyer_' : 'gerar_') +
     slug +
     '=' +
     value +
@@ -70,6 +70,143 @@ function cookie(slug: string, value: string, maxAge: number) {
 }
 @Controller()
 class GatewayController {
+  @Post('stores/:slug/customers') async registerCustomer(
+    @Param('slug') slug: string,
+    @Body() body: any,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: any,
+  ) {
+    throttle('buyer-register:' + req.ip, 10);
+    const result = await callService(
+      'stores',
+      '/internal' + path(slug, '/customers'),
+      'POST',
+      body,
+    );
+    res.setHeader('Set-Cookie', cookie(slug, result.token, 604800, true));
+    return result.customer;
+  }
+  @Post('stores/:slug/customer-login') async loginCustomer(
+    @Param('slug') slug: string,
+    @Body() body: any,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: any,
+  ) {
+    throttle('buyer-login:' + req.ip + ':' + slug, 10);
+    const result = await callService(
+      'stores',
+      '/internal' + path(slug, '/customer-login'),
+      'POST',
+      body,
+    );
+    res.setHeader('Set-Cookie', cookie(slug, result.token, 604800, true));
+    return result.customer;
+  }
+  @Get('stores/:slug/customer-session') customerSession(
+    @Param('slug') slug: string,
+    @Req() req: any,
+  ) {
+    return callService('stores', '/internal' + path(slug, '/customer-session'), 'POST', {
+      token: token(req, slug, true),
+    });
+  }
+  @Post('stores/:slug/customer-logout') async logoutCustomer(
+    @Param('slug') slug: string,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: any,
+  ) {
+    await callService('stores', '/internal' + path(slug, '/customer-session'), 'DELETE', {
+      token: token(req, slug, true),
+    });
+    res.setHeader('Set-Cookie', cookie(slug, '', 0, true));
+    return { ok: true };
+  }
+  @Get('stores/:slug/customer-orders') async customerOrders(
+    @Param('slug') slug: string,
+    @Req() req: any,
+  ) {
+    const customer = await this.customerSession(slug, req);
+    return callService('orders', '/internal' + path(slug, '/customer-orders/' + customer.id));
+  }
+  @Get('stores/:slug/products/:id') async product(
+    @Param('slug') slug: string,
+    @Param('id') id: string,
+  ) {
+    await store(slug);
+    return callService('catalog', path(slug, '/products/' + encodeURIComponent(id)));
+  }
+  @Get('stores/:slug/recommendations') async suggestions(
+    @Param('slug') slug: string,
+    @Req() req: any,
+  ) {
+    await store(slug);
+    let id = 'visitante';
+    if (token(req, slug, true)) {
+      try {
+        id = (await this.customerSession(slug, req)).id;
+      } catch (error) {
+        if (!(error instanceof HttpException) || error.getStatus() !== 401) throw error;
+      }
+    }
+    return callService('recommendations', path(slug, '/recommendations/' + id));
+  }
+  @Post('stores/:slug/chat') async chat(
+    @Param('slug') slug: string,
+    @Body() body: any,
+    @Req() req: any,
+  ) {
+    const shop = await store(slug);
+    if (!shop.options.includes('aiAssistant'))
+      throw new ForbiddenException('Chat de IA desativado nesta loja.');
+    throttle('shopping-chat:' + req.ip, 12);
+    return callService('ai', '/internal' + path(slug, '/shopping-chat'), 'POST', body);
+  }
+  @Get('stores/:slug/assistant-status') async assistantStatus(
+    @Param('slug') slug: string,
+    @Req() req: any,
+  ) {
+    await admin(req, slug);
+    return callService('ai', '/internal/status');
+  }
+  @Get('stores/:slug/coupons') async coupons(@Param('slug') slug: string, @Req() req: any) {
+    await admin(req, slug);
+    return callService('orders', '/internal' + path(slug, '/coupons'));
+  }
+  @Put('stores/:slug/coupons/:code') async saveCoupon(
+    @Param('slug') slug: string,
+    @Param('code') code: string,
+    @Body() body: any,
+    @Req() req: any,
+  ) {
+    await admin(req, slug);
+    return callService(
+      'orders',
+      '/internal' + path(slug, '/coupons/' + encodeURIComponent(code)),
+      'PUT',
+      body,
+    );
+  }
+  @Delete('stores/:slug/coupons/:code') async deleteCoupon(
+    @Param('slug') slug: string,
+    @Param('code') code: string,
+    @Req() req: any,
+  ) {
+    await admin(req, slug);
+    return callService(
+      'orders',
+      '/internal' + path(slug, '/coupons/' + encodeURIComponent(code)),
+      'DELETE',
+    );
+  }
+  @Post('stores/:slug/coupon-quote') async quoteCoupon(
+    @Param('slug') slug: string,
+    @Body() body: any,
+    @Req() req: any,
+  ) {
+    throttle('coupon:' + req.ip, 60);
+    await store(slug);
+    return callService('orders', '/internal' + path(slug, '/coupon-quote'), 'POST', body);
+  }
   @Get('features') features() {
     return callService('stores', '/features');
   }
@@ -98,9 +235,12 @@ class GatewayController {
   @Get('stores/:slug/recommendations/:customerId') async recommendations(
     @Param('slug') slug: string,
     @Param('customerId') id: string,
+    @Req() req: any,
   ) {
     await store(slug);
     text(id, 'Cliente', 80);
+    const customer = await this.customerSession(slug, req);
+    if (customer.id !== id) throw new ForbiddenException('Histórico restrito à sua conta.');
     return callService('recommendations', path(slug, '/recommendations/' + encodeURIComponent(id)));
   }
   @Post('stores/:slug/checkout') async checkout(
@@ -110,7 +250,10 @@ class GatewayController {
   ) {
     throttle('checkout:' + req.ip, 30);
     await store(slug);
-    return callService('orders', '/internal' + path(slug, '/checkout'), 'POST', body);
+    return callService('orders', '/internal' + path(slug, '/checkout'), 'POST', {
+      ...body,
+      customerToken: token(req, slug, true),
+    });
   }
   @Post('stores/:slug/login') async login(
     @Param('slug') slug: string,
